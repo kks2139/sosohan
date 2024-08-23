@@ -1,0 +1,15 @@
+{
+  // Save actions
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint":"explicit" // 저장 시 ESLint 문제를 자동으로 수정
+  },
+  // Prettier 설정
+  "editor.formatOnSave": true, // 저장 시 코드 자동 포맷
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.nodePath": ".yarn/sdks",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}
