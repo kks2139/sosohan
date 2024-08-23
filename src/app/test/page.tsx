@@ -6,7 +6,7 @@ function Test() {
   const [test, setTest] = useState(false);
 
   useEffect(() => {
-    console.log(test);
+    console.log(test, setTest);
   }, [test]);
 
   return <div>TEST {test}</div>;

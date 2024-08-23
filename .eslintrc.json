@@ -1,14 +1,13 @@
 {
   "extends": ["next/core-web-vitals"],
-  "plugins": [
-     "unused-imports"
-  ],
+  "plugins": ["unused-imports"],
   "rules": {
     "react-hooks/exhaustive-deps": [
       "error",
       { "enableDangerousAutofixThisMayCauseInfiniteLoops": true } // 의존성배열 autoFix
     ],
     "unused-imports/no-unused-imports": "error",
+    "no-unused-vars": "error",
     "no-duplicate-imports": "error"
   }
 }
