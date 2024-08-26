@@ -1,15 +1,20 @@
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
+import Scraping from "@/components/scraping";
+import { Suspense } from "react";
 
-function Test() {
-  const [test, setTest] = useState(false);
+function Loading() {
+  return <span>로딩중...</span>;
+}
 
-  useEffect(() => {
-    console.log(test, setTest);
-  }, [test]);
-
-  return <div>TEST {test}</div>;
+async function Test() {
+  return (
+    <div>
+      <Suspense fallback={<Loading />}>
+        <Scraping />
+      </Suspense>
+    </div>
+  );
 }
 
 export default Test;
