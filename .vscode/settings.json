@@ -1,8 +1,7 @@
 {
   // Save actions
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint":"explicit" // 저장 시 ESLint 문제를 자동으로 수정
+    "source.fixAll.eslint": "explicit" // 저장 시 ESLint 문제를 자동으로 수정
   },
   // Prettier 설정
   "editor.formatOnSave": true, // 저장 시 코드 자동 포맷
