@@ -1,36 +1,33 @@
-import puppeteer from "puppeteer";
+import { Scrap, Target } from "@/utils/scraping";
+import Items from "./Items";
 
-async function getScrapData() {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+import classNames from "classnames/bind";
+import styles from "./index.module.scss";
 
-  // Navigate the page to a URL.
-  await page.goto("https://developer.chrome.com/");
+const cn = classNames.bind(styles);
 
-  // Set screen size.
-  await page.setViewport({ width: 1080, height: 1024 });
-
-  // Type into search box.
-  await page.locator(".devsite-search-field").fill("automate beyond recorder");
-
-  // Wait and click on first result.
-  await page.locator(".devsite-result-item-link").click();
-
-  // Locate the full title with a unique string.
-  const textSelector = await page
-    .locator("text/Customize and automate")
-    .waitHandle();
-  const fullTitle = await textSelector?.evaluate((el) => el.textContent);
-
-  await browser.close();
-
-  return fullTitle;
+interface Props {
+  target: Target;
 }
 
-async function Scraping() {
-  const result = await getScrapData();
+async function Scraping({ target }: Props) {
+  const scrap = new Scrap(target);
+  const { result, isError } = await scrap.getData();
 
-  return <p>{result}</p>;
+  if (isError) {
+    // TODO: 모든 페이지 스크래핑 에러인경우 처리
+    // throw new Error("SCRAPING_ERROR");
+  }
+
+  return (
+    <>
+      {result.length > 0 && result[0].length > 0 ? (
+        <Items data={result} />
+      ) : (
+        <p className={cn("no-result")}>결과없음..</p>
+      )}
+    </>
+  );
 }
 
 export default Scraping;
