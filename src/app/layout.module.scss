@@ -1,0 +1,26 @@
+.navigation {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid white;
+  height: 60px;
+
+  .title {
+    margin: 0 15px;
+  }
+
+  > a {
+    padding: 5px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.2s;
+
+    &:hover {
+      font-size: 22px;
+    }
+  }
+}
+
+.content {
+  padding: 15px;
+}
