@@ -2,7 +2,7 @@
 
 import classNames from "classnames/bind";
 import styles from "./Items.module.scss";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const cn = classNames.bind(styles);
 
@@ -11,13 +11,10 @@ interface Props {
 }
 
 function Items({ data }: Props) {
-  const isOverflow = data.length > 3;
-
-  const [isExpand, setIsExpand] = useState(!isOverflow);
   const containerRef = useRef<HTMLUListElement>(null);
 
   return (
-    <ul className={cn("Items", { expand: isExpand })} ref={containerRef}>
+    <ul className={cn("Items")} ref={containerRef}>
       {data.map((infos, i) => (
         <li key={i} className={cn("item")}>
           {infos.map((info, k) => (
@@ -33,19 +30,6 @@ function Items({ data }: Props) {
           ))}
         </li>
       ))}
-
-      <button
-        className={cn("more", { expand: isExpand })}
-        onClick={() => {
-          if (isExpand) {
-            containerRef.current?.scrollTo(0, 0);
-          }
-
-          setIsExpand(!isExpand);
-        }}
-      >
-        {isExpand ? "접기" : "더 보기"}
-      </button>
     </ul>
   );
 }

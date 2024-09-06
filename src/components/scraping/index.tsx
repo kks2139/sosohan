@@ -1,8 +1,9 @@
-import { Scrap, Target } from "@/utils/scraping";
+import { Target } from "@/utils/scraping";
 import Items from "./Items";
 
 import classNames from "classnames/bind";
 import styles from "./index.module.scss";
+import { apiOrigin } from "@/utils/constant";
 
 const cn = classNames.bind(styles);
 
@@ -11,13 +12,14 @@ interface Props {
 }
 
 async function Scraping({ target }: Props) {
-  const scrap = new Scrap(target);
-  const { result, isError } = await scrap.getData();
+  const res = await fetch(`${apiOrigin}/api/scrap?target=${target}`);
 
-  if (isError) {
-    // TODO: 모든 페이지 스크래핑 에러인경우 처리
-    // throw new Error("SCRAPING_ERROR");
+  if (res.status !== 200) {
+    return <p>스크래핑 에러..</p>;
   }
+
+  const json = await res.json();
+  const result = json.result;
 
   return (
     <>

@@ -1,65 +1,13 @@
 .Items {
   position: relative;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   background-color: rgb(34, 34, 34);
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 20px;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  max-height: 300px;
-  transition: 0.2s;
-
-  &.expand {
-    overflow-y: auto;
-    max-height: 600px;
-  }
-
-  .more {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    background-color: rgb(2, 132, 255);
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    transition: 0.1s;
-
-    &.expand {
-      position: relative;
-      min-height: 35px;
-      margin: 10px;
-    }
-
-    &:hover {
-      background-color: rgb(0, 106, 206);
-    }
-    &:active {
-      background-color: rgb(0, 88, 170);
-    }
-  }
 
   .item {
-    position: relative;
     padding: 15px 0;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 1px;
-      background-color: rgb(85, 85, 85);
-      border-radius: 5px;
-    }
 
     &:first-of-type {
       padding-top: 0;
