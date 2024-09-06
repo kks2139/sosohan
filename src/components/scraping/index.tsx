@@ -1,14 +1,14 @@
-import { Target } from "@/utils/scraping";
 import Items from "./Items";
 
 import classNames from "classnames/bind";
 import styles from "./index.module.scss";
 import { apiOrigin } from "@/utils/constant";
+import { ScrapTarget } from "@/utils/types";
 
 const cn = classNames.bind(styles);
 
 interface Props {
-  target: Target;
+  target: ScrapTarget;
 }
 
 async function Scraping({ target }: Props) {

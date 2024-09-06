@@ -1,26 +1,14 @@
 import { isDev } from "@/utils/constant";
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
-
-export type Target = "HANA_TOUR" | "INTER_PARK" | "ONLINE_TOUR" | "MODE_TOUR";
-export const targetToKorean: Record<Target, string> = {
-  HANA_TOUR: "하나투어",
-  INTER_PARK: "인터파크",
-  ONLINE_TOUR: "온라인투어",
-  MODE_TOUR: "모드투어",
-};
+import { ScrapTarget } from "@/utils/types";
 
 interface Info {
   url: string;
   selector: string;
 }
 
-export interface ScrapResult {
-  isError?: boolean;
-  result: string[][];
-}
-
-const targetMap: Record<Target, Info> = {
+const targetMap: Record<ScrapTarget, Info> = {
   HANA_TOUR: {
     url: "https://m.hanatour.com/trp/air/CHPC0AIR0233M100",
     selector:
@@ -43,7 +31,7 @@ const targetMap: Record<Target, Info> = {
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const target = url.searchParams.get("target") as Target;
+  const target = url.searchParams.get("target") as ScrapTarget;
   const errorResponse = new Response(null, {
     status: 500,
     headers: { "content-type": "application/json" },
