@@ -1,8 +1,10 @@
-import puppeteer, { Browser } from "puppeteer";
+import { isDev } from "./constant";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 
 // browser.newPage 기본메서드
 // $ -> querySelector
-// $ -> querySelectorAll
+// $$ -> querySelectorAll
 // $eval -> $ + evaluate()
 // $$eval -> $$ + evaluate()
 
@@ -53,12 +55,16 @@ export class Scrap {
   }
 
   async getData(): Promise<ScrapResult> {
-    let browser: Browser | undefined;
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: isDev
+        ? await puppeteer.executablePath("chrome")
+        : await chromium.executablePath(),
+      headless: chromium.headless,
+    });
 
     try {
-      browser = await puppeteer.launch({
-        headless: true, // false: 브라우저 창을 띄워서 처리과정을 볼 수 있음 (기본값: true)
-      });
       const page = await browser.newPage();
       const { url, selector } = targetMap[this.target];
 
@@ -78,7 +84,7 @@ export class Scrap {
         }),
       );
 
-      // TODO: 로깅용
+      // 로깅용
       console.log(result[0][0]);
 
       return {
@@ -90,7 +96,7 @@ export class Scrap {
         result: [],
       };
     } finally {
-      await browser?.close();
+      await browser.close();
     }
   }
 }
