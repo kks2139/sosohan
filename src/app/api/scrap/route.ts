@@ -37,7 +37,7 @@ export async function GET(req: Request) {
     headers: { "content-type": "application/json" },
   });
 
-  console.log("타겟: ", target);
+  console.log("타겟: ", target, isDev);
 
   if (!targetMap[target]) {
     return errorResponse;
