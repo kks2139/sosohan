@@ -1,6 +1,4 @@
-import { isDev } from "@/utils/constant";
-import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer";
 import { ScrapTarget } from "@/utils/types";
 
 interface Info {
@@ -37,19 +35,15 @@ export async function GET(req: Request) {
     headers: { "content-type": "application/json" },
   });
 
-  console.log("타겟: ", target, isDev);
+  // console.log("타겟: ", target, isDev);
 
   if (!targetMap[target]) {
     return errorResponse;
   }
 
   const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: isDev
-      ? await puppeteer.executablePath("chrome")
-      : await chromium.executablePath(),
-    headless: chromium.headless,
+    executablePath: await puppeteer.executablePath(),
+    headless: true,
   });
 
   try {
@@ -62,7 +56,7 @@ export async function GET(req: Request) {
     const page = await browser.newPage();
     const { url, selector } = targetMap[target];
 
-    await page.goto(url, { waitUntil: "domcontentloaded" });
+    await page.goto(url);
     // 원하는 셀렉터를 찾을때까지 기다린다
     await page.waitForSelector(selector);
 
