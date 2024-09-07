@@ -17,10 +17,10 @@ function Temp() {
   }, []);
 
   if (isLoading) {
-    return <div>로딩중......</div>;
+    return <div>로딩중..................</div>;
   }
 
-  return <div>api 테스트입니다.</div>;
+  return <h1>API 테스트</h1>;
 }
 
 export default Temp;
