@@ -1,5 +1,7 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 import { ScrapTarget } from "@/utils/types";
+import { isDev } from "@/utils/constant";
 
 interface Info {
   url: string;
@@ -35,15 +37,21 @@ export async function GET(req: Request) {
     headers: { "content-type": "application/json" },
   });
 
-  // console.log("타겟: ", target, isDev);
+  console.log(222, await chromium.executablePath());
 
   if (!targetMap[target]) {
     return errorResponse;
   }
 
+  chromium.setGraphicsMode = false;
+
   const browser = await puppeteer.launch({
-    executablePath: await puppeteer.executablePath(),
-    headless: true,
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: isDev
+      ? await puppeteer.executablePath("chrome")
+      : await chromium.executablePath(),
+    headless: chromium.headless,
   });
 
   try {
