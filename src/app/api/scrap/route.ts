@@ -37,8 +37,6 @@ export async function GET(req: Request) {
     headers: { "content-type": "application/json" },
   });
 
-  console.log(222, await chromium.executablePath());
-
   if (!targetMap[target]) {
     return errorResponse;
   }
@@ -61,11 +59,9 @@ export async function GET(req: Request) {
     // $eval -> $ + evaluate()
     // $$eval -> $$ + evaluate()
 
-    const page = await browser.newPage();
     const { url, selector } = targetMap[target];
-
-    await page.goto(url);
-    // 원하는 셀렉터를 찾을때까지 기다린다
+    const page = await browser.newPage();
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
     await page.waitForSelector(selector);
 
     const result: string[][] = await page.$$eval(selector, (els) =>
@@ -80,7 +76,7 @@ export async function GET(req: Request) {
       }),
     );
 
-    console.log("스크랩 로깅: ", result[0][0]);
+    console.log("로깅: 성공!");
 
     return new Response(JSON.stringify({ result }), {
       status: 200,
