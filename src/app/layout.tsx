@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Link from "next/link";
 import classNames from "classnames/bind";
 import "./global.scss";
 import styles from "./layout.module.scss";
 
-const inter = Inter({ subsets: ["latin"] });
 const cn = classNames.bind(styles);
 
 export const metadata: Metadata = {
@@ -20,13 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <nav className={cn("navigation")}>
-          <h1 className={cn("title")}>이름뭐하지</h1>
-          <Link href="/">Main</Link>
-          <Link href="/test">Test</Link>
-        </nav>
-        <div className={cn("content")}>{children}</div>
+      <body>
+        <main className={cn("content")}>{children}</main>
       </body>
     </html>
   );

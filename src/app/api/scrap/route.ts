@@ -29,6 +29,20 @@ const targetMap: Record<ScrapTarget, Info> = {
   },
 } as const;
 
+// TODO: 타겟별 스크랩 세분화
+// async function getDetails(target: ScrapTarget, el: Element) {
+//   switch (target) {
+//     case 'HANA_TOUR':
+//       break
+//     case 'ONLINE_TOUR':
+//       break
+//     case 'MODE_TOUR':
+//       break
+//     case 'INTER_PARK':
+//       break
+//   }
+// }
+
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const target = url.searchParams.get("target") as ScrapTarget;
