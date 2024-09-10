@@ -5,6 +5,9 @@ const nextConfig = {
     // 서버컴포넌트에서 이 패키지를 사용하라고 알려주기 위함
     serverComponentsExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
   },
+  sassOptions: {
+    additionalData: `@import '/src/styles/variable.scss';`,
+  },
 };
 
 export default nextConfig;
