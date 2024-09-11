@@ -9,8 +9,6 @@
 html,
 body {
   height: 100vh;
-  // max-width: 100vw;
-  // overflow-x: hidden;
 }
 
 a {
@@ -28,4 +26,5 @@ button {
   all: unset;
   display: inline-block;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
