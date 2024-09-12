@@ -1,4 +1,4 @@
-import styles from "@/components/common/skeleton/index.module.scss";
+import styles from ".index.module.scss";
 import classNames from "classnames/bind";
 
 const cn = classNames.bind(styles);
