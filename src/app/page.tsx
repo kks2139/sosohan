@@ -6,11 +6,12 @@ import ImgOnline from "@/assets/img/online_logo.png";
 import ImgSLoad from "@/assets/img/s_load.png";
 import ImgAirPlane from "@/assets/img/air_plane.png";
 import Image from "next/image";
-import Button from "@/components/common/button";
+import Button from "@/components/button";
+import SimpleInfo from "./SimpleInfo";
 
 const cn = classNames.bind(styles);
 
-function Home() {
+function Page() {
   return (
     <div className={cn("Page")}>
       <section className={cn("intro")}>
@@ -37,41 +38,9 @@ function Home() {
         </div>
       </section>
 
-      <section className={cn("search")}>
-        <div className={cn("wrapper")}>
-          <div className={cn("location")}>
-            <div>
-              <button>
-                <span className={cn("code")}>ICN</span>
-                <span>인천</span>
-              </button>
-            </div>
-            <div>
-              <button>
-                <span className={cn("code")}>DAN</span>
-                <span>다낭</span>
-              </button>
-            </div>
-          </div>
-          <div className={cn("date")}>
-            <button>9.5{"(목)"}</button>
-            <button>10.4{"(금)"}</button>
-          </div>
-          <Image
-            className={cn("plane")}
-            src={ImgAirPlane}
-            alt=""
-            width={30}
-            height={30}
-          />
-        </div>
+      <SimpleInfo />
 
-        <div className={cn("member")}>
-          <button>성인 1</button>
-        </div>
-      </section>
-
-      <div className={cn("bottom-button")}>
+      <div className={cn("button-container")}>
         <Button size="large" fullWidth>
           최저가 항공권 검색
         </Button>
@@ -80,4 +49,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Page;

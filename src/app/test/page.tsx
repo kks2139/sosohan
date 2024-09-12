@@ -3,7 +3,7 @@
 import Scraping from "@/components/scraping";
 import { Suspense } from "react";
 import SkeletonLoading from "./(common)/SkeletonLoading";
-import { ScrapTarget, targetToKorean } from "@/utils/types";
+import { ScrapTarget, targetToKorean } from "@/utils/constant";
 import classNames from "classnames/bind";
 import styles from "./page.module.scss";
 
