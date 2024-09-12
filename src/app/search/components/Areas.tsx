@@ -1,7 +1,7 @@
 "use client";
 
 import classNames from "classnames/bind";
-import styles from "./Locations.module.scss";
+import styles from "./Areas.module.scss";
 import {
   AreaCode,
   areaCodeToKorean,
@@ -9,6 +9,8 @@ import {
   nationToKorea,
   NationType,
 } from "@/utils/constant";
+import { tourStore } from "@/store/tour";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const cn = classNames.bind(styles);
 const POPULAR_AREAS: AreaCode[] = [
@@ -24,15 +26,19 @@ const POPULAR_AREAS: AreaCode[] = [
 
 interface Props {
   nation?: NationType;
-  onClick?: (code: AreaCode) => void;
 }
 
-function Locations({ nation, onClick }: Props) {
+function Areas({ nation }: Props) {
+  const router = useRouter();
+  const { setDepartureArea, setArrivalArea } = tourStore();
+  const params = useSearchParams();
+  const isDeparture = params.get("type") === "departure";
+
   const title = nation ? nationToKorea[nation] : "주요 여행지";
   const areas = nation ? nationAreaMap[nation] : POPULAR_AREAS;
 
   return (
-    <div className={cn("Locations")}>
+    <div className={cn("Areas")}>
       <p className={cn("title")}>{title}</p>
       <ul className={cn("area-container")}>
         {areas.map((code) => (
@@ -40,9 +46,13 @@ function Locations({ nation, onClick }: Props) {
             <button
               type="button"
               onClick={() => {
-                // TODO: 선택 처리
+                if (isDeparture) {
+                  setDepartureArea(code);
+                } else {
+                  setArrivalArea(code);
+                }
 
-                onClick?.(code);
+                router.push("/");
               }}
             >
               {areaCodeToKorean[code]}
@@ -54,4 +64,4 @@ function Locations({ nation, onClick }: Props) {
   );
 }
 
-export default Locations;
+export default Areas;

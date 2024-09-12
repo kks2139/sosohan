@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./page.module.scss";
 import SearchBar from "../components/SearchBar";
-import Locations from "../components/Locations";
+import Areas from "../components/Areas";
 import { nations } from "@/utils/constant";
 
 const cn = classNames.bind(styles);
@@ -16,8 +16,8 @@ function Page() {
 
       <ul>
         {[undefined, ...nations].map((nat, i) => (
-          <li key={`${nat}_${i}`} className={cn("location-item")}>
-            <Locations nation={nat} />
+          <li key={`${nat}_${i}`} className={cn("area-item")}>
+            <Areas nation={nat} />
           </li>
         ))}
       </ul>

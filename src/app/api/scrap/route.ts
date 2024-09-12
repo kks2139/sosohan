@@ -1,7 +1,6 @@
 import puppeteer, { Page } from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
-import { ScrapTarget } from "@/utils/types";
-import { isDev } from "@/utils/constant";
+import { isDev, ScrapTarget } from "@/utils/constant";
 
 interface Info {
   url: string;

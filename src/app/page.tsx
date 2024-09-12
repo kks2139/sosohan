@@ -40,7 +40,7 @@ function Page() {
 
       <SimpleInfo />
 
-      <div className={cn("bottom-container")}>
+      <div className={cn("button-container")}>
         <Button size="large" fullWidth>
           최저가 항공권 검색
         </Button>

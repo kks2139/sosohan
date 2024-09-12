@@ -4,7 +4,21 @@ export const apiOrigin = isDev
   ? "http://localhost:3000"
   : "https://sosohan.vercel.app";
 
+export type ScrapTarget =
+  | "HANA_TOUR"
+  | "INTER_PARK"
+  | "ONLINE_TOUR"
+  | "MODE_TOUR";
+
+export const targetToKorean: Record<ScrapTarget, string> = {
+  HANA_TOUR: "하나투어",
+  INTER_PARK: "인터파크",
+  ONLINE_TOUR: "온라인투어",
+  MODE_TOUR: "모드투어",
+};
+
 export type AreaCode =
+  | "ICN"
   | "KOJ"
   | "NGO"
   | "TAK"
@@ -86,6 +100,7 @@ export type AreaCode =
   | "JFK";
 
 export type NationType =
+  | "KOREA"
   | "JAPAN"
   | "SOUTH_EAST_ASIA"
   | "SOUTH_PACIFIC"
@@ -94,6 +109,7 @@ export type NationType =
   | "USA";
 
 export const nations: NationType[] = [
+  "KOREA",
   "JAPAN",
   "SOUTH_EAST_ASIA",
   "SOUTH_PACIFIC",
@@ -103,6 +119,7 @@ export const nations: NationType[] = [
 ];
 
 export const nationToKorea: Record<NationType, string> = {
+  KOREA: "대한민국",
   JAPAN: "일본",
   SOUTH_EAST_ASIA: "동남아시아",
   SOUTH_PACIFIC: "남태평양",
@@ -112,6 +129,7 @@ export const nationToKorea: Record<NationType, string> = {
 };
 
 export const nationAreaMap: Record<NationType, AreaCode[]> = {
+  KOREA: ['ICN'],
   JAPAN: [
     "KOJ",
     "NGO",
@@ -186,6 +204,8 @@ export const nationAreaMap: Record<NationType, AreaCode[]> = {
 };
 
 export const areaCodeToKorean: Record<AreaCode, string> = {
+  // 대한민국
+  ICN: '인천',
   // 일본
   KOJ: "가고시마",
   NGO: "나고야",
