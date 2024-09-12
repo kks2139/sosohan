@@ -279,3 +279,5 @@ export const areaCodeToKorean: Record<AreaCode, string> = {
   // 미국
   JFK: "뉴욕",
 };
+
+export type AreaFor = 'departure' | 'arrival'
