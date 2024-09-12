@@ -2,8 +2,7 @@ import Items from "./Items";
 
 import classNames from "classnames/bind";
 import styles from "./index.module.scss";
-import { apiOrigin } from "@/utils/constant";
-import { ScrapTarget } from "@/utils/types";
+import { apiOrigin, ScrapTarget } from "@/utils/constant";
 
 const cn = classNames.bind(styles);
 
