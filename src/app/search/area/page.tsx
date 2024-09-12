@@ -2,11 +2,15 @@ import classNames from "classnames/bind";
 import styles from "./page.module.scss";
 import SearchBar from "../components/SearchBar";
 import Areas from "../components/Areas";
-import { nations } from "@/utils/constant";
+import { AreaFor, nations } from "@/utils/constant";
 
 const cn = classNames.bind(styles);
 
-function Page() {
+interface Props {
+  searchParams?: { area_for: AreaFor };
+}
+
+function Page({ searchParams }: Props) {
   return (
     <div className={cn("Page")}>
       <h1 className={cn("title")}>어디로 가시나요?</h1>
@@ -17,7 +21,7 @@ function Page() {
       <ul>
         {[undefined, ...nations].map((nat, i) => (
           <li key={`${nat}_${i}`} className={cn("area-item")}>
-            <Areas nation={nat} />
+            <Areas nation={nat} areaFor={searchParams?.area_for} />
           </li>
         ))}
       </ul>

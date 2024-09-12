@@ -5,12 +5,13 @@ import styles from "./Areas.module.scss";
 import {
   AreaCode,
   areaCodeToKorean,
+  AreaFor,
   nationAreaMap,
   nationToKorea,
   NationType,
 } from "@/utils/constant";
 import { tourStore } from "@/store/tour";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const cn = classNames.bind(styles);
 const POPULAR_AREAS: AreaCode[] = [
@@ -26,13 +27,12 @@ const POPULAR_AREAS: AreaCode[] = [
 
 interface Props {
   nation?: NationType;
+  areaFor?: AreaFor;
 }
 
-function Areas({ nation }: Props) {
+function Areas({ nation, areaFor }: Props) {
   const router = useRouter();
   const { setDepartureArea, setArrivalArea } = tourStore();
-  const params = useSearchParams();
-  const isDeparture = params.get("type") === "departure";
 
   const title = nation ? nationToKorea[nation] : "주요 여행지";
   const areas = nation ? nationAreaMap[nation] : POPULAR_AREAS;
@@ -46,7 +46,7 @@ function Areas({ nation }: Props) {
             <button
               type="button"
               onClick={() => {
-                if (isDeparture) {
+                if (areaFor === "departure") {
                   setDepartureArea(code);
                 } else {
                   setArrivalArea(code);

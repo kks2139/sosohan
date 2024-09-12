@@ -6,7 +6,7 @@ import Image from "next/image";
 import ImgAirPlane from "@/assets/img/air_plane.png";
 import { useRouter } from "next/navigation";
 import { memberTypeToKorean, tourStore } from "@/store/tour";
-import { areaCodeToKorean } from "@/utils/constant";
+import { areaCodeToKorean, AreaFor } from "@/utils/constant";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 
@@ -19,8 +19,8 @@ function SimpleInfo() {
 
   const today = format(new Date(), "M.d(eee)", { locale: ko });
 
-  const routeToArea = (type: "departure" | "arrival") => {
-    router.push(`/search/area?type=${type}`);
+  const routeToArea = (areaFor: AreaFor) => {
+    router.push(`/search/area?area_for=${areaFor}`);
   };
 
   return (
