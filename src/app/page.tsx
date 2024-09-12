@@ -6,11 +6,14 @@ import ImgOnline from "@/assets/img/online_logo.png";
 import ImgSLoad from "@/assets/img/s_load.png";
 import ImgAirPlane from "@/assets/img/air_plane.png";
 import Image from "next/image";
-import Button from "@/components/common/button";
+import Button from "@/components/button";
 
 const cn = classNames.bind(styles);
 
 function Home() {
+  // TODO: 이벤트 부분 client로 분리 & 라우팅
+  // const router = useRouter();
+
   return (
     <div className={cn("Page")}>
       <section className={cn("intro")}>
@@ -41,21 +44,21 @@ function Home() {
         <div className={cn("wrapper")}>
           <div className={cn("location")}>
             <div>
-              <button>
+              <button type="button">
                 <span className={cn("code")}>ICN</span>
                 <span>인천</span>
               </button>
             </div>
             <div>
-              <button>
+              <button type="button">
                 <span className={cn("code")}>DAN</span>
                 <span>다낭</span>
               </button>
             </div>
           </div>
           <div className={cn("date")}>
-            <button>9.5{"(목)"}</button>
-            <button>10.4{"(금)"}</button>
+            <button type="button">9.5{"(목)"}</button>
+            <button type="button">10.4{"(금)"}</button>
           </div>
           <Image
             className={cn("plane")}

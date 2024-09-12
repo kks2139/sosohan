@@ -29,7 +29,7 @@ const targetMap: Record<ScrapTarget, Info> = {
   },
 } as const;
 
-async function scrapByTarget(target: ScrapTarget, page: Page) {
+async function scrapPageByTarget(target: ScrapTarget, page: Page) {
   const { rootSelector } = targetMap[target];
 
   await page.waitForSelector(rootSelector);
@@ -129,7 +129,7 @@ export async function GET(req: Request) {
 
     await page.goto(url, { waitUntil: "domcontentloaded" });
 
-    const result = await scrapByTarget(target, page);
+    const result = await scrapPageByTarget(target, page);
 
     console.log("성공!");
 

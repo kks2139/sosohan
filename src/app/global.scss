@@ -1,7 +1,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   padding: 0;
   margin: 0;
 }
@@ -27,4 +27,12 @@ button {
   display: inline-block;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+
+input {
+  all: unset;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
 }

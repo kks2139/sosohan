@@ -1,4 +1,4 @@
-import Skeleton from "@/components/common/skeleton";
+import Skeleton from "@/components/skeleton";
 import styles from "./SkeletonLoading.module.scss";
 import classNames from "classnames/bind";
 

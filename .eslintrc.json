@@ -1,13 +1,15 @@
 {
   "extends": ["next/core-web-vitals"],
-  "plugins": ["unused-imports"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["unused-imports", "@typescript-eslint"],
   "rules": {
     "react-hooks/exhaustive-deps": [
       "error",
       { "enableDangerousAutofixThisMayCauseInfiniteLoops": true } // 의존성배열 autoFix
     ],
     "unused-imports/no-unused-imports": "error",
-    "no-unused-vars": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
     "no-duplicate-imports": "error"
   }
 }
