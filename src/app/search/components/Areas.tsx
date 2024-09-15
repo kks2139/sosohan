@@ -52,7 +52,7 @@ function Areas({ nation, areaFor }: Props) {
                   setArrivalArea(code);
                 }
 
-                router.push("/");
+                router.replace("/");
               }}
             >
               {areaCodeToKorean[code]}
