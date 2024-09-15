@@ -11,7 +11,7 @@ interface Props {
 }
 
 async function Scraping({ target }: Props) {
-  const res = await fetch(`${apiOrigin}/api/scrap?target=${target}`);
+  const res = await fetch(`${apiOrigin}/api/scrap/contents?target=${target}`);
 
   if (res.status !== 200) {
     return <p>스크래핑 에러..</p>;

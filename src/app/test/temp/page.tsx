@@ -10,7 +10,7 @@ function Temp() {
     (async () => {
       setIsLoading(true);
 
-      await fetch(`${apiOrigin}/api/scrap?target=${"HANA_TOUR"}`);
+      await fetch(`${apiOrigin}/api/scrap/contents?target=${"HANA_TOUR"}`);
 
       setIsLoading(false);
     })();
