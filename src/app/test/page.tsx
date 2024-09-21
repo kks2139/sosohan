@@ -1,5 +1,3 @@
-// "use client";
-
 import Scraping from "@/components/scraping";
 import { Suspense } from "react";
 import SkeletonLoading from "./(common)/SkeletonLoading";

@@ -77,12 +77,11 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const target = url.searchParams.get("target") as ScrapTarget;
   const errorRes = getScrapResponse("ERROR", null);
+  const browser = await getBrowser();
 
-  if (!scrapTargetInfo[target]) {
+  if (!scrapTargetInfo[target] || !browser) {
     return errorRes;
   }
-
-  const browser = await getBrowser();
 
   try {
     const { url } = scrapTargetInfo[target];

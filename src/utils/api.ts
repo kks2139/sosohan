@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer-core";
+import puppeteer, { Browser } from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 import { isDev } from "./constant";
 
@@ -19,13 +19,19 @@ export function getScrapResponse(type: "ERROR" | "OK", result?: unknown) {
 export async function getBrowser() {
   chromium.setGraphicsMode = false;
 
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    executablePath: isDev
-      ? await puppeteer.executablePath("chrome")
-      : await chromium.executablePath(),
-    headless: chromium.headless,
-  });
+  let browser: Browser | null = null;
 
-  return browser;
+  try {
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      executablePath: isDev
+        ? await puppeteer.executablePath("chrome")
+        : await chromium.executablePath(),
+      headless: chromium.headless,
+    });
+  } catch (ex) {
+    console.log('puppeteer 에러!', ex);
+  } finally {
+    return browser;
+  }
 }

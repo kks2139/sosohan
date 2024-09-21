@@ -33,6 +33,10 @@ export async function GET() {
   const errorRes = getScrapResponse("ERROR", null);
   const browser = await getBrowser();
 
+  if (!browser) {
+    return errorRes;
+  }
+
   try {
     const page = await browser.newPage();
 
