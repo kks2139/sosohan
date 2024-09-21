@@ -9,7 +9,7 @@ import styles from "./page.module.scss";
 
 const cn = classNames.bind(styles);
 
-const TARGETS: ScrapTarget[] = ["HANA_TOUR", "MODE_TOUR", "ONLINE_TOUR"];
+const TARGETS: ScrapTarget[] = ["HANA_TOUR"];
 
 function Test() {
   return (

@@ -40,8 +40,6 @@ export async function GET() {
 
     const result = await scrapAreas(page);
 
-    console.log("성공!");
-
     return getScrapResponse("OK", result);
   } catch {
     return errorRes;

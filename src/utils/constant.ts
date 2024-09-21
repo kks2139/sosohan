@@ -306,4 +306,3 @@ export const areaCodeToKorean: Record<AreaCode, string> = {
   // 미국
   JFK: "뉴욕",
 };
-

@@ -92,8 +92,6 @@ export async function GET(req: Request) {
 
     const result = await scrapPageByTarget(target, page);
 
-    console.log("성공!");
-
     return getScrapResponse("OK", result);
   } catch {
     return errorRes;
