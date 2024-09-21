@@ -1,7 +1,7 @@
 import { AreaCode } from "@/utils/constant";
 import { create } from "zustand";
 
-type MemberType = "ADULT" | "CHILD" | "BABY"
+type MemberType = "ADULT" | "CHILD" | "BABY";
 
 interface Member {
   type: MemberType;
@@ -9,10 +9,10 @@ interface Member {
 }
 
 export const memberTypeToKorean: Record<MemberType, string> = {
-  ADULT: '성인',
-  CHILD: '유아',
-  BABY: '소아'
-}
+  ADULT: "성인",
+  CHILD: "유아",
+  BABY: "소아",
+};
 
 interface TourInfo {
   departureArea: AreaCode;
@@ -31,7 +31,7 @@ interface TourInfoAction {
 }
 
 export const tourStore = create<TourInfo & TourInfoAction>((set) => ({
-  departureArea: 'ICN',
+  departureArea: "ICN",
   departureDate: undefined,
   arrivalArea: undefined,
   arrivalDate: undefined,

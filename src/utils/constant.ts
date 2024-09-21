@@ -17,6 +17,33 @@ export const targetToKorean: Record<ScrapTarget, string> = {
   MODE_TOUR: "모드투어",
 };
 
+export const scrapTargetInfo: Record<
+  ScrapTarget,
+  {
+    url: string;
+    contentRootSelector: string;
+  }
+> = {
+  HANA_TOUR: {
+    url: "https://m.hanatour.com/trp/air/CHPC0AIR0233M100",
+    contentRootSelector:
+      "#container > div > div.js_tabs.v-tabs > div > div > div.sp_list_wrap > ul > li",
+  },
+  INTER_PARK: {
+    url: "https://search-travel.interpark.com/search?q=%ED%95%AD%EA%B3%B5%EA%B6%8C&cateCode=tourE",
+    contentRootSelector: "#boxList > li",
+  },
+  ONLINE_TOUR: {
+    url: "https://www.onlinetour.co.kr/flight/w/international/dcair/dcairList",
+    contentRootSelector: "#data_list > li",
+  },
+  MODE_TOUR: {
+    url: "https://www.modetour.com/flights/discount-flight?query=%7B%22departureCity%22%3A%22%22%2C%22arrivalCity%22%3A%22%22%2C%22continentCode%22%3A%22ASIA%22%2C%22departureDate%22%3A%222024-09-02%22%2C%22arrivalDate%22%3A%222024-10-02%22%7D",
+    contentRootSelector:
+      "#main-layout-pc > main > div > div > div > div:nth-child(6) > div:nth-child(2) > div > div > div > div > div > div",
+  },
+};
+
 export type AreaCode =
   | "ICN"
   | "KOJ"
@@ -129,7 +156,7 @@ export const nationToKorea: Record<NationType, string> = {
 };
 
 export const nationAreaMap: Record<NationType, AreaCode[]> = {
-  KOREA: ['ICN'],
+  KOREA: ["ICN"],
   JAPAN: [
     "KOJ",
     "NGO",
@@ -205,7 +232,7 @@ export const nationAreaMap: Record<NationType, AreaCode[]> = {
 
 export const areaCodeToKorean: Record<AreaCode, string> = {
   // 대한민국
-  ICN: '인천',
+  ICN: "인천",
   // 일본
   KOJ: "가고시마",
   NGO: "나고야",
@@ -280,4 +307,4 @@ export const areaCodeToKorean: Record<AreaCode, string> = {
   JFK: "뉴욕",
 };
 
-export type AreaFor = 'departure' | 'arrival'
+export type AreaFor = "departure" | "arrival";

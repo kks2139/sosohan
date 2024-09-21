@@ -5,6 +5,7 @@ import styles from "./SearchBar.module.scss";
 import ImgMagnifyingGlass from "@/assets/img/magnifying-glass.png";
 import Image from "next/image";
 import { useState } from "react";
+import { callDebounced } from "@/utils/data";
 
 const cn = classNames.bind(styles);
 
@@ -27,7 +28,10 @@ function SearchBar({ value, onSearch }: Props) {
           }
         }}
         onChange={(e) => {
-          setInputValue(e.target.value.trim());
+          const value = e.target.value.trim();
+
+          setInputValue(value);
+          callDebounced(() => onSearch?.(value));
         }}
       />
 

@@ -1,41 +1,15 @@
-import puppeteer, { Page } from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
-import { isDev, ScrapTarget } from "@/utils/constant";
-
-interface Info {
-  url: string;
-  rootSelector: string;
-}
-
-const targetMap: Record<ScrapTarget, Info> = {
-  HANA_TOUR: {
-    url: "https://m.hanatour.com/trp/air/CHPC0AIR0233M100",
-    rootSelector:
-      "#container > div > div.js_tabs.v-tabs > div > div > div.sp_list_wrap > ul > li",
-  },
-  INTER_PARK: {
-    url: "https://search-travel.interpark.com/search?q=%ED%95%AD%EA%B3%B5%EA%B6%8C&cateCode=tourE",
-    rootSelector: "#boxList > li",
-  },
-  ONLINE_TOUR: {
-    url: "https://www.onlinetour.co.kr/flight/w/international/dcair/dcairList",
-    rootSelector: "#data_list > li",
-  },
-  MODE_TOUR: {
-    url: "https://www.modetour.com/flights/discount-flight?query=%7B%22departureCity%22%3A%22%22%2C%22arrivalCity%22%3A%22%22%2C%22continentCode%22%3A%22ASIA%22%2C%22departureDate%22%3A%222024-09-02%22%2C%22arrivalDate%22%3A%222024-10-02%22%7D",
-    rootSelector:
-      "#main-layout-pc > main > div > div > div > div:nth-child(6) > div:nth-child(2) > div > div > div > div > div > div",
-  },
-} as const;
+import { Page } from "puppeteer-core";
+import { ScrapTarget, scrapTargetInfo } from "@/utils/constant";
+import { getBrowser, getScrapResponse } from "@/utils/api";
 
 async function scrapPageByTarget(target: ScrapTarget, page: Page) {
-  const { rootSelector } = targetMap[target];
+  const { contentRootSelector } = scrapTargetInfo[target];
 
-  await page.waitForSelector(rootSelector);
+  await page.waitForSelector(contentRootSelector);
 
   switch (target) {
     case "HANA_TOUR":
-      return await page.$$eval(rootSelector, (els) => {
+      return await page.$$eval(contentRootSelector, (els) => {
         // 브라우저 컨택스트에서 실행되므로, 코드를 import 해오면 참조하지 못함.
         // --> 콜백 내에서 직접 기능 구현하여 사용
         const trimText = (str: string) => str.replace(/\n|\//g, "").trim();
@@ -102,28 +76,16 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const target = url.searchParams.get("target") as ScrapTarget;
-  const errorResponse = new Response(null, {
-    status: 500,
-    headers: { "content-type": "application/json" },
-  });
+  const errorRes = getScrapResponse("ERROR", null);
 
-  if (!targetMap[target]) {
-    return errorResponse;
+  if (!scrapTargetInfo[target]) {
+    return errorRes;
   }
 
-  chromium.setGraphicsMode = false;
-
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: isDev
-      ? await puppeteer.executablePath("chrome")
-      : await chromium.executablePath(),
-    headless: chromium.headless,
-  });
+  const browser = await getBrowser();
 
   try {
-    const { url } = targetMap[target];
+    const { url } = scrapTargetInfo[target];
     const page = await browser.newPage();
 
     await page.goto(url, { waitUntil: "domcontentloaded" });
@@ -132,12 +94,9 @@ export async function GET(req: Request) {
 
     console.log("성공!");
 
-    return new Response(JSON.stringify({ result }), {
-      status: 200,
-      headers: { "content-type": "application/json" },
-    });
+    return getScrapResponse("OK", result);
   } catch {
-    return errorResponse;
+    return errorRes;
   } finally {
     await browser.close();
   }
