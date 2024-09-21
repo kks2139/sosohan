@@ -8,15 +8,17 @@ import { areaCodeToKorean, nationAreaMap, nations } from "@/utils/constant";
 import { useState } from "react";
 import IconInfo from "@/assets/img/info.png";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 
 const cn = classNames.bind(styles);
 
-function Page() {
-  const searchParams = useSearchParams();
+interface Props {
+  searchParams?: { area_for: string };
+}
+
+function Page({ searchParams }: Props) {
   const [searchArea, setSearchArea] = useState<string>();
 
-  const areaFor = searchParams.get("area_for") || "";
+  const areaFor = searchParams?.area_for || "";
   const filteredNations = nations.filter(
     (nat) =>
       !searchArea ||

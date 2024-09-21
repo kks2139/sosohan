@@ -2,7 +2,7 @@
 
 import classNames from "classnames/bind";
 import styles from "./page.module.scss";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { tourStore } from "@/store/tour";
@@ -11,10 +11,13 @@ import Button from "@/components/button";
 
 const cn = classNames.bind(styles);
 
-function Page() {
+interface Props {
+  searchParams?: { date_for: string };
+}
+
+function Page({ searchParams }: Props) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const isDeparture = searchParams.get("date_for") === "departure";
+  const isDeparture = searchParams?.date_for === "departure";
   const { setDepartureDate, setArrivalDate } = tourStore();
 
   const [inputDate, setInputDate] = useState<Date>();
