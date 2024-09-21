@@ -5,7 +5,6 @@ import styles from "./Areas.module.scss";
 import {
   AreaCode,
   areaCodeToKorean,
-  AreaFor,
   nationAreaMap,
   nationToKorea,
   NationType,
@@ -27,7 +26,7 @@ const POPULAR_AREAS: AreaCode[] = [
 
 interface Props {
   nation?: NationType;
-  areaFor?: AreaFor;
+  areaFor?: string;
   areaFilter?: string;
 }
 

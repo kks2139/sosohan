@@ -4,25 +4,19 @@ import classNames from "classnames/bind";
 import styles from "./page.module.scss";
 import SearchBar from "../components/SearchBar";
 import Areas from "../components/Areas";
-import {
-  areaCodeToKorean,
-  AreaFor,
-  nationAreaMap,
-  nations,
-} from "@/utils/constant";
+import { areaCodeToKorean, nationAreaMap, nations } from "@/utils/constant";
 import { useState } from "react";
 import IconInfo from "@/assets/img/info.png";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 const cn = classNames.bind(styles);
 
-interface Props {
-  searchParams?: { area_for: AreaFor };
-}
-
-function Page({ searchParams }: Props) {
+function Page() {
+  const searchParams = useSearchParams();
   const [searchArea, setSearchArea] = useState<string>();
 
+  const areaFor = searchParams.get("area_for") || "";
   const filteredNations = nations.filter(
     (nat) =>
       !searchArea ||
@@ -37,7 +31,9 @@ function Page({ searchParams }: Props) {
 
   return (
     <div className={cn("Page")}>
-      <h1 className={cn("title")}>어디로 가시나요?</h1>
+      <h1 className={cn("title")}>
+        {areaFor === "departure" ? "어디서" : "어디로"} 가시나요?
+      </h1>
       <div className={cn("search-container")}>
         <SearchBar
           onSearch={(area) => {
@@ -50,11 +46,7 @@ function Page({ searchParams }: Props) {
         {nationsForShow.length > 0 ? (
           nationsForShow.map((nat, i) => (
             <li key={`${nat}_${i}`} className={cn("areas")}>
-              <Areas
-                nation={nat}
-                areaFor={searchParams?.area_for}
-                areaFilter={searchArea}
-              />
+              <Areas nation={nat} areaFor={areaFor} areaFilter={searchArea} />
             </li>
           ))
         ) : (

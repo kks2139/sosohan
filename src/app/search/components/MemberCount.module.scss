@@ -1,0 +1,35 @@
+.MemberCount {
+  display: flex;
+  justify-content: space-between;
+
+  .description {
+    .title {
+      font-weight: bold;
+      font-size: 21px;
+    }
+
+    .sub-title {
+      font-size: 14px;
+    }
+  }
+
+  .count {
+    display: flex;
+    align-items: center;
+
+    .number {
+      font-size: 21px;
+      font-weight: bold;
+      margin: 0 20px;
+    }
+
+    button {
+      height: 35px;
+      width: 35px;
+      line-height: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
