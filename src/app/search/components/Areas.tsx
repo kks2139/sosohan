@@ -28,20 +28,24 @@ const POPULAR_AREAS: AreaCode[] = [
 interface Props {
   nation?: NationType;
   areaFor?: AreaFor;
+  areaFilter?: string;
 }
 
-function Areas({ nation, areaFor }: Props) {
+function Areas({ nation, areaFor, areaFilter }: Props) {
   const router = useRouter();
   const { setDepartureArea, setArrivalArea } = tourStore();
 
   const title = nation ? nationToKorea[nation] : "주요 여행지";
   const areas = nation ? nationAreaMap[nation] : POPULAR_AREAS;
+  const filteredAreas = areas.filter(
+    (code) => !areaFilter || areaCodeToKorean[code].includes(areaFilter)
+  );
 
   return (
     <div className={cn("Areas")}>
       <p className={cn("title")}>{title}</p>
       <ul className={cn("area-container")}>
-        {areas.map((code) => (
+        {filteredAreas.map((code) => (
           <li key={code} className={cn("item")}>
             <button
               type="button"

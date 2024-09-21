@@ -9,6 +9,8 @@ interface Props {
   type?: "default" | "chip";
   size?: "large" | "regular";
   fullWidth?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
 }
 
 function Button({
@@ -17,6 +19,8 @@ function Button({
   type = "default",
   size = "regular",
   fullWidth,
+  loading,
+  disabled,
 }: Props) {
   return (
     <button
@@ -24,11 +28,18 @@ function Button({
         [type]: true,
         [size]: true,
         "full-width": fullWidth,
+        loading,
       })}
       type="button"
+      disabled={disabled || loading}
       onClick={onClick}
     >
-      {children}
+      <div className={cn("dots")}>
+        <div />
+        <div />
+        <div />
+      </div>
+      <div className={cn("contents")}>{children}</div>
     </button>
   );
 }

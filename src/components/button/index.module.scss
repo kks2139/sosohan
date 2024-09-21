@@ -1,7 +1,44 @@
 .Button {
+  position: relative;
   font-weight: bold;
   text-align: center;
   transition: 0.1s;
+
+  &.loading {
+    .dots {
+      visibility: visible;
+    }
+    .contents {
+      visibility: hidden;
+    }
+  }
+
+  .dots {
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+
+    > div {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: $gray-0;
+      margin: 0 2px;
+
+      &:nth-child(1) {
+        animation: dot-wave 1s infinite;
+      }
+      &:nth-child(2) {
+        animation: dot-wave 1s 0.1s infinite;
+      }
+      &:nth-child(3) {
+        animation: dot-wave 1s 0.2s infinite;
+      }
+    }
+  }
 
   &.full-width {
     width: 100%;
@@ -16,13 +53,19 @@
     color: white;
     border-radius: 30px;
 
+    &:disabled {
+      background-color: $blue-2;
+    }
+
     &.regular {
-      padding: 13px 30px;
+      height: 40px;
+      padding: 0 30px;
       font-size: 16px;
     }
 
     &.large {
-      padding: 18px 35px;
+      height: 60px;
+      padding: 0 35px;
       font-size: 18px;
     }
 
@@ -38,6 +81,22 @@
 
     &:active {
       background-color: $gray-2;
+    }
+  }
+
+  @keyframes dot-wave {
+    0% {
+      transform: translateY(0);
+    }
+    20% {
+      transform: translateY(-30%);
+    }
+    40% {
+      transform: translateY(30%);
+      background-color: $gray-2;
+    }
+    100% {
+      transform: translateY(0);
     }
   }
 }

@@ -1,8 +1,18 @@
+"use client";
+
 import classNames from "classnames/bind";
 import styles from "./page.module.scss";
 import SearchBar from "../components/SearchBar";
 import Areas from "../components/Areas";
-import { AreaFor, nations } from "@/utils/constant";
+import {
+  areaCodeToKorean,
+  AreaFor,
+  nationAreaMap,
+  nations,
+} from "@/utils/constant";
+import { useState } from "react";
+import IconInfo from "@/assets/img/info.png";
+import Image from "next/image";
 
 const cn = classNames.bind(styles);
 
@@ -11,19 +21,48 @@ interface Props {
 }
 
 function Page({ searchParams }: Props) {
+  const [searchArea, setSearchArea] = useState<string>();
+
+  const filteredNations = nations.filter(
+    (nat) =>
+      !searchArea ||
+      nationAreaMap[nat].some((areaCode) =>
+        areaCodeToKorean[areaCode].includes(searchArea)
+      )
+  );
+  const nationsForShow = [
+    ...(searchArea ? [] : [undefined]),
+    ...filteredNations,
+  ];
+
   return (
     <div className={cn("Page")}>
       <h1 className={cn("title")}>어디로 가시나요?</h1>
       <div className={cn("search-container")}>
-        <SearchBar />
+        <SearchBar
+          onSearch={(area) => {
+            setSearchArea(area);
+          }}
+        />
       </div>
 
       <ul>
-        {[undefined, ...nations].map((nat, i) => (
-          <li key={`${nat}_${i}`} className={cn("area-item")}>
-            <Areas nation={nat} areaFor={searchParams?.area_for} />
-          </li>
-        ))}
+        {nationsForShow.length > 0 ? (
+          nationsForShow.map((nat, i) => (
+            <li key={`${nat}_${i}`} className={cn("areas")}>
+              <Areas
+                nation={nat}
+                areaFor={searchParams?.area_for}
+                areaFilter={searchArea}
+              />
+            </li>
+          ))
+        ) : (
+          <div className={cn("empty-areas")}>
+            <Image src={IconInfo} alt="" width={25} height={25} />
+            <p>검색결과가 없어요</p>
+          </div>
+        )}
       </ul>
     </div>
   );
