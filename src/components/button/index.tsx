@@ -11,6 +11,8 @@ interface Props {
   fullWidth?: boolean;
   loading?: boolean;
   disabled?: boolean;
+  floating?: boolean;
+  id?: string;
 }
 
 function Button({
@@ -21,14 +23,18 @@ function Button({
   fullWidth,
   loading,
   disabled,
+  floating,
+  id,
 }: Props) {
   return (
     <button
+      id={id}
       className={cn("Button", {
         [type]: true,
         [size]: true,
         "full-width": fullWidth,
         loading,
+        floating,
       })}
       type="button"
       disabled={disabled || loading}

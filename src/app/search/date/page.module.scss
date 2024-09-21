@@ -1,0 +1,18 @@
+.Page {
+  padding: 37px 20px 0;
+
+  .title {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 80px;
+  }
+
+  .button-container {
+    position: relative;
+
+    > button {
+      width: calc(100% - 40px);
+      bottom: 64px;
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import { AreaCode } from "@/utils/constant";
 import { create } from "zustand";
 
-type MemberType = "ADULT" | "CHILD" | "BABY";
+export type MemberType = "ADULT" | "CHILD" | "BABY";
 
-interface Member {
+export interface Member {
   type: MemberType;
   count: number;
 }
@@ -27,7 +27,7 @@ interface TourInfoAction {
   setDepartureDate: (value: string) => void;
   setArrivalArea: (value: AreaCode) => void;
   setArrivalDate: (value: string) => void;
-  setMember: (value: Member[]) => void;
+  setMembers: (value: Member[]) => void;
 }
 
 export const tourStore = create<TourInfo & TourInfoAction>((set) => ({
@@ -48,7 +48,7 @@ export const tourStore = create<TourInfo & TourInfoAction>((set) => ({
   setArrivalDate: (value) => {
     set({ arrivalDate: value });
   },
-  setMember: (value) => {
+  setMembers: (value) => {
     set({ members: [...value] });
   },
 }));

@@ -4,6 +4,10 @@
   text-align: center;
   transition: 0.1s;
 
+  &.floating {
+    position: fixed;
+  }
+
   &.loading {
     .dots {
       visibility: visible;
@@ -54,7 +58,11 @@
     border-radius: 30px;
 
     &:disabled {
-      background-color: $blue-2;
+      background-color: $blue-3;
+
+      &:active {
+        transform: none;
+      }
     }
 
     &.regular {
@@ -70,12 +78,12 @@
     }
 
     &:active {
-      transform: scale(0.95);
+      transform: scale(0.96);
     }
   }
 
   &.chip {
-    background-color: $gray-1;
+    background-color: $gray-0;
     padding: 15px;
     border-radius: 10px;
 
