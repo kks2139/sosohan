@@ -30,7 +30,7 @@ export async function getBrowser() {
       headless: chromium.headless,
     });
   } catch (ex) {
-    console.log('puppeteer 에러!', ex);
+    console.log("puppeteer 에러!", ex);
   } finally {
     return browser;
   }

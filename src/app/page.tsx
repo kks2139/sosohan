@@ -1,3 +1,5 @@
+"use client";
+
 import classNames from "classnames/bind";
 import styles from "./page.module.scss";
 import ImgHana from "@/assets/img/hana_logo.png";
@@ -8,10 +10,13 @@ import ImgAirPlane from "@/assets/img/air_plane.png";
 import Image from "next/image";
 import Button from "@/components/button";
 import SimpleInfo from "./SimpleInfo";
+import { useRouter } from "next/navigation";
 
 const cn = classNames.bind(styles);
 
 function Page() {
+  const router = useRouter();
+
   return (
     <div className={cn("Page")}>
       <section className={cn("intro")}>
@@ -41,7 +46,7 @@ function Page() {
       <SimpleInfo />
 
       <div className={cn("button-container")}>
-        <Button size="large" fullWidth>
+        <Button size="large" fullWidth onClick={() => router.push("/result")}>
           최저가 항공권 검색
         </Button>
       </div>
