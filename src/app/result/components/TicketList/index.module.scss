@@ -1,0 +1,26 @@
+.TicketList {
+  padding: 0 20px;
+
+  .sort {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+    margin-bottom: 15px;
+
+    > button {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: $dark-1;
+
+      img {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .list-container {
+    display: grid;
+    row-gap: 15px;
+  }
+}

@@ -2,6 +2,22 @@ import { Page } from "puppeteer-core";
 import { ScrapTarget, scrapTargetInfo } from "@/utils/constant";
 import { getBrowser, getScrapResponse } from "@/utils/api";
 
+// interface Location {
+//   airLine: string
+//   date: string
+//   startLocation: string
+//   startTime: string
+//   endLocation: string
+//   endTime: string
+// };
+
+// interface ResponseData {
+//   departure: Location
+//   back: Location
+//   price: string
+//   member: string
+// };
+
 async function scrapPageByTarget(target: ScrapTarget, page: Page) {
   const { contentRootSelector } = scrapTargetInfo[target];
 
@@ -48,8 +64,10 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
           }
 
           const row5 = el.querySelector("div.flight_price > div > a");
-          const price = trimText(
-            row5?.querySelector("em > span")?.firstChild?.textContent || "",
+          const price = Number(
+            trimText(
+              row5?.querySelector("em > span")?.firstChild?.textContent || "",
+            ).replace(/,/g, ""),
           );
           const member = trimText(
             row5?.lastChild?.firstChild?.textContent || "",
@@ -64,9 +82,9 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
         });
       });
     // TODO: 나머지 페이지들 스크랩 세분화
-    case "ONLINE_TOUR":
-      break;
     case "MODE_TOUR":
+      break;
+    case "ONLINE_TOUR":
       break;
     case "INTER_PARK":
       break;

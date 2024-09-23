@@ -1,0 +1,45 @@
+.ResultHeader {
+  padding: 0 45px 0 33px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+    h1 {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    span {
+      color: $blue-1;
+    }
+
+    .images {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      > img {
+        &:first-of-type {
+          position: absolute;
+          top: -27px;
+          left: 5px;
+          width: 65px;
+          height: 65px;
+        }
+
+        &:last-of-type {
+          width: 41px;
+          height: 41px;
+        }
+      }
+    }
+  }
+
+  .tour-info {
+    font-size: 12px;
+    color: $dark-2;
+  }
+}
