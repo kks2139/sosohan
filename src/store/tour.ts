@@ -28,27 +28,40 @@ interface TourInfoAction {
   setArrivalArea: (value: AreaCode) => void;
   setArrivalDate: (value: string) => void;
   setMembers: (value: Member[]) => void;
+  getIsInfoComplete: () => boolean;
 }
 
-export const tourStore = create<TourInfo & TourInfoAction>((set) => ({
+export const tourStore = create<TourInfo & TourInfoAction>((set, get) => ({
   departureArea: "ICN",
   departureDate: undefined,
   arrivalArea: undefined,
   arrivalDate: undefined,
   members: [],
-  setDepartureArea: (value) => {
+  setDepartureArea(value) {
     set({ departureArea: value });
   },
-  setDepartureDate: (value) => {
+  setDepartureDate(value) {
     set({ departureDate: value });
   },
-  setArrivalArea: (value) => {
+  setArrivalArea(value) {
     set({ arrivalArea: value });
   },
-  setArrivalDate: (value) => {
+  setArrivalDate(value) {
     set({ arrivalDate: value });
   },
-  setMembers: (value) => {
+  setMembers(value) {
     set({ members: [...value] });
+  },
+  getIsInfoComplete() {
+    const { departureArea, departureDate, arrivalArea, arrivalDate, members } =
+      get();
+
+    return (
+      !!departureArea &&
+      !!departureDate &&
+      !!arrivalArea &&
+      !!arrivalDate &&
+      !!members.length
+    );
   },
 }));
