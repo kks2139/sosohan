@@ -38,6 +38,7 @@ const RAW_RUNTIME_STATE =
           ["eslint", "npm:8.57.0"],\
           ["eslint-config-next", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:14.2.6"],\
           ["eslint-plugin-unused-imports", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:4.1.3"],\
+          ["immer", "npm:10.1.1"],\
           ["next", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:14.2.6"],\
           ["puppeteer-core", "npm:23.3.0"],\
           ["react", "npm:18.3.1"],\
@@ -3006,6 +3007,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["immer", [\
+      ["npm:10.1.1", {\
+        "packageLocation": "./.yarn/cache/immer-npm-10.1.1-973ae10d09-b749e10d13.zip/node_modules/immer/",\
+        "packageDependencies": [\
+          ["immer", "npm:10.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["immutable", [\
       ["npm:4.3.7", {\
         "packageLocation": "./.yarn/cache/immutable-npm-4.3.7-a76ac3621b-9b09919708.zip/node_modules/immutable/",\
@@ -4812,6 +4822,7 @@ const RAW_RUNTIME_STATE =
           ["eslint", "npm:8.57.0"],\
           ["eslint-config-next", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:14.2.6"],\
           ["eslint-plugin-unused-imports", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:4.1.3"],\
+          ["immer", "npm:10.1.1"],\
           ["next", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:14.2.6"],\
           ["puppeteer-core", "npm:23.3.0"],\
           ["react", "npm:18.3.1"],\
@@ -5670,7 +5681,7 @@ const RAW_RUNTIME_STATE =
           ["zustand", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:4.5.5"],\
           ["@types/immer", null],\
           ["@types/react", "npm:18.3.4"],\
-          ["immer", null],\
+          ["immer", "npm:10.1.1"],\
           ["react", "npm:18.3.1"],\
           ["use-sync-external-store", "virtual:289581ac96d435aeb3ac157b341e01f89b9273873054e378797235b4fb8e440af37e767116b3d2e2752a3726218f2663b6871ebe0c9828a6253b969aa4b68ec3#npm:1.2.2"]\
         ],\
