@@ -11,11 +11,16 @@ import Image from "next/image";
 import Button from "@/components/button";
 import SimpleInfo from "./SimpleInfo";
 import { useRouter } from "next/navigation";
+import ToastMessages from "@/components/ToastMessages";
+import { toastStore } from "@/store/ui";
+import { tourStore } from "@/store/tour";
 
 const cn = classNames.bind(styles);
 
 function Page() {
   const router = useRouter();
+  const { addToastMessage } = toastStore();
+  const { getIsInfoComplete } = tourStore();
 
   return (
     <div className={cn("Page")}>
@@ -46,10 +51,24 @@ function Page() {
       <SimpleInfo />
 
       <div className={cn("button-container")}>
-        <Button size="large" fullWidth onClick={() => router.push("/result")}>
+        <Button
+          size="large"
+          fullWidth
+          onClick={() => {
+            if (!getIsInfoComplete()) {
+              addToastMessage("검색조건을 모두 입력해주세요");
+
+              return;
+            }
+
+            router.push("/result");
+          }}
+        >
           최저가 항공권 검색
         </Button>
       </div>
+
+      <ToastMessages />
     </div>
   );
 }
