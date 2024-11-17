@@ -5,21 +5,24 @@ import styles from "./index.module.scss";
 import ImgAirPlane from "@/assets/img/air_plain_2.png";
 import ImgSLoad from "@/assets/img/s_load_2.png";
 import Image from "next/image";
-import { memberTypeToKorean, tourStore } from "@/store/tour";
+import { memberTypeToKorean } from "@/store/tour";
 import { areaCodeToKorean } from "@/utils/constant";
 import { format } from "date-fns";
+import { useStore } from "@/hooks/useStore";
 
 const cn = classNames.bind(styles);
 
 function ResultHeader() {
   const now = new Date();
   const {
-    departureArea,
-    arrivalArea = "ICN",
-    departureDate = now.toString(),
-    arrivalDate = now.toString(),
-    members,
-  } = tourStore();
+    tourStore: {
+      departureArea,
+      arrivalArea = "ICN",
+      departureDate = now.toString(),
+      arrivalDate = now.toString(),
+      members,
+    },
+  } = useStore();
 
   return (
     <section className={cn("ResultHeader")}>

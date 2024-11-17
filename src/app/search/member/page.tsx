@@ -3,17 +3,20 @@
 import classNames from "classnames/bind";
 import styles from "./page.module.scss";
 import Button from "@/components/button";
-import { Member, MemberType, tourStore } from "@/store/tour";
+import { Member, MemberType } from "@/store/tour";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import MemberCount from "../components/MemberCount";
+import MemberCount from "../(components)/MemberCount";
+import { useStore } from "@/hooks/useStore";
 
 const cn = classNames.bind(styles);
 const MEMBERS: MemberType[] = ["ADULT", "CHILD", "BABY"];
 
 function Page() {
   const router = useRouter();
-  const { setMembers } = tourStore();
+  const {
+    tourStore: { setMembers },
+  } = useStore();
 
   const [adult, setAdult] = useState<Member>();
   const [child, setChild] = useState<Member>();

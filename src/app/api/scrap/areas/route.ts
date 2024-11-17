@@ -1,4 +1,4 @@
-import { getBrowser, getScrapResponse } from "@/utils/api";
+import { getBrowser, getApiResponse } from "@/utils/api";
 import { Page } from "puppeteer-core";
 
 const MODE_TOUR_AREAS_URL =
@@ -30,7 +30,7 @@ async function scrapAreas(page: Page) {
 }
 
 export async function GET() {
-  const errorRes = getScrapResponse("ERROR", null);
+  const errorRes = getApiResponse("ERROR", null);
   const browser = await getBrowser();
 
   if (!browser) {
@@ -44,7 +44,7 @@ export async function GET() {
 
     const result = await scrapAreas(page);
 
-    return getScrapResponse("OK", result);
+    return getApiResponse("OK", result);
   } catch {
     return errorRes;
   } finally {

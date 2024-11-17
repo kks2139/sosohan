@@ -1,5 +1,5 @@
-import { AreaCode } from "@/utils/constant";
 import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
 export type MemberType = "ADULT" | "CHILD" | "BABY";
 
@@ -14,54 +14,58 @@ export const memberTypeToKorean: Record<MemberType, string> = {
   BABY: "소아",
 };
 
-interface TourInfo {
-  departureArea: AreaCode;
+interface TourStore {
+  departureArea: string;
   departureDate?: string;
-  arrivalArea?: AreaCode;
+  arrivalArea?: string;
   arrivalDate?: string;
   members: Member[];
-}
-
-interface TourInfoAction {
-  setDepartureArea: (value: AreaCode) => void;
+  setDepartureArea: (value: string) => void;
   setDepartureDate: (value: string) => void;
-  setArrivalArea: (value: AreaCode) => void;
+  setArrivalArea: (value: string) => void;
   setArrivalDate: (value: string) => void;
   setMembers: (value: Member[]) => void;
-  getIsInfoComplete: () => boolean;
+  isInfoComplete: boolean;
 }
 
-export const tourStore = create<TourInfo & TourInfoAction>((set, get) => ({
-  departureArea: "ICN",
-  departureDate: undefined,
-  arrivalArea: undefined,
-  arrivalDate: undefined,
-  members: [],
-  setDepartureArea(value) {
-    set({ departureArea: value });
-  },
-  setDepartureDate(value) {
-    set({ departureDate: value });
-  },
-  setArrivalArea(value) {
-    set({ arrivalArea: value });
-  },
-  setArrivalDate(value) {
-    set({ arrivalDate: value });
-  },
-  setMembers(value) {
-    set({ members: [...value] });
-  },
-  getIsInfoComplete() {
-    const { departureArea, departureDate, arrivalArea, arrivalDate, members } =
-      get();
+export const tourStore = create<TourStore>()(
+  immer((set, get) => ({
+    departureArea: "ICN",
+    departureDate: undefined,
+    arrivalArea: undefined,
+    arrivalDate: undefined,
+    members: [],
+    setDepartureArea(value) {
+      set({ departureArea: value });
+    },
+    setDepartureDate(value) {
+      set({ departureDate: value });
+    },
+    setArrivalArea(value) {
+      set({ arrivalArea: value });
+    },
+    setArrivalDate(value) {
+      set({ arrivalDate: value });
+    },
+    setMembers(value) {
+      set({ members: value });
+    },
+    get isInfoComplete() {
+      const {
+        departureArea,
+        departureDate,
+        arrivalArea,
+        arrivalDate,
+        members,
+      } = get();
 
-    return (
-      !!departureArea &&
-      !!departureDate &&
-      !!arrivalArea &&
-      !!arrivalDate &&
-      !!members.length
-    );
-  },
-}));
+      return (
+        !!departureArea &&
+        !!departureDate &&
+        !!arrivalArea &&
+        !!arrivalDate &&
+        !!members.length
+      );
+    },
+  }))
+);

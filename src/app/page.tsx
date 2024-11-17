@@ -12,15 +12,22 @@ import Button from "@/components/button";
 import SimpleInfo from "./SimpleInfo";
 import { useRouter } from "next/navigation";
 import ToastMessages from "@/components/ToastMessages";
-import { toastStore } from "@/store/ui";
-import { tourStore } from "@/store/tour";
+import { useStore } from "@/hooks/useStore";
+import { useEffect } from "react";
 
 const cn = classNames.bind(styles);
 
 function Page() {
   const router = useRouter();
-  const { addToastMessage } = toastStore();
-  const { getIsInfoComplete } = tourStore();
+  const {
+    toastStore: { addToastMessage },
+    tourStore: { isInfoComplete },
+    airportStore: { fetchAirport },
+  } = useStore();
+
+  useEffect(() => {
+    fetchAirport();
+  }, [fetchAirport]);
 
   return (
     <div className={cn("Page")}>
@@ -55,7 +62,7 @@ function Page() {
           size="large"
           fullWidth
           onClick={() => {
-            if (!getIsInfoComplete()) {
+            if (!isInfoComplete) {
               addToastMessage("검색조건을 모두 입력해주세요");
 
               return;

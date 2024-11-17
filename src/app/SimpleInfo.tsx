@@ -5,10 +5,11 @@ import styles from "./SimpleInfo.module.scss";
 import Image from "next/image";
 import ImgAirPlane from "@/assets/img/air_plane.png";
 import { useRouter } from "next/navigation";
-import { memberTypeToKorean, tourStore } from "@/store/tour";
+import { memberTypeToKorean } from "@/store/tour";
 import { areaCodeToKorean } from "@/utils/constant";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import { useStore } from "@/hooks/useStore";
 
 type SearchFor = "departure" | "arrival";
 
@@ -20,15 +21,22 @@ function formatDate(date?: string) {
 
 function SimpleInfo() {
   const router = useRouter();
-  const { departureArea, departureDate, arrivalArea, arrivalDate, members } =
-    tourStore();
+  const {
+    tourStore: {
+      departureArea,
+      departureDate,
+      arrivalArea,
+      arrivalDate,
+      members,
+    },
+  } = useStore();
 
   const toSearchArea = (searchFor: SearchFor) => {
-    router.push(`/search/area?area_for=${searchFor}`);
+    router.push(`/search/airport?search_for=${searchFor}`);
   };
 
   const toSearchDate = (searchFor: SearchFor) => {
-    router.push(`/search/date?date_for=${searchFor}`);
+    router.push(`/search/date?search_for=${searchFor}`);
   };
 
   const toMember = () => {

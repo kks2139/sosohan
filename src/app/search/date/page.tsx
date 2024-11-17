@@ -5,20 +5,22 @@ import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { tourStore } from "@/store/tour";
 import { useState } from "react";
 import Button from "@/components/button";
+import { useStore } from "@/hooks/useStore";
 
 const cn = classNames.bind(styles);
 
 interface Props {
-  searchParams?: { date_for: string };
+  searchParams?: { search_for: string };
 }
 
 function Page({ searchParams }: Props) {
   const router = useRouter();
-  const isDeparture = searchParams?.date_for === "departure";
-  const { setDepartureDate, setArrivalDate } = tourStore();
+  const isDeparture = searchParams?.search_for === "departure";
+  const {
+    tourStore: { setDepartureDate, setArrivalDate },
+  } = useStore();
 
   const [inputDate, setInputDate] = useState<Date>();
 

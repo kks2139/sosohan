@@ -2,7 +2,7 @@ import puppeteer, { Browser } from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 import { isDev } from "./constant";
 
-export function getScrapResponse(type: "ERROR" | "OK", result?: unknown) {
+export function getApiResponse(type: "ERROR" | "OK", result?: unknown) {
   if (type === "OK") {
     return new Response(result ? JSON.stringify({ result }) : null, {
       status: 200,

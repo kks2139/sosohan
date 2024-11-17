@@ -1,6 +1,6 @@
 import { Page } from "puppeteer-core";
 import { ScrapTarget, scrapTargetInfo } from "@/utils/constant";
-import { getBrowser, getScrapResponse } from "@/utils/api";
+import { getBrowser, getApiResponse } from "@/utils/api";
 
 // interface Location {
 //   airLine: string
@@ -94,7 +94,7 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const target = url.searchParams.get("target") as ScrapTarget;
-  const errorRes = getScrapResponse("ERROR", null);
+  const errorRes = getApiResponse("ERROR", null);
   const browser = await getBrowser();
 
   if (!scrapTargetInfo[target] || !browser) {
@@ -109,7 +109,7 @@ export async function GET(req: Request) {
 
     const result = await scrapPageByTarget(target, page);
 
-    return getScrapResponse("OK", result);
+    return getApiResponse("OK", result);
   } catch {
     return errorRes;
   } finally {

@@ -1,5 +1,6 @@
 .Page {
   padding: 40px 20px;
+  overflow-x: hidden;
 
   .title {
     font-size: 23px;
@@ -10,7 +11,7 @@
     margin-bottom: 35px;
   }
 
-  .areas {
+  .airports {
     position: relative;
     padding-bottom: 35px;
     margin-bottom: 25px;
@@ -23,7 +24,7 @@
     }
   }
 
-  .empty-areas {
+  .empty-airports {
     display: flex;
     flex-direction: column;
     align-items: center;

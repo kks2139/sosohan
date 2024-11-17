@@ -2,8 +2,8 @@
 
 import classNames from "classnames/bind";
 import styles from "./index.module.scss";
-import { toastStore } from "@/store/ui";
 import { useEffect } from "react";
+import { useStore } from "@/hooks/useStore";
 
 const cn = classNames.bind(styles);
 
@@ -34,7 +34,9 @@ function Toast({ message, duration, index, onDurationEnd }: ToastProps) {
 }
 
 function ToastMessages() {
-  const { toasts, removeToastMessage } = toastStore();
+  const {
+    toastStore: { toasts, removeToastMessage },
+  } = useStore();
   const hasToast = toasts.length > 0;
 
   if (!hasToast) {
