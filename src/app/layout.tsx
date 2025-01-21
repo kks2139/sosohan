@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
-import classNames from "classnames/bind";
 import "./global.scss";
+
+import classNames from "classnames/bind";
+import type { Metadata } from "next";
+
 import styles from "./layout.module.scss";
 
 const cn = classNames.bind(styles);

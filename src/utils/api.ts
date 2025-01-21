@@ -1,5 +1,6 @@
-import puppeteer, { Browser } from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
+import puppeteer, { Browser } from "puppeteer-core";
+
 import { isDev } from "./constant";
 
 export function getApiResponse(type: "ERROR" | "OK", result?: unknown) {

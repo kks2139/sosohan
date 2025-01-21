@@ -1,0 +1,80 @@
+$radius: 15px;
+$input-border: rgb(233, 233, 233);
+
+.FormInput {
+  position: relative;
+
+  input {
+    width: 100%;
+    border-radius: $radius;
+    border: 2px solid $input-border;
+    padding: 10px 15px;
+    transition: 0.2s;
+
+    &.error {
+      border-color: rgb(255, 82, 82);
+    }
+
+    &:disabled {
+      background-color: $gray-0;
+      border-color: transparent;
+    }
+
+    &:focus {
+      border-color: $main-1;
+    }
+  }
+
+  .clear {
+    z-index: 9;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgb(241, 241, 241);
+    padding: 10px;
+    border-radius: 30px;
+    width: 34px;
+    height: 30px;
+    text-align: center;
+    line-height: 0px;
+    color: rgb(158, 158, 158);
+  }
+
+  .select-box {
+    z-index: 10;
+    position: absolute;
+    top: calc(100% + 3px);
+    width: 100%;
+    padding: 10px 0;
+    border-radius: $radius;
+    box-shadow: 0 5px 10px 0 rgb(221, 221, 221);
+    background-color: white;
+    max-height: 350px;
+    overflow-y: auto;
+
+    > li {
+      background-color: white;
+
+      &.darker {
+        background-color: rgb(247, 247, 247);
+      }
+
+      button {
+        padding: 10px 15px;
+        width: 100%;
+        border-radius: 5px;
+        transition: 0.2s;
+
+        &:hover {
+          background-color: $main-3;
+        }
+      }
+    }
+
+    .bottom {
+      height: 1px;
+      visibility: hidden;
+    }
+  }
+}

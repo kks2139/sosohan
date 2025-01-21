@@ -1,9 +1,11 @@
 "use client";
 
 import classNames from "classnames/bind";
-import styles from "./index.module.scss";
 import { useEffect } from "react";
+
 import { useStore } from "@/hooks/useStore";
+
+import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 

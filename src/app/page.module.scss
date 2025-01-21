@@ -1,6 +1,5 @@
 .Page {
   height: 100vh;
-  background-image: linear-gradient(#9ecdff -100%, white 100%);
   padding: 70px 45px 0;
 
   .intro {
@@ -20,7 +19,7 @@
       font-weight: bold;
 
       span {
-        color: $blue-1;
+        color: $main-1;
       }
     }
 
@@ -29,7 +28,7 @@
       color: $dark-1;
 
       span {
-        color: $blue-1;
+        color: $main-1;
       }
     }
 
@@ -44,11 +43,5 @@
         transform: rotate(-60deg);
       }
     }
-  }
-
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 60px;
   }
 }

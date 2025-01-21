@@ -1,6 +1,8 @@
-import Skeleton from "@/components/skeleton";
-import styles from "./SkeletonLoading.module.scss";
 import classNames from "classnames/bind";
+
+import Skeleton from "@/components/Skeleton";
+
+import styles from "./SkeletonLoading.module.scss";
 
 const cn = classNames.bind(styles);
 

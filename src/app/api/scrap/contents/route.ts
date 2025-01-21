@@ -1,6 +1,7 @@
 import { Page } from "puppeteer-core";
+
+import { getApiResponse, getBrowser } from "@/utils/api";
 import { ScrapTarget, scrapTargetInfo } from "@/utils/constant";
-import { getBrowser, getApiResponse } from "@/utils/api";
 
 // interface Location {
 //   airLine: string
@@ -66,11 +67,11 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
           const row5 = el.querySelector("div.flight_price > div > a");
           const price = Number(
             trimText(
-              row5?.querySelector("em > span")?.firstChild?.textContent || "",
-            ).replace(/,/g, ""),
+              row5?.querySelector("em > span")?.firstChild?.textContent || ""
+            ).replace(/,/g, "")
           );
           const member = trimText(
-            row5?.lastChild?.firstChild?.textContent || "",
+            row5?.lastChild?.firstChild?.textContent || ""
           );
 
           return {

@@ -1,8 +1,9 @@
 "use client";
 
-import Button from "@/components/button";
-import { apiOrigin } from "@/utils/constant";
 import { useState } from "react";
+
+import Button from "@/components/Button";
+import { apiOrigin } from "@/utils/constant";
 
 function Temp() {
   const [isLoading_1, setIsLoading_1] = useState(false);

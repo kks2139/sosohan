@@ -1,13 +1,14 @@
-import styles from "./index.module.scss";
 import classNames from "classnames/bind";
+
+import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 
 interface Props {
   children?: React.ReactNode;
   onClick?: () => void;
-  type?: "default" | "chip";
   size?: "large" | "regular";
+  type?: HTMLButtonElement["type"];
   fullWidth?: boolean;
   loading?: boolean;
   disabled?: boolean;
@@ -18,8 +19,8 @@ interface Props {
 function Button({
   children,
   onClick,
-  type = "default",
   size = "regular",
+  type = "button",
   fullWidth,
   loading,
   disabled,
@@ -30,13 +31,12 @@ function Button({
     <button
       id={id}
       className={cn("Button", {
-        [type]: true,
         [size]: true,
         "full-width": fullWidth,
         loading,
         floating,
       })}
-      type="button"
+      type={type}
       disabled={disabled || loading}
       onClick={onClick}
     >

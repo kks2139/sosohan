@@ -15,34 +15,34 @@ export const memberTypeToKorean: Record<MemberType, string> = {
 };
 
 interface TourStore {
-  departureArea: string;
+  departureCode: string;
   departureDate?: string;
-  arrivalArea?: string;
+  arrivalCode?: string;
   arrivalDate?: string;
   members: Member[];
-  setDepartureArea: (value: string) => void;
+  setDepartureCode: (value: string) => void;
   setDepartureDate: (value: string) => void;
-  setArrivalArea: (value: string) => void;
+  setArrivalCode: (value: string) => void;
   setArrivalDate: (value: string) => void;
   setMembers: (value: Member[]) => void;
-  isInfoComplete: boolean;
+  getIsInfoComplete: () => boolean;
 }
 
 export const tourStore = create<TourStore>()(
   immer((set, get) => ({
-    departureArea: "ICN",
+    departureCode: "ICN",
     departureDate: undefined,
-    arrivalArea: undefined,
+    arrivalCode: undefined,
     arrivalDate: undefined,
     members: [],
-    setDepartureArea(value) {
-      set({ departureArea: value });
+    setDepartureCode(value) {
+      set({ departureCode: value });
     },
     setDepartureDate(value) {
       set({ departureDate: value });
     },
-    setArrivalArea(value) {
-      set({ arrivalArea: value });
+    setArrivalCode(value) {
+      set({ arrivalCode: value });
     },
     setArrivalDate(value) {
       set({ arrivalDate: value });
@@ -50,19 +50,19 @@ export const tourStore = create<TourStore>()(
     setMembers(value) {
       set({ members: value });
     },
-    get isInfoComplete() {
+    getIsInfoComplete() {
       const {
-        departureArea,
+        departureCode,
         departureDate,
-        arrivalArea,
+        arrivalCode,
         arrivalDate,
         members,
       } = get();
 
       return (
-        !!departureArea &&
+        !!departureCode &&
         !!departureDate &&
-        !!arrivalArea &&
+        !!arrivalCode &&
         !!arrivalDate &&
         !!members.length
       );

@@ -1,8 +1,10 @@
-import Scraping from "@/components/scraping";
-import { Suspense } from "react";
-import SkeletonLoading from "./(common)/SkeletonLoading";
-import { ScrapTarget, targetToKorean } from "@/utils/constant";
 import classNames from "classnames/bind";
+import { Suspense } from "react";
+
+import Scraping from "@/components/Scraping";
+import { ScrapTarget, targetToKorean } from "@/utils/constant";
+
+import SkeletonLoading from "./(common)/SkeletonLoading";
 import styles from "./page.module.scss";
 
 const cn = classNames.bind(styles);

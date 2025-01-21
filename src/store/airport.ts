@@ -1,5 +1,6 @@
-import { apiOrigin } from "@/utils/constant";
 import { create } from "zustand";
+
+import { apiOrigin } from "@/utils/constant";
 
 export interface AirportData {
   "공항코드1(IATA)": string;
@@ -21,13 +22,17 @@ export interface AirportInfo {
   data: AirportData[];
 }
 
-type AirportGroupedByNation = { nationName: string; airports: AirportData[] }[];
+type AirportGroupedByNation = { nationName: string; airports: AirportData[] };
 
 interface AirportStore {
   isLoading: boolean;
   airportInfo?: AirportInfo;
-  fetchAirport: () => void;
-  airportsGroupedByNation: () => AirportGroupedByNation;
+  fetchAirport: () => Promise<void>;
+  getAirportsGroupedByNation: () => AirportGroupedByNation[];
+  getFilterdAirportsGroupedByNation: (
+    airportName: string
+  ) => AirportGroupedByNation[];
+  getAirportData: (code: string) => AirportData | undefined;
 }
 
 export const airportStore = create<AirportStore>((set, get) => ({
@@ -52,7 +57,7 @@ export const airportStore = create<AirportStore>((set, get) => ({
 
     set({ isLoading: false });
   },
-  airportsGroupedByNation() {
+  getAirportsGroupedByNation() {
     const { airportInfo: { data = [] } = {} } = get();
 
     const groupedBy = Object.groupBy(data, (d) => d["한글국가명"]) as Record<
@@ -64,5 +69,30 @@ export const airportStore = create<AirportStore>((set, get) => ({
       nationName: nat,
       airports: groupedBy[nat],
     }));
+  },
+  getFilterdAirportsGroupedByNation(airportName: string) {
+    const { getAirportsGroupedByNation } = get();
+    const nations = getAirportsGroupedByNation();
+
+    if (!airportName) {
+      return nations;
+    }
+
+    return nations.reduce<AirportGroupedByNation[]>((acc, nation) => {
+      const results = nation.airports.filter((a) =>
+        a.한글공항.includes(airportName)
+      );
+
+      if (results) {
+        acc.push({ ...nation, airports: results });
+      }
+
+      return acc;
+    }, []);
+  },
+  getAirportData(code: string) {
+    const { airportInfo: { data = [] } = {} } = get();
+
+    return data.find((d) => d["공항코드1(IATA)"] === code);
   },
 }));
