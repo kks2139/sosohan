@@ -1,31 +1,16 @@
 "use client";
 
 import classNames from "classnames/bind";
-import { format } from "date-fns";
 import Image from "next/image";
 
 import ImgAirPlane from "@/assets/img/air_plain_2.png";
 import ImgSLoad from "@/assets/img/s_load_2.png";
-import { useStore } from "@/hooks/useStore";
-import { memberTypeToKorean } from "@/store/tour";
-import { areaCodeToKorean } from "@/utils/constant";
 
 import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 
 function ResultHeader() {
-  const now = new Date();
-  const {
-    tourStore: {
-      departureArea,
-      arrivalArea = "ICN",
-      departureDate = now.toString(),
-      arrivalDate = now.toString(),
-      members,
-    },
-  } = useStore();
-
   return (
     <section className={cn("ResultHeader")}>
       <div className={cn("title")}>
@@ -40,7 +25,7 @@ function ResultHeader() {
         </div>
       </div>
 
-      <p className={cn("tour-info")}>
+      {/* <p className={cn("tour-info")}>
         {`${areaCodeToKorean[departureArea]} > ${
           areaCodeToKorean[arrivalArea]
         } | ${format(departureDate, "M.d")} ~ ${format(
@@ -50,7 +35,7 @@ function ResultHeader() {
           .filter(({ count }) => !!count)
           .map(({ type, count }) => `${memberTypeToKorean[type]} ${count}`)
           .join(". ")}`}
-      </p>
+      </p> */}
     </section>
   );
 }
