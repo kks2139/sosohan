@@ -2,7 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 
-import Button from "@/components/Button/index";
+import Button from "@/components/Button";
 
 interface Props {
   children?: React.ReactNode;

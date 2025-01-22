@@ -2,16 +2,23 @@
 
 import classNames from "classnames/bind";
 import { AnimatePresence, motion } from "framer-motion";
-import { InputHTMLAttributes, useEffect, useRef, useState } from "react";
+import {
+  InputHTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useFormStatus } from "react-dom";
 
+import Input from "@/components/Input";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { AirportData, airportStore } from "@/store/airport";
 
 import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
-const MAX_ROW = 30;
+const DEFAULT_MAX_ROW = 30;
 
 type AirportDataKey = keyof AirportData;
 
@@ -31,7 +38,9 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
   const [selectBoxElement, setSelectBoxElement] = useState<Element | null>(
     null
   );
-  const [maxRow, setMaxRow] = useState(MAX_ROW);
+  const [maxRow, setMaxRow] = useState(DEFAULT_MAX_ROW);
+  const [focusedRow, setFocusedRow] = useState<number>();
+  const [focusedRowTop, setFocusedRowTop] = useState<number>();
 
   const rootRef = useRef<HTMLDivElement>(null);
   const selectBottomRef = useRef<HTMLDivElement>(null);
@@ -58,6 +67,20 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
     filteredAirports.length > 0 &&
     !isShowLoading;
 
+  const resetFocusedRow = useCallback(() => {
+    if (inputType !== "select") {
+      return;
+    }
+
+    setFocusedRow(undefined);
+    setFocusedRowTop(undefined);
+  }, [inputType]);
+
+  const selectAirport = (selected: AirportData) => {
+    setInputValue(selected.한글공항);
+    setSelectedAirportCode(selected["공항코드1(IATA)"]);
+  };
+
   useIntersectionObserver({
     rootElement: selectBoxElement,
     targetElement: selectBottomRef.current,
@@ -82,22 +105,94 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
 
   useEffect(() => {
     if (!isShowSelectBox) {
-      setMaxRow(MAX_ROW);
+      setMaxRow(DEFAULT_MAX_ROW);
     }
   }, [isShowSelectBox]);
 
+  useEffect(() => {
+    if (!isFocused) {
+      resetFocusedRow();
+    }
+  }, [isFocused, resetFocusedRow]);
+
+  useEffect(() => {
+    if (!selectBoxElement || focusedRowTop === undefined) {
+      return;
+    }
+
+    const viewTop = selectBoxElement.scrollTop;
+    const viewBottom =
+      selectBoxElement.scrollTop + selectBoxElement.clientHeight;
+    const rowTop = focusedRowTop;
+    const rowBottom = focusedRowTop + 40;
+    const isRowOut = viewTop > rowBottom || viewBottom < rowTop;
+
+    // 방향키로 행 이동시, 스크롤 따라 움직이도록 처리
+    if (isRowOut) {
+      selectBoxElement.scrollTo(0, rowTop);
+
+      return;
+    }
+
+    if (rowTop < viewTop) {
+      selectBoxElement.scrollBy(0, -41);
+    }
+
+    if (rowBottom > viewBottom) {
+      selectBoxElement.scrollBy(0, 41);
+    }
+  }, [focusedRow, focusedRowTop, selectBoxElement]);
+
   return (
     <div ref={rootRef} className={cn("FormInput", { error: isError })}>
-      <input
+      <Input
         {...rest}
         name={name}
         disabled={isShowLoading}
         autoComplete="off"
         onFocus={() => setIsFocused(true)}
-        onBlur={() => setTimeout(() => setIsFocused(false))}
+        onBlur={() => {
+          resetFocusedRow();
+          setTimeout(() => setIsFocused(false));
+        }}
         onChange={(e) => {
-          setInputValue(e.target.value);
+          setIsFocused(true);
+          setInputValue(e.target.value.trim());
           setSelectedAirportCode("");
+        }}
+        onKeyDown={(e) => {
+          if (inputType !== "select") {
+            return;
+          }
+
+          const noFocusedRow = focusedRow === undefined;
+
+          switch (e.key) {
+            case "ArrowUp":
+              if (noFocusedRow) return;
+
+              setFocusedRow(Math.max(0, focusedRow - 1));
+
+              break;
+            case "ArrowDown":
+              setFocusedRow(
+                noFocusedRow ? 0 : Math.min(maxRow - 1, focusedRow + 1)
+              );
+
+              break;
+            case "Enter":
+              if (noFocusedRow) return;
+
+              selectAirport(filteredAirports[focusedRow]);
+              setIsFocused(false);
+              resetFocusedRow();
+
+              break;
+            case "Escape":
+              setIsFocused(false);
+              resetFocusedRow();
+              break;
+          }
         }}
         value={inputValue}
       />
@@ -105,6 +200,7 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
       {!!inputValue && isFocused && (
         <button
           className={cn("clear")}
+          type="button"
           onMouseDown={() => {
             setInputValue("");
             setSelectedAirportCode("");
@@ -125,22 +221,33 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
             transition={{ duration: 0.1 }}
           >
             {filteredAirports.slice(0, maxRow).map((airport, idx) => {
-              const text = `${airport.한글국가명} - ${airport.한글공항} (${airport["공항코드1(IATA)"]})`;
-
               return (
                 <li
+                  ref={(node) => {
+                    if (idx === focusedRow && node) {
+                      setFocusedRowTop(node.offsetTop);
+                    }
+                  }}
                   key={airport["공항코드1(IATA)"]}
-                  className={cn({ darker: idx % 2 === 0 })}
+                  className={cn({
+                    darker: idx % 2 === 0,
+                    "is-selecting": focusedRow === idx,
+                  })}
                 >
                   <button
+                    type="button"
                     onClick={() => {
-                      console.log(text);
-
-                      setInputValue(text);
-                      setSelectedAirportCode(airport["공항코드1(IATA)"]);
+                      selectAirport(airport);
+                    }}
+                    onMouseEnter={() => {
+                      resetFocusedRow();
                     }}
                   >
-                    {text}
+                    <span>{airport.한글공항}</span>
+                    <span className={cn("code")}>
+                      {`(${airport["공항코드1(IATA)"]})`}
+                    </span>
+                    <span className={cn("sub")}>{airport.한글국가명}</span>
                   </button>
                 </li>
               );
