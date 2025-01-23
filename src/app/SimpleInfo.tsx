@@ -2,12 +2,11 @@
 
 import classNames from "classnames/bind";
 import { useEffect } from "react";
-import { useFormState } from "react-dom";
 
+import AirportInput from "@/components/Form/AirportInput";
 import FormButton from "@/components/Form/FormButton";
-import FormInput from "@/components/Form/FormInput";
+import { useScrapingQuery } from "@/queries/useScrapingQuery";
 import { airportStore } from "@/store/airport";
-import { handleSubmit } from "@/utils/action";
 
 import styles from "./SimpleInfo.module.scss";
 
@@ -15,9 +14,9 @@ const cn = classNames.bind(styles);
 
 function SimpleInfo() {
   const { fetchAirport, isLoading: isAirportLoading } = airportStore();
-  const [state, action] = useFormState(handleSubmit, null);
+  const { isLoading, data, error } = useScrapingQuery();
 
-  console.log(state);
+  console.log(isLoading, data, error);
 
   useEffect(() => {
     fetchAirport();
@@ -25,15 +24,13 @@ function SimpleInfo() {
 
   return (
     <section className={cn("SimpleInfo")}>
-      <form className={cn("form")} action={action}>
-        <FormInput
-          inputType="select"
+      <form className={cn("form")}>
+        <AirportInput
           name="departure"
           placeholder="출발 공항"
           isLoading={isAirportLoading}
         />
-        <FormInput
-          inputType="select"
+        <AirportInput
           name="arrival"
           placeholder="도착 공항"
           isLoading={isAirportLoading}

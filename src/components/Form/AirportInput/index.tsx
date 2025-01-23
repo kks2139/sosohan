@@ -9,7 +9,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useFormStatus } from "react-dom";
 
 import Input from "@/components/Input";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
@@ -25,13 +24,10 @@ type AirportDataKey = keyof AirportData;
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   isLoading?: boolean;
-  inputType?: "default" | "select";
 }
 
-function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
+function AirportInput({ name, isLoading, ...rest }: Props) {
   const { airportInfo: { data: airports } = {} } = airportStore();
-  const { pending } = useFormStatus();
-  const [isError] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [selectedAirportCode, setSelectedAirportCode] = useState<string>("");
@@ -45,7 +41,6 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const selectBottomRef = useRef<HTMLDivElement>(null);
 
-  const isShowLoading = pending || isLoading;
   const filteredAirports =
     airports?.filter((a) => {
       const fields: AirportDataKey[] = [
@@ -61,20 +56,12 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
       );
     }) || [];
   const isShowSelectBox =
-    inputType === "select" &&
-    isFocused &&
-    !!inputValue &&
-    filteredAirports.length > 0 &&
-    !isShowLoading;
+    isFocused && !!inputValue && filteredAirports.length > 0 && !isLoading;
 
   const resetFocusedRow = useCallback(() => {
-    if (inputType !== "select") {
-      return;
-    }
-
     setFocusedRow(undefined);
     setFocusedRowTop(undefined);
-  }, [inputType]);
+  }, []);
 
   const selectAirport = (selected: AirportData) => {
     setInputValue(selected.한글공항);
@@ -144,11 +131,11 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
   }, [focusedRow, focusedRowTop, selectBoxElement]);
 
   return (
-    <div ref={rootRef} className={cn("FormInput", { error: isError })}>
+    <div ref={rootRef} className={cn("AirportInput")}>
       <Input
         {...rest}
         name={name}
-        disabled={isShowLoading}
+        disabled={isLoading}
         autoComplete="off"
         onFocus={() => setIsFocused(true)}
         onBlur={() => {
@@ -156,31 +143,33 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
           setTimeout(() => setIsFocused(false));
         }}
         onChange={(e) => {
+          resetFocusedRow();
           setIsFocused(true);
           setInputValue(e.target.value.trim());
           setSelectedAirportCode("");
         }}
         onKeyDown={(e) => {
-          if (inputType !== "select") {
-            return;
+          const noFocusedRow = focusedRow === undefined;
+          const keys = ["ArrowUp", "ArrowDown", "Enter", "Escape"];
+
+          if (keys.includes(e.key)) {
+            e.preventDefault();
           }
 
-          const noFocusedRow = focusedRow === undefined;
-
           switch (e.key) {
-            case "ArrowUp":
+            case keys[0]:
               if (noFocusedRow) return;
 
               setFocusedRow(Math.max(0, focusedRow - 1));
 
               break;
-            case "ArrowDown":
+            case keys[1]:
               setFocusedRow(
                 noFocusedRow ? 0 : Math.min(maxRow - 1, focusedRow + 1)
               );
 
               break;
-            case "Enter":
+            case keys[2]:
               if (noFocusedRow) return;
 
               selectAirport(filteredAirports[focusedRow]);
@@ -188,7 +177,7 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
               resetFocusedRow();
 
               break;
-            case "Escape":
+            case keys[4]:
               setIsFocused(false);
               resetFocusedRow();
               break;
@@ -260,4 +249,4 @@ function FormInput({ name, inputType = "default", isLoading, ...rest }: Props) {
   );
 }
 
-export default FormInput;
+export default AirportInput;
