@@ -8,7 +8,6 @@ import ImgOnline from "@/assets/img/online_logo.png";
 import ImgSLoad from "@/assets/img/s_load.png";
 import ImgAirPlane from "@/assets/img/air_plane.png";
 import Image from "next/image";
-import Button from "@/components/button";
 import SimpleInfo from "./SimpleInfo";
 import { useRouter } from "next/navigation";
 import ToastMessages from "@/components/ToastMessages";
@@ -51,7 +50,7 @@ function Page() {
       <SimpleInfo />
 
       <div className={cn("button-container")}>
-        <Button
+        {/* <Button
           size="large"
           fullWidth
           onClick={() => {
@@ -65,7 +64,7 @@ function Page() {
           }}
         >
           최저가 항공권 검색
-        </Button>
+        </Button> */}
       </div>
 
       <ToastMessages />
