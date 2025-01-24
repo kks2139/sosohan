@@ -1,7 +1,7 @@
 {
   "extends": ["next/core-web-vitals"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["unused-imports", "@typescript-eslint"],
+  "plugins": ["unused-imports", "@typescript-eslint", "simple-import-sort"],
   "rules": {
     "react-hooks/exhaustive-deps": [
       "error",
@@ -10,6 +10,8 @@
     "unused-imports/no-unused-imports": "error",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
-    "no-duplicate-imports": "error"
+    "no-duplicate-imports": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   }
 }

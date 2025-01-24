@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
-import classNames from "classnames/bind";
 import "./global.scss";
+
+import classNames from "classnames/bind";
+import type { Metadata } from "next";
+
+import WithQuery from "./(with-query)/WithQuery";
 import styles from "./layout.module.scss";
 
 const cn = classNames.bind(styles);
@@ -18,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className={cn("content")}>{children}</main>
+        <main className={cn("content")}>
+          <WithQuery>{children}</WithQuery>
+        </main>
       </body>
     </html>
   );

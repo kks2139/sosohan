@@ -1,5 +1,6 @@
-import { getBrowser, getScrapResponse } from "@/utils/api";
 import { Page } from "puppeteer-core";
+
+import { getApiResponse, getBrowser } from "@/utils/api";
 
 const MODE_TOUR_AREAS_URL =
   "https://www.modetour.com/flights/discount-flight?query=%7B%22departureCity%22%3A%22%22%2C%22arrivalCity%22%3A%22%22%2C%22continentCode%22%3A%22JPN%22%2C%22departureDate%22%3A%222024-09-16%22%2C%22arrivalDate%22%3A%222024-10-16%22%7D";
@@ -30,7 +31,7 @@ async function scrapAreas(page: Page) {
 }
 
 export async function GET() {
-  const errorRes = getScrapResponse("ERROR", null);
+  const errorRes = getApiResponse("ERROR", null);
   const browser = await getBrowser();
 
   if (!browser) {
@@ -44,7 +45,7 @@ export async function GET() {
 
     const result = await scrapAreas(page);
 
-    return getScrapResponse("OK", result);
+    return getApiResponse("OK", result);
   } catch {
     return errorRes;
   } finally {

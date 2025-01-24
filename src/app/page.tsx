@@ -1,27 +1,18 @@
-"use client";
-
 import classNames from "classnames/bind";
-import styles from "./page.module.scss";
+import Image from "next/image";
+
+import ImgAirPlane from "@/assets/img/air_plane.png";
 import ImgHana from "@/assets/img/hana_logo.png";
 import ImgMode from "@/assets/img/mode_logo.png";
 import ImgOnline from "@/assets/img/online_logo.png";
 import ImgSLoad from "@/assets/img/s_load.png";
-import ImgAirPlane from "@/assets/img/air_plane.png";
-import Image from "next/image";
-import Button from "@/components/button";
+
+import styles from "./page.module.scss";
 import SimpleInfo from "./SimpleInfo";
-import { useRouter } from "next/navigation";
-import ToastMessages from "@/components/ToastMessages";
-import { toastStore } from "@/store/ui";
-import { tourStore } from "@/store/tour";
 
 const cn = classNames.bind(styles);
 
 function Page() {
-  const router = useRouter();
-  const { addToastMessage } = toastStore();
-  const { getIsInfoComplete } = tourStore();
-
   return (
     <div className={cn("Page")}>
       <section className={cn("intro")}>
@@ -49,26 +40,6 @@ function Page() {
       </section>
 
       <SimpleInfo />
-
-      <div className={cn("button-container")}>
-        <Button
-          size="large"
-          fullWidth
-          onClick={() => {
-            if (!getIsInfoComplete()) {
-              addToastMessage("검색조건을 모두 입력해주세요");
-
-              return;
-            }
-
-            router.push("/result");
-          }}
-        >
-          최저가 항공권 검색
-        </Button>
-      </div>
-
-      <ToastMessages />
     </div>
   );
 }

@@ -1,5 +1,6 @@
-import styles from "./index.module.scss";
 import classNames from "classnames/bind";
+
+import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 
