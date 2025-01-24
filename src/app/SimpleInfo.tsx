@@ -1,87 +1,98 @@
 "use client";
 
 import classNames from "classnames/bind";
-import styles from "./SimpleInfo.module.scss";
-import Image from "next/image";
-import ImgAirPlane from "@/assets/img/air_plane.png";
-import { useRouter } from "next/navigation";
-import { memberTypeToKorean, tourStore } from "@/store/tour";
-import { areaCodeToKorean } from "@/utils/constant";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
+import { useState } from "react";
+import { z } from "zod";
 
-type SearchFor = "departure" | "arrival";
+import AirportInput from "@/components/Form/AirportInput";
+import FormButton from "@/components/Form/FormButton";
+import { useAirportQuery } from "@/queries/useAirportQuery";
+import { useScrapingQuery } from "@/queries/useScrapingQuery";
+import { airportStore } from "@/store/airport";
+
+import styles from "./SimpleInfo.module.scss";
 
 const cn = classNames.bind(styles);
 
-function formatDate(date?: string) {
-  return format(date || new Date(), "M.d(eee)", { locale: ko });
-}
+const formInputSchema = z.object({
+  startAirport: z.string({
+    required_error: "출발 공항을 선택해 주세요",
+  }),
+  endAirport: z.string({
+    required_error: "도착 공항을 선택해 주세요",
+  }),
+});
 
 function SimpleInfo() {
-  const router = useRouter();
-  const { departureArea, departureDate, arrivalArea, arrivalDate, members } =
-    tourStore();
+  useScrapingQuery();
+  const { isLoading: isAirportLoading } = useAirportQuery();
+  const { selectedStartAirport, selectedEndAirport, setSelectedAirport } =
+    airportStore();
+  const [error, setError] = useState<{
+    startAirport?: string[];
+    endAirport?: string[];
+  }>();
 
-  const toSearchArea = (searchFor: SearchFor) => {
-    router.push(`/search/area?area_for=${searchFor}`);
-  };
-
-  const toSearchDate = (searchFor: SearchFor) => {
-    router.push(`/search/date?date_for=${searchFor}`);
-  };
-
-  const toMember = () => {
-    router.push(`/search/member`);
+  const resetAirportError = (type: "start" | "end") => {
+    setError({ ...error, [`${type}Airport`]: undefined });
   };
 
   return (
     <section className={cn("SimpleInfo")}>
-      <div className={cn("wrapper")}>
-        <div className={cn("location")}>
-          <div>
-            <button type="button" onClick={() => toSearchArea("departure")}>
-              <span className={cn("code")}>{departureArea}</span>
-              <span>{areaCodeToKorean[departureArea]}</span>
-            </button>
-          </div>
-          <div>
-            <button type="button" onClick={() => toSearchArea("arrival")}>
-              <span className={cn("code")}>{arrivalArea || "도착"}</span>
-              <span>
-                {arrivalArea ? areaCodeToKorean[arrivalArea] : "선택하기"}
-              </span>
-            </button>
-          </div>
-        </div>
-        <div className={cn("date")}>
-          <button type="button" onClick={() => toSearchDate("departure")}>
-            {formatDate(departureDate)}
-          </button>
-          <button type="button" onClick={() => toSearchDate("arrival")}>
-            {formatDate(arrivalDate)}
-          </button>
-        </div>
-        <Image
-          className={cn("plane")}
-          src={ImgAirPlane}
-          alt=""
-          width={30}
-          height={30}
+      <form className={cn("form")}>
+        <AirportInput
+          placeholder="출발 공항"
+          isLoading={isAirportLoading}
+          errorMessages={error?.startAirport}
+          onChange={() => {
+            setSelectedAirport("start", undefined);
+            resetAirportError("start");
+          }}
+          onAirportSelected={(selected) => {
+            setSelectedAirport("start", selected);
+            resetAirportError("start");
+          }}
         />
-      </div>
+        <AirportInput
+          placeholder="도착 공항"
+          isLoading={isAirportLoading}
+          errorMessages={error?.endAirport}
+          onChange={() => {
+            setSelectedAirport("end", undefined);
+            resetAirportError("end");
+          }}
+          onAirportSelected={(selected) => {
+            setSelectedAirport("end", selected);
+            resetAirportError("end");
+          }}
+        />
+        <FormButton
+          isLoading={isAirportLoading}
+          onClick={() => {
+            const result = formInputSchema.safeParse({
+              startAirport: selectedStartAirport?.["공항코드1(IATA)"],
+              endAirport: selectedEndAirport?.["공항코드1(IATA)"],
+            });
 
-      <div className={cn("member")}>
-        <button type="button" onClick={toMember}>
-          {!members.length
-            ? "인원 수"
-            : members
-                .map(
-                  ({ type, count }) => `${memberTypeToKorean[type]} ${count}`
-                )
-                .join(" / ")}
-        </button>
-      </div>
+            if (!result.success) {
+              const { startAirport, endAirport } =
+                result.error.flatten().fieldErrors;
+
+              setError({
+                startAirport,
+                endAirport,
+              });
+
+              return;
+            }
+
+            // TODO: 입력값으로 검색
+            console.log("에러없음");
+          }}
+        >
+          최저가 검색하기
+        </FormButton>
+      </form>
     </section>
   );
 }

@@ -1,29 +1,20 @@
 "use client";
 
 import classNames from "classnames/bind";
-import styles from "./index.module.scss";
+import Image from "next/image";
+
 import ImgAirPlane from "@/assets/img/air_plain_2.png";
 import ImgSLoad from "@/assets/img/s_load_2.png";
-import Image from "next/image";
-import { memberTypeToKorean, tourStore } from "@/store/tour";
-import { areaCodeToKorean } from "@/utils/constant";
-import { format } from "date-fns";
+
+import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 
 function ResultHeader() {
-  const now = new Date();
-  const {
-    departureArea,
-    arrivalArea = "ICN",
-    departureDate = now.toString(),
-    arrivalDate = now.toString(),
-    members,
-  } = tourStore();
-
   return (
     <section className={cn("ResultHeader")}>
       <div className={cn("title")}>
+        s
         <h1>
           가능한 <span>항공권</span>을<br />
           모두 찾았어요!
@@ -34,7 +25,7 @@ function ResultHeader() {
         </div>
       </div>
 
-      <p className={cn("tour-info")}>
+      {/* <p className={cn("tour-info")}>
         {`${areaCodeToKorean[departureArea]} > ${
           areaCodeToKorean[arrivalArea]
         } | ${format(departureDate, "M.d")} ~ ${format(
@@ -44,7 +35,7 @@ function ResultHeader() {
           .filter(({ count }) => !!count)
           .map(({ type, count }) => `${memberTypeToKorean[type]} ${count}`)
           .join(". ")}`}
-      </p>
+      </p> */}
     </section>
   );
 }

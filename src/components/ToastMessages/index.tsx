@@ -1,9 +1,11 @@
 "use client";
 
 import classNames from "classnames/bind";
-import styles from "./index.module.scss";
-import { toastStore } from "@/store/ui";
 import { useEffect } from "react";
+
+import { toastStore } from "@/store/ui";
+
+import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 

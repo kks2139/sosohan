@@ -1,10 +1,12 @@
 "use client";
 
 import classNames from "classnames/bind";
-import styles from "./index.module.scss";
-import Ticket from "../Ticket";
 import Image from "next/image";
+
 import ImgInfo from "@/assets/img/info_2.png";
+
+import Ticket from "../Ticket";
+import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 

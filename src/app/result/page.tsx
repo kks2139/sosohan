@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
 
-import styles from "./page.module.scss";
 import ResultHeader from "./components/ResultHeader";
 import TicketList from "./components/TicketList";
+import styles from "./page.module.scss";
 
 const cn = classNames.bind(styles);
 

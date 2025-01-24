@@ -1,10 +1,12 @@
 "use client";
 
 import classNames from "classnames/bind";
-import styles from "./index.module.scss";
 import Image from "next/image";
-import ImgJinAir from "@/assets/img/logo_jinair.png";
+
 import ImgArrowRight from "@/assets/img/arrow_right.png";
+import ImgJinAir from "@/assets/img/logo_jinair.png";
+
+import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 
