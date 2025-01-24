@@ -54,7 +54,7 @@
 
   background-color: $main-1;
   color: white;
-  border-radius: 30px;
+  border-radius: $border-radius-1;
 
   &:disabled {
     background-color: $main-2;

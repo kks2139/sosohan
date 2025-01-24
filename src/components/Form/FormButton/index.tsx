@@ -1,27 +1,22 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
+import { ButtonHTMLAttributes } from "react";
 
 import Button from "@/components/Button";
 
-interface Props {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
   isLoading?: boolean;
 }
 
-function FormButton({ children, isLoading }: Props) {
-  const { pending, data, action } = useFormStatus();
-
-  const isShowLoading = isLoading || pending;
-
+function FormButton({ children, isLoading, disabled, ...rest }: Props) {
   return (
     <Button
-      type="submit"
-      loading={isShowLoading}
-      disabled={isShowLoading}
-      onClick={() => {
-        console.log(data, action);
-      }}
+      type="button"
+      sizeType="large"
+      loading={isLoading}
+      disabled={isLoading || disabled}
+      {...rest}
     >
       {children}
     </Button>

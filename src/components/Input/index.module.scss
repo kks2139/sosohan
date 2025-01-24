@@ -1,28 +1,57 @@
-$radius: 15px;
-$input-border: rgb(233, 233, 233);
+$border-color: rgb(233, 233, 233);
 
 .Input {
-  width: 100%;
-  border-radius: $radius;
-  border: 2px solid $input-border;
-  padding: 10px 15px;
-  transition: 0.2s;
-  font-weight: bold;
+  position: relative;
 
-  &.error {
-    border-color: rgb(255, 82, 82);
+  > input {
+    width: 100%;
+    border-radius: $border-radius-1;
+    border: 1px solid $border-color;
+    padding: 10px 15px;
+    transition: 0.2s;
+    font-weight: bold;
+
+    &.error {
+      border-color: $red-1;
+      box-shadow: 0 0 0 3px $red-3;
+    }
+
+    &:disabled {
+      background-color: $gray-0;
+      border-color: transparent;
+    }
+
+    &:focus:not(.error) {
+      border-color: $main-1;
+      box-shadow: 0 0 0 3px $main-3;
+    }
+
+    &::placeholder {
+      font-weight: 400;
+    }
   }
 
-  &:disabled {
-    background-color: $gray-0;
-    border-color: transparent;
-  }
+  .error-tooltip {
+    z-index: 11;
+    position: absolute;
+    top: -30px;
+    right: 0;
+    background-color: $red-2;
+    color: white;
+    padding: 3px 10px;
+    font-size: 13px;
+    border-radius: $border-radius-2;
 
-  &:focus {
-    border-color: $main-1;
-  }
-
-  &::placeholder {
-    font-weight: 400;
+    &::after {
+      content: "";
+      z-index: -1;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%) rotate(45deg);
+      width: 8px;
+      height: 8px;
+      background-color: $red-2;
+    }
   }
 }

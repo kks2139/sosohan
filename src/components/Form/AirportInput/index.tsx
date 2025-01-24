@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -12,7 +13,8 @@ import {
 
 import Input from "@/components/Input";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { AirportData, airportStore } from "@/store/airport";
+import { QUERY_KEY } from "@/queries/queryKeys";
+import { AirportData, AirportInfo } from "@/queries/useAirportQuery";
 
 import styles from "./index.module.scss";
 
@@ -22,15 +24,29 @@ const DEFAULT_MAX_ROW = 30;
 type AirportDataKey = keyof AirportData;
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
   isLoading?: boolean;
+  errorMessages?: string[];
+  onChange?: () => void;
+  onAirportSelected?: (airport: AirportData) => void;
 }
 
-function AirportInput({ name, isLoading, ...rest }: Props) {
-  const { airportInfo: { data: airports } = {} } = airportStore();
-  const [isFocused, setIsFocused] = useState(false);
+function AirportInput({
+  name,
+  isLoading,
+  errorMessages,
+  onChange,
+  onAirportSelected,
+  ...rest
+}: Props) {
+  const queryClient = useQueryClient();
+  const airports = queryClient.getQueryData<AirportInfo>([
+    QUERY_KEY.AIRPORT,
+  ])?.data;
+
   const [inputValue, setInputValue] = useState("");
-  const [selectedAirportCode, setSelectedAirportCode] = useState<string>("");
+  const [selectedCode, setSelectedCode] = useState<string>();
+
+  const [isFocused, setIsFocused] = useState(false);
   const [selectBoxElement, setSelectBoxElement] = useState<Element | null>(
     null
   );
@@ -52,7 +68,7 @@ function AirportInput({ name, isLoading, ...rest }: Props) {
       return fields.some((field) =>
         a[field]
           ?.toLowerCase()
-          .includes((selectedAirportCode || inputValue).toLowerCase())
+          .includes((selectedCode || inputValue).toLowerCase())
       );
     }) || [];
   const isShowSelectBox =
@@ -65,7 +81,9 @@ function AirportInput({ name, isLoading, ...rest }: Props) {
 
   const selectAirport = (selected: AirportData) => {
     setInputValue(selected.한글공항);
-    setSelectedAirportCode(selected["공항코드1(IATA)"]);
+    setSelectedCode(selected["공항코드1(IATA)"]);
+
+    onAirportSelected?.(selected);
   };
 
   useIntersectionObserver({
@@ -137,6 +155,7 @@ function AirportInput({ name, isLoading, ...rest }: Props) {
         name={name}
         disabled={isLoading}
         autoComplete="off"
+        errorMessages={errorMessages}
         onFocus={() => setIsFocused(true)}
         onBlur={() => {
           resetFocusedRow();
@@ -146,7 +165,9 @@ function AirportInput({ name, isLoading, ...rest }: Props) {
           resetFocusedRow();
           setIsFocused(true);
           setInputValue(e.target.value.trim());
-          setSelectedAirportCode("");
+          setSelectedCode(undefined);
+
+          onChange?.();
         }}
         onKeyDown={(e) => {
           const noFocusedRow = focusedRow === undefined;
@@ -192,7 +213,7 @@ function AirportInput({ name, isLoading, ...rest }: Props) {
           type="button"
           onMouseDown={() => {
             setInputValue("");
-            setSelectedAirportCode("");
+            setSelectedCode(undefined);
           }}
         >
           <span>X</span>

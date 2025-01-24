@@ -1,44 +1,38 @@
 import classNames from "classnames/bind";
+import { ButtonHTMLAttributes } from "react";
 
 import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 
-interface Props {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
-  onClick?: () => void;
-  size?: "large" | "regular";
-  type?: HTMLButtonElement["type"];
+  sizeType?: "large" | "regular";
   fullWidth?: boolean;
   loading?: boolean;
   disabled?: boolean;
   floating?: boolean;
-  id?: string;
 }
 
 function Button({
   children,
-  onClick,
-  size = "regular",
-  type = "button",
+  sizeType = "regular",
   fullWidth,
   loading,
   disabled,
   floating,
-  id,
+  ...rest
 }: Props) {
   return (
     <button
-      id={id}
       className={cn("Button", {
-        [size]: true,
+        [sizeType]: true,
         "full-width": fullWidth,
         loading,
         floating,
       })}
-      type={type}
       disabled={disabled || loading}
-      onClick={onClick}
+      {...rest}
     >
       <div className={cn("dots")}>
         <div />

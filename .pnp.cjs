@@ -49,6 +49,7 @@ const RAW_RUNTIME_STATE =
           ["react-dom", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:18.3.1"],\
           ["sass", "npm:1.77.8"],\
           ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"],\
+          ["zod", "npm:3.24.1"],\
           ["zustand", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:4.5.5"]\
         ],\
         "linkType": "SOFT"\
@@ -4942,6 +4943,7 @@ const RAW_RUNTIME_STATE =
           ["react-dom", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:18.3.1"],\
           ["sass", "npm:1.77.8"],\
           ["typescript", "patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"],\
+          ["zod", "npm:3.24.1"],\
           ["zustand", "virtual:c4697b0b43bf39ca04c5840463e114482aa0ac04b3c47d6d0172bc0d18f1298e16a6100ef4ff318f708ad75b767d3400e1279e0adde1665765cb114c3a987516#npm:4.5.5"]\
         ],\
         "linkType": "SOFT"\
@@ -5775,6 +5777,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/zod-npm-3.23.8-11c49c85b5-8f14c87d6b.zip/node_modules/zod/",\
         "packageDependencies": [\
           ["zod", "npm:3.23.8"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:3.24.1", {\
+        "packageLocation": "./.yarn/cache/zod-npm-3.24.1-62ba4e84b3-0223d21dba.zip/node_modules/zod/",\
+        "packageDependencies": [\
+          ["zod", "npm:3.24.1"]\
         ],\
         "linkType": "HARD"\
       }]\
