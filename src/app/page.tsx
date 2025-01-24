@@ -8,6 +8,7 @@ import ImgHana from "@/assets/img/hana_logo.png";
 import ImgMode from "@/assets/img/mode_logo.png";
 import ImgOnline from "@/assets/img/online_logo.png";
 import ImgSLoad from "@/assets/img/s_load.png";
+import Button from "@/components/Button";
 
 import styles from "./page.module.scss";
 import SimpleInfo from "./SimpleInfo";
@@ -40,6 +41,8 @@ function Page() {
           />
         </div>
       </section>
+
+      <Button>TEST</Button>
 
       <SimpleInfo />
     </div>
