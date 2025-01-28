@@ -8,13 +8,15 @@ async function evalHanaPage(contentRootSelector: string, page: Page) {
     // 브라우저 컨택스트에서 실행되므로, 코드를 import 해오면 참조하지 못함.
     // --> 콜백 내에서 직접 기능 구현하여 사용
     const trimText = (str: string) => str.replace(/\n|\//g, "").trim();
+    const removeParentheses = (str: string) =>
+      str.replace(/\s*\([^)]*\)\s*/g, "");
 
     return els.map((el) => {
       const row1 = el.querySelector("p:nth-child(2) > span");
       const row2 = el.querySelector("div:nth-child(3)");
       const departure: Record<string, string> = {
         airLine: row1?.childNodes[1]?.textContent || "",
-        date: row1?.lastChild?.firstChild?.textContent || "",
+        date: removeParentheses(row1?.lastChild?.firstChild?.textContent || ""),
         startLocation: row2?.firstChild?.firstChild?.textContent || "",
         startTime: row2?.firstChild?.lastChild?.firstChild?.textContent || "",
         endLocation: row2?.lastChild?.firstChild?.textContent || "",
@@ -29,7 +31,7 @@ async function evalHanaPage(contentRootSelector: string, page: Page) {
       const row4 = el.querySelector("div:nth-child(5)");
       const back: Record<string, string> = {
         airLine: row3?.childNodes[1]?.textContent || "",
-        date: row3?.lastChild?.firstChild?.textContent || "",
+        date: removeParentheses(row3?.lastChild?.firstChild?.textContent || ""),
         startLocation: row4?.firstChild?.firstChild?.textContent || "",
         startTime: row4?.firstChild?.lastChild?.firstChild?.textContent || "",
         endLocation: row4?.lastChild?.firstChild?.textContent || "",
@@ -53,6 +55,7 @@ async function evalHanaPage(contentRootSelector: string, page: Page) {
         back,
         price,
         member,
+        scrapTarget: "HANA_TOUR" as ScrapTarget,
       };
     });
   });

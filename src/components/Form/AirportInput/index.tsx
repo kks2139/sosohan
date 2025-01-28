@@ -26,6 +26,7 @@ type AirportDataKey = keyof AirportData;
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   isLoading?: boolean;
   errorMessages?: string[];
+  defaultAirportCode?: string;
   onChange?: () => void;
   onAirportSelected?: (airport: AirportData) => void;
 }
@@ -34,6 +35,7 @@ function AirportInput({
   name,
   isLoading,
   errorMessages,
+  defaultAirportCode,
   onChange,
   onAirportSelected,
   ...rest
@@ -43,8 +45,13 @@ function AirportInput({
     QUERY_KEY.AIRPORT,
   ])?.data;
 
-  const [inputValue, setInputValue] = useState("");
-  const [selectedCode, setSelectedCode] = useState<string>();
+  const [inputValue, setInputValue] = useState(
+    airports?.find((a) => a["공항코드1(IATA)"] === defaultAirportCode)
+      ?.한글공항 || ""
+  );
+  const [selectedCode, setSelectedCode] = useState<string | undefined>(
+    defaultAirportCode
+  );
 
   const [isFocused, setIsFocused] = useState(false);
   const [selectBoxElement, setSelectBoxElement] = useState<Element | null>(

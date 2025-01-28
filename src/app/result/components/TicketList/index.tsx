@@ -1,16 +1,19 @@
-"use client";
-
 import classNames from "classnames/bind";
 import Image from "next/image";
 
 import ImgInfo from "@/assets/img/info_2.png";
+import { ScrapingResultData } from "@/queries/useScrapingQuery";
 
 import Ticket from "../Ticket";
 import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 
-function TicketList() {
+interface Props {
+  results: ScrapingResultData[];
+}
+
+function TicketList({ results }: Props) {
   return (
     <div className={cn("TicketList")}>
       <div className={cn("sort")}>
@@ -22,10 +25,8 @@ function TicketList() {
 
       {/* TODO: 스크래핑 호출, 결과목록 노출 */}
       <ul className={cn("list-container")}>
-        {new Array(10).fill(0).map((_, i) => (
-          <li key={i}>
-            <Ticket />
-          </li>
+        {results?.map((data, idx) => (
+          <Ticket key={idx} departureAndBackInfo={data} />
         ))}
       </ul>
     </div>
