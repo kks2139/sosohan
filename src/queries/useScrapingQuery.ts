@@ -18,7 +18,7 @@ export interface ScrapingResultData {
   back: Airport;
   price: number;
   member: string;
-  target: ScrapTarget;
+  scrapTarget: ScrapTarget;
 }
 
 interface ResponseData {

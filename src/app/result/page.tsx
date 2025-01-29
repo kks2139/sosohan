@@ -15,22 +15,27 @@ function Page() {
   const params = useSearchParams();
   const startCode = params.get("start_code");
   const endCode = params.get("end_code");
-  const { data } = useScrapingQuery();
-
-  console.log(startCode, endCode, data);
+  const { data, isLoading: isScrapingLoading } = useScrapingQuery();
 
   const results =
     data?.filter(({ departure: { startLocation, endLocation } }) => {
       return (
         startLocation.includes(startCode || "") &&
-        endLocation.includes(endCode || "")
+        (endCode === "empty" ? true : endLocation.includes(endCode || ""))
       );
     }) || [];
 
   return (
     <div className={cn("Page")}>
       <ResultHeader />
-      <TicketList results={results} />
+
+      {isScrapingLoading ? (
+        <div>로딩중..</div>
+      ) : (
+        <section className={cn("ticket-list")}>
+          <TicketList results={results} />
+        </section>
+      )}
     </div>
   );
 }

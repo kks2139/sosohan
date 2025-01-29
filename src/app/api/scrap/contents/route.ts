@@ -12,8 +12,12 @@ async function evalHanaPage(contentRootSelector: string, page: Page) {
       str.replace(/\s*\([^)]*\)\s*/g, "");
 
     return els.map((el) => {
-      const row1 = el.querySelector("p:nth-child(2) > span");
-      const row2 = el.querySelector("div:nth-child(3)");
+      const hasTopAlarm = el.querySelector("div.top_alarm");
+
+      const row1 = el.querySelector("p.air:nth-of-type(1) > span");
+      const row2 = el.querySelector(
+        `div.item_course:nth-of-type(${hasTopAlarm ? 2 : 1})`
+      );
       const departure: Record<string, string> = {
         airLine: row1?.childNodes[1]?.textContent || "",
         date: removeParentheses(row1?.lastChild?.firstChild?.textContent || ""),
@@ -27,8 +31,10 @@ async function evalHanaPage(contentRootSelector: string, page: Page) {
         departure[key] = trimText(departure[key]);
       }
 
-      const row3 = el.querySelector("p:nth-child(4) > span");
-      const row4 = el.querySelector("div:nth-child(5)");
+      const row3 = el.querySelector("p.air:nth-of-type(2) > span");
+      const row4 = el.querySelector(
+        `div.item_course:nth-of-type(${hasTopAlarm ? 3 : 2})`
+      );
       const back: Record<string, string> = {
         airLine: row3?.childNodes[1]?.textContent || "",
         date: removeParentheses(row3?.lastChild?.firstChild?.textContent || ""),
