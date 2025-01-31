@@ -2,7 +2,6 @@ import classNames from "classnames/bind";
 import Image from "next/image";
 
 import ImgAirPlane from "@/assets/img/air_plane.png";
-import ImgOnline from "@/assets/img/online_logo.png";
 import ImgSLoad from "@/assets/img/s_load.png";
 import ToastMessages from "@/components/ToastMessages";
 
@@ -12,7 +11,6 @@ import SimpleInfo from "./SimpleInfo";
 const cn = classNames.bind(styles);
 
 function Page() {
-  console.log(ImgOnline);
   return (
     <div className={cn("Page")}>
       <section className={cn("intro")}>
