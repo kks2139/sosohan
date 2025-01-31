@@ -1,45 +1,119 @@
 "use client";
 
 import classNames from "classnames/bind";
+import { format, parse } from "date-fns";
+import { ko } from "date-fns/locale";
 import Image from "next/image";
+import { ArrowRight } from "react-feather";
 
-import ImgArrowRight from "@/assets/img/arrow_right.png";
-import ImgJinAir from "@/assets/img/logo_jinair.png";
+import { ScrapingResultData } from "@/queries/useScrapingQuery";
+import { getAirLineLogo, scrapTargetInfo } from "@/utils/constant";
 
 import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
+const FORMAT_STR = "yyyy.MM.dd";
 
-function Ticket() {
-  // TODO: 데이터 매핑
+interface Prop {
+  departureAndBackInfo: ScrapingResultData;
+}
+
+function Ticket({ departureAndBackInfo }: Prop) {
+  const now = new Date();
+  const { departure, back, price, scrapTarget } = departureAndBackInfo;
+
+  const infos = ["departure", "back"].map((type) => {
+    const isDeparture = type === "departure";
+    const departureDate = parse(departure.date, FORMAT_STR, now);
+    const backDate = parse(back.date, FORMAT_STR, now);
+    const info = isDeparture ? departure : back;
+
+    return {
+      title: isDeparture ? "출국" : "귀국",
+      date: format(isDeparture ? departureDate : backDate, "yyyy-MM-dd (E)", {
+        locale: ko,
+      }),
+      airLineLogo: getAirLineLogo(info.airLine),
+      airLineName: info.airLine,
+      startLocation: info.startLocation,
+      startTime: info.startTime,
+      endLocation: info.endLocation,
+      endTime: info.endTime,
+    };
+  });
 
   return (
-    <div className={cn("Ticket")}>
-      <div className={cn("info")}>
-        <Image
-          className={cn("logo")}
-          src={ImgJinAir}
-          alt=""
-          width={40}
-          height={40}
-        />
-        <div className={cn("detail")}>
-          <p className={cn("period")}>24.09.11 ~ 24.09.15 [5일]</p>
-          <p className={cn("air-line")}>진에어 | 하나투어</p>
-        </div>
-        <Image
-          className={cn("arrow")}
-          src={ImgArrowRight}
-          alt=""
-          width={10}
-          height={10}
-        />
-      </div>
+    <li className={cn("Ticket")}>
+      <button
+        type="button"
+        onClick={() => {
+          window.open(scrapTargetInfo[scrapTarget].url);
+        }}
+      >
+        <ul className={cn("info")}>
+          {infos.map(
+            (
+              {
+                title,
+                airLineLogo,
+                airLineName,
+                date,
+                startLocation,
+                startTime,
+                endLocation,
+                endTime,
+              },
+              idx
+            ) => (
+              <li key={idx} className={cn("detail")}>
+                <div className={cn("start-position")}>{title}</div>
 
-      <div className={cn("price")}>
-        <p>289,000원</p>
-      </div>
-    </div>
+                <div>
+                  <div className={cn("title")}>
+                    <Image
+                      className={cn("logo")}
+                      src={airLineLogo}
+                      alt={airLineName}
+                      width={28}
+                      height={28}
+                    />
+                    <div className={cn("air-line")}>{airLineName}</div>
+                  </div>
+
+                  <div className={cn("date")}>
+                    <span className={cn("label")}>{date}</span>
+                  </div>
+
+                  <div className={cn("location")}>
+                    <div className={cn("item")}>
+                      <div className={cn("loca")}>{startLocation}</div>
+                      <div className={cn("time")}>{startTime}</div>
+                    </div>
+
+                    <ArrowRight
+                      className={cn("arrow-icon")}
+                      size={13}
+                      strokeWidth={2}
+                      color="#636363"
+                    />
+
+                    <div className={cn("item")}>
+                      <div className={cn("loca")}>{endLocation}</div>
+                      <div className={cn("time")}>{endTime}</div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            )
+          )}
+        </ul>
+
+        <div className={cn("price")}>
+          <span>가격 : </span>
+          <p>{price.toLocaleString()}원</p>
+        </div>
+      </button>
+    </li>
   );
 }
 

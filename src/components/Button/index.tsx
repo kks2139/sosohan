@@ -21,6 +21,7 @@ function Button({
   loading,
   disabled,
   floating,
+  type = "button",
   ...rest
 }: Props) {
   return (
@@ -31,6 +32,7 @@ function Button({
         loading,
         floating,
       })}
+      type={type}
       disabled={disabled || loading}
       {...rest}
     >

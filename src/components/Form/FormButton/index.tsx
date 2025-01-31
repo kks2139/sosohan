@@ -13,7 +13,7 @@ function FormButton({ children, isLoading, disabled, ...rest }: Props) {
       type="button"
       sizeType="large"
       loading={isLoading}
-      disabled={isLoading || disabled}
+      disabled={disabled}
       {...rest}
     >
       {children}

@@ -1,41 +1,126 @@
 "use client";
 
 import classNames from "classnames/bind";
-import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { Check, FileText, Meh } from "react-feather";
 
-import ImgAirPlane from "@/assets/img/air_plain_2.png";
-import ImgSLoad from "@/assets/img/s_load_2.png";
+import Skeleton from "@/components/Skeleton";
+import { useAirportQuery } from "@/queries/useAirportQuery";
+import { useScrapingQuery } from "@/queries/useScrapingQuery";
 
 import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
 
-function ResultHeader() {
+interface Props {
+  startCode?: string | null;
+  endCode?: string | null;
+  hasResults?: boolean;
+}
+
+function ResultHeader({ startCode, endCode, hasResults }: Props) {
+  const router = useRouter();
+  const { data } = useAirportQuery();
+  const { isLoading: isScrapingLoading } = useScrapingQuery();
+
+  const startAirportName = data?.find(
+    (a) => a["공항코드1(IATA)"] === startCode
+  )?.한글공항;
+  const endAirportName = data?.find(
+    (a) => a["공항코드1(IATA)"] === endCode
+  )?.한글공항;
+
   return (
     <section className={cn("ResultHeader")}>
       <div className={cn("title")}>
-        s
         <h1>
-          가능한 <span>항공권</span>을<br />
-          모두 찾았어요!
+          {isScrapingLoading ? (
+            <span>
+              <strong>항공권</strong>을 찾고있어요
+              <br />
+              조금만 기다려주세요
+            </span>
+          ) : !hasResults ? (
+            <span>
+              조건에 맞는
+              <br /> <strong>항공권</strong>이 없어요
+            </span>
+          ) : (
+            <span>
+              가능한 <strong>항공권</strong>을<br />
+              모두 찾았어요!
+            </span>
+          )}
         </h1>
-        <div className={cn("images")}>
-          <Image src={ImgAirPlane} alt="" width={60} height={60} />
-          <Image src={ImgSLoad} alt="" width={41} height={41} />
-        </div>
+
+        <AnimatePresence>
+          <div className={cn("motion-icon")}>
+            {isScrapingLoading ? (
+              Array(3)
+                .fill(0)
+                .map((_, idx) => (
+                  <FileText
+                    key={idx}
+                    className={cn("file")}
+                    size={50}
+                    fill="white"
+                    strokeWidth={2}
+                  />
+                ))
+            ) : (
+              <motion.div
+                className={cn("motion-div")}
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 8 }}
+                transition={{ duration: 0.5 }}
+              >
+                {hasResults ? (
+                  <Check className={cn("check")} size={50} strokeWidth={3} />
+                ) : (
+                  <Meh className={cn("meh")} size={50} strokeWidth={3} />
+                )}
+              </motion.div>
+            )}
+          </div>
+        </AnimatePresence>
       </div>
 
-      {/* <p className={cn("tour-info")}>
-        {`${areaCodeToKorean[departureArea]} > ${
-          areaCodeToKorean[arrivalArea]
-        } | ${format(departureDate, "M.d")} ~ ${format(
-          arrivalDate,
-          "M.d"
-        )} | ${members
-          .filter(({ count }) => !!count)
-          .map(({ type, count }) => `${memberTypeToKorean[type]} ${count}`)
-          .join(". ")}`}
-      </p> */}
+      <div className={cn("search-info")}>
+        {isScrapingLoading ? (
+          <div className={cn("skeletons")}>
+            <Skeleton width={220} />
+            <Skeleton width={120} />
+            <Skeleton width={120} />
+          </div>
+        ) : (
+          <>
+            <div className={cn("condition")}>
+              <span className={cn("label")}>출국 {"-"} </span>
+              <span>{`${startAirportName}`}</span>
+              <span className={cn("code")}>{`(${startCode})`}</span>
+            </div>
+            <div className={cn("condition")}>
+              <span className={cn("label")}>귀국 {"-"} </span>
+              <span>{`${endAirportName || "선택안함"}`}</span>
+              {endCode !== "empty" && (
+                <span className={cn("code")}>{`(${endCode})`}</span>
+              )}
+            </div>
+            {hasResults && (
+              <button
+                className={cn("go-back")}
+                type="button"
+                onClick={() => {
+                  router.replace("/");
+                }}
+              >
+                검색조건 다시 입력
+              </button>
+            )}
+          </>
+        )}
+      </div>
     </section>
   );
 }

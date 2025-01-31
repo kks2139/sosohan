@@ -1,6 +1,7 @@
 "use client";
 
 import classNames from "classnames/bind";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { z } from "zod";
 
@@ -15,35 +16,35 @@ import styles from "./SimpleInfo.module.scss";
 const cn = classNames.bind(styles);
 
 const formInputSchema = z.object({
-  startAirport: z.string({
-    required_error: "출발 공항을 선택해 주세요",
-  }),
-  endAirport: z.string({
-    required_error: "도착 공항을 선택해 주세요",
+  startCode: z.string({
+    required_error: "출발 공항을 선택해주세요",
   }),
 });
 
 function SimpleInfo() {
+  const router = useRouter();
   useScrapingQuery();
   const { isLoading: isAirportLoading } = useAirportQuery();
   const { selectedStartAirport, selectedEndAirport, setSelectedAirport } =
     airportStore();
+
   const [error, setError] = useState<{
-    startAirport?: string[];
-    endAirport?: string[];
+    startCode?: string[];
   }>();
 
   const resetAirportError = (type: "start" | "end") => {
-    setError({ ...error, [`${type}Airport`]: undefined });
+    setError({ ...error, [`${type}Code`]: undefined });
   };
 
   return (
     <section className={cn("SimpleInfo")}>
       <form className={cn("form")}>
+        <h4 className={cn("title")}>출국 정보를 입력해주세요</h4>
         <AirportInput
           placeholder="출발 공항"
           isLoading={isAirportLoading}
-          errorMessages={error?.startAirport}
+          errorMessages={error?.startCode}
+          defaultAirportCode={selectedStartAirport?.["공항코드1(IATA)"]}
           onChange={() => {
             setSelectedAirport("start", undefined);
             resetAirportError("start");
@@ -56,7 +57,7 @@ function SimpleInfo() {
         <AirportInput
           placeholder="도착 공항"
           isLoading={isAirportLoading}
-          errorMessages={error?.endAirport}
+          defaultAirportCode={selectedEndAirport?.["공항코드1(IATA)"]}
           onChange={() => {
             setSelectedAirport("end", undefined);
             resetAirportError("end");
@@ -67,30 +68,31 @@ function SimpleInfo() {
           }}
         />
         <FormButton
-          isLoading={isAirportLoading}
           onClick={() => {
-            const result = formInputSchema.safeParse({
-              startAirport: selectedStartAirport?.["공항코드1(IATA)"],
-              endAirport: selectedEndAirport?.["공항코드1(IATA)"],
+            const startAirportCode = selectedStartAirport?.["공항코드1(IATA)"];
+            const endAirportCode =
+              selectedEndAirport?.["공항코드1(IATA)"] || "empty";
+
+            const validation = formInputSchema.safeParse({
+              startCode: startAirportCode,
             });
 
-            if (!result.success) {
-              const { startAirport, endAirport } =
-                result.error.flatten().fieldErrors;
+            if (!validation.success) {
+              const { startCode } = validation.error.flatten().fieldErrors;
 
               setError({
-                startAirport,
-                endAirport,
+                startCode,
               });
 
               return;
             }
 
-            // TODO: 입력값으로 검색
-            console.log("에러없음");
+            router.push(
+              `/result?start_code=${startAirportCode}&end_code=${endAirportCode}`
+            );
           }}
         >
-          최저가 검색하기
+          검색하기
         </FormButton>
       </form>
     </section>
