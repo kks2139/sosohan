@@ -17,7 +17,7 @@ const cn = classNames.bind(styles);
 
 const formInputSchema = z.object({
   startCode: z.string({
-    required_error: "출발 공항은 필수 입력이에요",
+    required_error: "출발 공항을 선택해주세요",
   }),
 });
 
@@ -27,17 +27,19 @@ function SimpleInfo() {
   const { isLoading: isAirportLoading } = useAirportQuery();
   const { selectedStartAirport, selectedEndAirport, setSelectedAirport } =
     airportStore();
+
   const [error, setError] = useState<{
     startCode?: string[];
   }>();
 
   const resetAirportError = (type: "start" | "end") => {
-    setError({ ...error, [`${type}Airport`]: undefined });
+    setError({ ...error, [`${type}Code`]: undefined });
   };
 
   return (
     <section className={cn("SimpleInfo")}>
       <form className={cn("form")}>
+        <h4 className={cn("title")}>출국 정보를 입력해주세요</h4>
         <AirportInput
           placeholder="출발 공항"
           isLoading={isAirportLoading}
@@ -66,7 +68,6 @@ function SimpleInfo() {
           }}
         />
         <FormButton
-          isLoading={isAirportLoading}
           onClick={() => {
             const startAirportCode = selectedStartAirport?.["공항코드1(IATA)"];
             const endAirportCode =

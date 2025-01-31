@@ -37,28 +37,5 @@ export function useScrapingQuery() {
 
       return data.result;
     },
-    select: (data) => {
-      return data;
-
-      // if (!getIsSelectedAirport()) {
-      //   return undefined;
-      // }
-
-      // const filteredDepatureAirports = data.filter(
-      //   ({ departure: { startLocation, endLocation } }) => {
-      //     return (
-      //       startLocation.includes(
-      //         selectedStartAirport?.["공항코드1(IATA)"] || ""
-      //       ) &&
-      //       endLocation.includes(selectedEndAirport?.["공항코드1(IATA)"] || "")
-      //     );
-      //   }
-      // );
-
-      // return {
-      //   original: data,
-      //   filteredDepatureAirports,
-      // };
-    },
   });
 }

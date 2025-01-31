@@ -1,11 +1,36 @@
 .Page {
   padding: 60px 20px 80px;
-  background-color: #3a77cc15;
   height: 100vh;
   overflow-y: auto;
 
+  .loading {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 200px;
+    padding: 30px;
+    margin-top: 30px;
+
+    .skeleton-container {
+      width: 48%;
+      padding: 20px;
+      background-color: rgb(240, 240, 240);
+      border-radius: $border-radius-1;
+      margin-bottom: 60px;
+
+      > * {
+        margin-bottom: 10px;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
   .ticket-list {
-    margin-top: 50px;
+    margin-top: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;

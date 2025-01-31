@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { X as XIcon } from "react-feather";
 
 import Input from "@/components/Input";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
@@ -25,6 +26,7 @@ type AirportDataKey = keyof AirportData;
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   isLoading?: boolean;
+  label?: string;
   errorMessages?: string[];
   defaultAirportCode?: string;
   onChange?: () => void;
@@ -32,8 +34,8 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 function AirportInput({
-  name,
   isLoading,
+  label,
   errorMessages,
   defaultAirportCode,
   onChange,
@@ -78,8 +80,7 @@ function AirportInput({
           .includes((selectedCode || inputValue).toLowerCase())
       );
     }) || [];
-  const isShowSelectBox =
-    isFocused && !!inputValue && filteredAirports.length > 0 && !isLoading;
+  const isShowSelectBox = isFocused && !!inputValue;
 
   const resetFocusedRow = useCallback(() => {
     setFocusedRow(undefined);
@@ -159,8 +160,7 @@ function AirportInput({
     <div ref={rootRef} className={cn("AirportInput")}>
       <Input
         {...rest}
-        name={name}
-        disabled={isLoading}
+        label={label}
         autoComplete="off"
         errorMessages={errorMessages}
         onFocus={() => setIsFocused(true)}
@@ -205,7 +205,7 @@ function AirportInput({
               resetFocusedRow();
 
               break;
-            case keys[4]:
+            case keys[3]:
               setIsFocused(false);
               resetFocusedRow();
               break;
@@ -223,7 +223,7 @@ function AirportInput({
             setSelectedCode(undefined);
           }}
         >
-          <span>X</span>
+          <XIcon size={25} />
         </button>
       )}
 
@@ -237,8 +237,14 @@ function AirportInput({
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.1 }}
           >
-            {filteredAirports.slice(0, maxRow).map((airport, idx) => {
-              return (
+            {isLoading ? (
+              <div className={cn("loading")}>
+                <span>공항 정보 불러오는중..</span>
+              </div>
+            ) : filteredAirports.length === 0 ? (
+              <div className={cn("no-result")}>검색 결과가 없어요.</div>
+            ) : (
+              filteredAirports.slice(0, maxRow).map((airport, idx) => (
                 <li
                   ref={(node) => {
                     if (idx === focusedRow && node) {
@@ -246,7 +252,7 @@ function AirportInput({
                     }
                   }}
                   key={airport["공항코드1(IATA)"]}
-                  className={cn({
+                  className={cn("item", {
                     darker: idx % 2 === 0,
                     "is-selecting": focusedRow === idx,
                   })}
@@ -267,8 +273,8 @@ function AirportInput({
                     <span className={cn("sub")}>{airport.한글국가명}</span>
                   </button>
                 </li>
-              );
-            })}
+              ))
+            )}
             <div className={cn("bottom")} ref={selectBottomRef}></div>
           </motion.ul>
         )}

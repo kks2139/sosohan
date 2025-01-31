@@ -6,8 +6,8 @@ import { ko } from "date-fns/locale";
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
 
-import ImgJinAir from "@/assets/img/logo_jinair.png";
 import { ScrapingResultData } from "@/queries/useScrapingQuery";
+import { getAirLineLogo, scrapTargetInfo } from "@/utils/constant";
 
 import styles from "./index.module.scss";
 
@@ -20,7 +20,7 @@ interface Prop {
 
 function Ticket({ departureAndBackInfo }: Prop) {
   const now = new Date();
-  const { departure, back, price } = departureAndBackInfo;
+  const { departure, back, price, scrapTarget } = departureAndBackInfo;
   const departureDate = parse(departure.date, FORMAT_STR, now);
   const backDate = parse(back.date, FORMAT_STR, now);
 
@@ -30,7 +30,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
       date: format(departureDate, "yyyy-MM-dd (E)", {
         locale: ko,
       }),
-      airLineLogo: ImgJinAir,
+      airLineLogo: getAirLineLogo(departure.airLine),
       airLineName: departure.airLine,
       startLocation: departure.startLocation,
       startTime: departure.startTime,
@@ -40,7 +40,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
     {
       title: "귀국",
       date: format(backDate, "yyyy-MM-dd (E)", { locale: ko }),
-      airLineLogo: ImgJinAir,
+      airLineLogo: getAirLineLogo(back.airLine),
       airLineName: back.airLine,
       startLocation: back.startLocation,
       startTime: back.startTime,
@@ -51,7 +51,12 @@ function Ticket({ departureAndBackInfo }: Prop) {
 
   return (
     <li className={cn("Ticket")}>
-      <button>
+      <button
+        type="button"
+        onClick={() => {
+          window.open(scrapTargetInfo[scrapTarget].url);
+        }}
+      >
         <ul className={cn("info")}>
           {infos.map(
             (

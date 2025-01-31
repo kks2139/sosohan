@@ -1,3 +1,28 @@
+import { StaticImageData } from "next/image";
+
+import LogoAirasia from "@/assets/img/airline-logo/logo_airasia.png";
+import LogoAirbusan from "@/assets/img/airline-logo/logo_airbusan.png";
+import LogoAirpremia from "@/assets/img/airline-logo/logo_airpremia.png";
+import LogoAirseoul from "@/assets/img/airline-logo/logo_airseoul.png";
+import LogoAsiana from "@/assets/img/airline-logo/logo_asiana.png";
+import LogoBasic from "@/assets/img/airline-logo/logo_basic.png";
+import LogoCatar from "@/assets/img/airline-logo/logo_catar.png";
+import LogoChinanambang from "@/assets/img/airline-logo/logo_chinanambang.png";
+import LogoDeahan from "@/assets/img/airline-logo/logo_deahan.png";
+import LogoEsta from "@/assets/img/airline-logo/logo_esta.png";
+import LogoEtihard from "@/assets/img/airline-logo/logo_etihard.png";
+import LogoFinland from "@/assets/img/airline-logo/logo_finland.png";
+import LogoGba from "@/assets/img/airline-logo/logo_gba.png";
+import LogoHawaian from "@/assets/img/airline-logo/logo_hawaian.png";
+import LogoHongkong from "@/assets/img/airline-logo/logo_hongkong.png";
+import LogoJeju from "@/assets/img/airline-logo/logo_jeju.png";
+import LogoJetstar from "@/assets/img/airline-logo/logo_jetstar.png";
+import LogoJinair from "@/assets/img/airline-logo/logo_jinair.png";
+import LogoJunghuwa from "@/assets/img/airline-logo/logo_junghuwa.png";
+import LogoSwiss from "@/assets/img/airline-logo/logo_swiss.png";
+import LogoTurkey from "@/assets/img/airline-logo/logo_turkey.png";
+import LogoTway from "@/assets/img/airline-logo/logo_tway.png";
+
 export const isDev = process.env.NODE_ENV === "development";
 
 export const apiOrigin = isDev
@@ -43,3 +68,40 @@ export const scrapTargetInfo: Record<
       "#main-layout-pc > main > div > div > div > div:nth-child(6) > div:nth-child(2) > div > div > div > div > div > div",
   },
 };
+
+export function getAirLineLogo(str: string) {
+  const logoMap: Record<string, StaticImageData> = {
+    대한항공: LogoDeahan,
+    아시아나항공: LogoAsiana,
+    티웨이항공: LogoTway,
+    제주공항: LogoJeju,
+    에어부산: LogoAirbusan,
+    진에어: LogoJinair,
+    이스타항공: LogoEsta,
+    에어서울: LogoAirseoul,
+    에어아시아: LogoAirasia,
+    젯스타항공: LogoJetstar,
+    제트스타: LogoJetstar,
+    에티하드항공: LogoEtihard,
+    카타르항공: LogoCatar,
+    터키항공: LogoTurkey,
+    에어프레미아: LogoAirpremia,
+    스위스항공: LogoSwiss,
+    핀란드항공: LogoFinland,
+    중국남방항공: LogoChinanambang,
+    GBA항공: LogoGba,
+    홍콩에어: LogoHongkong,
+    중화항공: LogoJunghuwa,
+    하와이안항공: LogoHawaian,
+  };
+
+  const filteredKey = Object.keys(logoMap).filter((key) =>
+    key.includes(str)
+  )[0];
+
+  if (!filteredKey) {
+    console.log(str);
+  }
+
+  return filteredKey ? logoMap[filteredKey] : LogoBasic;
+}

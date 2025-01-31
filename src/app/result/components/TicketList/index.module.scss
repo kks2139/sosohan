@@ -7,13 +7,25 @@
     display: flex;
     justify-content: flex-end;
     padding-right: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 
     > button {
       display: flex;
       align-items: center;
+      padding: 10px 20px;
+      border-radius: $border-radius-1;
       font-size: 18px;
       color: $dark-1;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: rgb(243, 243, 243);
+        box-shadow: 0 5px 6px -3px $gray-2;
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
 
       .label {
         font-weight: bold;

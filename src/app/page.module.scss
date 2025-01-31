@@ -1,6 +1,10 @@
 .Page {
   height: 100vh;
-  padding: 70px 45px 0;
+  padding: 70px 0 40px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .intro {
     display: flex;
@@ -23,15 +27,6 @@
       }
     }
 
-    .sub-title {
-      font-size: 15px;
-      color: $dark-1;
-
-      span {
-        color: $main-1;
-      }
-    }
-
     .key-visual {
       position: relative;
       margin-top: 30px;
@@ -43,5 +38,12 @@
         transform: rotate(-60deg);
       }
     }
+  }
+
+  .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

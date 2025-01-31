@@ -12,7 +12,7 @@
     }
 
     span {
-      color: $blue-1;
+      color: $main-1;
     }
 
     .images {
@@ -38,8 +38,40 @@
     }
   }
 
-  .tour-info {
-    font-size: 12px;
-    color: $dark-2;
+  .search-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    font-weight: bold;
+    color: $main-1;
+    margin-top: 40px;
+
+    > span {
+      &:first-of-type {
+        margin-bottom: 8px;
+      }
+    }
+
+    .label {
+      color: $dark-1;
+    }
+
+    .code {
+      color: $gray-4;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+
+    .go-back {
+      width: 150px;
+      padding: 5px 0;
+      transform: translateX(-5px);
+      text-align: center;
+      font-weight: bold;
+      font-size: 13px;
+      background-color: $gray-0;
+      border-radius: $border-radius-2;
+      color: $dark-1;
+    }
   }
 }

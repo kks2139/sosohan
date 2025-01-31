@@ -1,11 +1,22 @@
 .SimpleInfo {
+  width: 100%;
+  max-width: 450px;
+  min-width: 250px;
   margin-top: 115px;
 
   .form {
     display: flex;
     flex-direction: column;
+    width: 100%;
 
-    > * {
+    .title {
+      font-weight: bold;
+      font-size: 14px;
+      color: $gray-4;
+      margin: 0 0 10px 6px;
+    }
+
+    > *:not(.title) {
       margin-bottom: 15px;
     }
   }

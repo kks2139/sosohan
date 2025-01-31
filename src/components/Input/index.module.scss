@@ -3,6 +3,12 @@ $border-color: rgb(233, 233, 233);
 .Input {
   position: relative;
 
+  .label {
+    color: $gray-4;
+    font-size: 14px;
+    margin: 0 0 3px 6px;
+  }
+
   > input {
     width: 100%;
     border-radius: $border-radius-1;
@@ -34,7 +40,7 @@ $border-color: rgb(233, 233, 233);
   .error-tooltip {
     z-index: 11;
     position: absolute;
-    top: -30px;
+    top: -35px;
     right: 0;
     background-color: $red-2;
     color: white;

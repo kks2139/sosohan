@@ -9,7 +9,7 @@ interface Props {
   height?: number;
 }
 
-function Skeleton({ width, height = 30 }: Props) {
+function Skeleton({ width, height = 15 }: Props) {
   return (
     <div
       data-skeleton

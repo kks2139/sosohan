@@ -52,7 +52,7 @@ function TicketList({ results }: Props) {
           }}
         >
           <span className={cn("label")}>
-            {isSortedByLowPrice ? "낮은 가격순" : "빠른 출발일자순"}
+            {isSortedByLowPrice ? "낮은 가격순" : "빠른 출발순"}
           </span>
           <Sliders size={20} />
         </button>
