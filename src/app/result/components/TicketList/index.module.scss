@@ -71,6 +71,11 @@
       color: white;
       border-radius: $border-radius-0;
       background-color: $main-1;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: $main-2;
+      }
     }
   }
 }

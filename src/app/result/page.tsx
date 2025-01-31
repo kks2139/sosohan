@@ -2,7 +2,9 @@
 
 import classNames from "classnames/bind";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
+import DotLoading from "@/components/DotLoading";
 import { useScrapingQuery } from "@/queries/useScrapingQuery";
 
 import ResultHeader from "./components/ResultHeader";
@@ -12,7 +14,7 @@ import styles from "./page.module.scss";
 
 const cn = classNames.bind(styles);
 
-function Page() {
+function ResultContent() {
   const params = useSearchParams();
   const startCode = params.get("start_code");
   const endCode = params.get("end_code");
@@ -42,6 +44,14 @@ function Page() {
         </section>
       )}
     </div>
+  );
+}
+
+function Page() {
+  return (
+    <Suspense fallback={<DotLoading />}>
+      <ResultContent />
+    </Suspense>
   );
 }
 
