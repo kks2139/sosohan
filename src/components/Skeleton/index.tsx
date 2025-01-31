@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 const cn = classNames.bind(styles);
 
 interface Props {
-  width?: number;
+  width?: number | string;
   height?: number;
 }
 
@@ -14,7 +14,14 @@ function Skeleton({ width, height = 15 }: Props) {
     <div
       data-skeleton
       className={cn("Skeleton")}
-      style={{ width: width ? `${width}px` : "auto", height: `${height}px` }}
+      style={{
+        width: width
+          ? typeof width === "number"
+            ? `${width}px`
+            : width
+          : "auto",
+        height: `${height}px`,
+      }}
     ></div>
   );
 }

@@ -3,11 +3,11 @@
 import classNames from "classnames/bind";
 import { useSearchParams } from "next/navigation";
 
-import Skeleton from "@/components/Skeleton";
 import { useScrapingQuery } from "@/queries/useScrapingQuery";
 
 import ResultHeader from "./components/ResultHeader";
 import TicketList from "./components/TicketList";
+import ListSkeleton from "./components/TicketList/ListSkeleton";
 import styles from "./page.module.scss";
 
 const cn = classNames.bind(styles);
@@ -28,21 +28,14 @@ function Page() {
 
   return (
     <div className={cn("Page")}>
-      <ResultHeader startCode={startCode} endCode={endCode} />
+      <ResultHeader
+        startCode={startCode}
+        endCode={endCode}
+        hasResults={results.length > 0}
+      />
 
       {isScrapingLoading ? (
-        <ul className={cn("loading")}>
-          {Array(6)
-            .fill(0)
-            .map((_, idx) => (
-              <li key={idx} className={cn("skeleton-container")}>
-                <Skeleton width={50} />
-                <Skeleton width={200} />
-                <Skeleton width={200} />
-                <Skeleton width={100} />
-              </li>
-            ))}
-        </ul>
+        <ListSkeleton />
       ) : (
         <section className={cn("ticket-list")}>
           <TicketList results={results} />

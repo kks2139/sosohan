@@ -21,33 +21,26 @@ interface Prop {
 function Ticket({ departureAndBackInfo }: Prop) {
   const now = new Date();
   const { departure, back, price, scrapTarget } = departureAndBackInfo;
-  const departureDate = parse(departure.date, FORMAT_STR, now);
-  const backDate = parse(back.date, FORMAT_STR, now);
 
-  const infos = [
-    {
-      title: "출국",
-      date: format(departureDate, "yyyy-MM-dd (E)", {
+  const infos = ["departure", "back"].map((type) => {
+    const isDeparture = type === "departure";
+    const departureDate = parse(departure.date, FORMAT_STR, now);
+    const backDate = parse(back.date, FORMAT_STR, now);
+    const info = isDeparture ? departure : back;
+
+    return {
+      title: isDeparture ? "출국" : "귀국",
+      date: format(isDeparture ? departureDate : backDate, "yyyy-MM-dd (E)", {
         locale: ko,
       }),
-      airLineLogo: getAirLineLogo(departure.airLine),
-      airLineName: departure.airLine,
-      startLocation: departure.startLocation,
-      startTime: departure.startTime,
-      endLocation: departure.endLocation,
-      endTime: departure.endTime,
-    },
-    {
-      title: "귀국",
-      date: format(backDate, "yyyy-MM-dd (E)", { locale: ko }),
-      airLineLogo: getAirLineLogo(back.airLine),
-      airLineName: back.airLine,
-      startLocation: back.startLocation,
-      startTime: back.startTime,
-      endLocation: back.endLocation,
-      endTime: back.endTime,
-    },
-  ];
+      airLineLogo: getAirLineLogo(info.airLine),
+      airLineName: info.airLine,
+      startLocation: info.startLocation,
+      startTime: info.startTime,
+      endLocation: info.endLocation,
+      endTime: info.endTime,
+    };
+  });
 
   return (
     <li className={cn("Ticket")}>
@@ -63,6 +56,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
               {
                 title,
                 airLineLogo,
+                airLineName,
                 date,
                 startLocation,
                 startTime,
@@ -72,37 +66,41 @@ function Ticket({ departureAndBackInfo }: Prop) {
               idx
             ) => (
               <li key={idx} className={cn("detail")}>
-                <div className={cn("title")}>
-                  <Image
-                    className={cn("logo")}
-                    src={airLineLogo}
-                    alt=""
-                    width={25}
-                    height={25}
-                  />
-                  <h5>{title}</h5>
-                </div>
+                <div className={cn("start-position")}>{title}</div>
 
-                <div className={cn("date")}>
-                  <span className={cn("label")}>{date}</span>
-                </div>
-
-                <div className={cn("location")}>
-                  <div className={cn("item")}>
-                    <div className={cn("loca")}>{startLocation}</div>
-                    <div className={cn("time")}>{startTime}</div>
+                <div>
+                  <div className={cn("title")}>
+                    <Image
+                      className={cn("logo")}
+                      src={airLineLogo}
+                      alt={airLineName}
+                      width={28}
+                      height={28}
+                    />
+                    <div className={cn("air-line")}>{airLineName}</div>
                   </div>
 
-                  <ArrowRight
-                    className={cn("arrow-icon")}
-                    size={13}
-                    strokeWidth={2}
-                    color="#636363"
-                  />
+                  <div className={cn("date")}>
+                    <span className={cn("label")}>{date}</span>
+                  </div>
 
-                  <div className={cn("item")}>
-                    <div className={cn("loca")}>{endLocation}</div>
-                    <div className={cn("time")}>{endTime}</div>
+                  <div className={cn("location")}>
+                    <div className={cn("item")}>
+                      <div className={cn("loca")}>{startLocation}</div>
+                      <div className={cn("time")}>{startTime}</div>
+                    </div>
+
+                    <ArrowRight
+                      className={cn("arrow-icon")}
+                      size={13}
+                      strokeWidth={2}
+                      color="#636363"
+                    />
+
+                    <div className={cn("item")}>
+                      <div className={cn("loca")}>{endLocation}</div>
+                      <div className={cn("time")}>{endTime}</div>
+                    </div>
                   </div>
                 </div>
               </li>
@@ -111,6 +109,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
         </ul>
 
         <div className={cn("price")}>
+          <span>가격 : </span>
           <p>{price.toLocaleString()}원</p>
         </div>
       </button>

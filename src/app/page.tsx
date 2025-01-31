@@ -14,11 +14,6 @@ function Page() {
   return (
     <div className={cn("Page")}>
       <section className={cn("intro")}>
-        {/* <div className={cn("logos")}>
-          <Image src={ImgHana} alt="" width={55} height={55} />
-          <Image src={ImgMode} alt="" width={75} height={55} />
-          <Image src={ImgOnline} alt="" width={50} height={50} />
-        </div> */}
         <h1 className={cn("title")}>
           공동구매항공권 <span>한눈에</span>
         </h1>

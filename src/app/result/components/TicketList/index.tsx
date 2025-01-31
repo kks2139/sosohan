@@ -2,9 +2,11 @@
 
 import classNames from "classnames/bind";
 import { differenceInMinutes, parse } from "date-fns";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Sliders } from "react-feather";
+import { File, Sliders } from "react-feather";
 
+import Button from "@/components/Button";
 import { ScrapingResultData } from "@/queries/useScrapingQuery";
 
 import Ticket from "../Ticket";
@@ -17,6 +19,7 @@ interface Props {
 }
 
 function TicketList({ results }: Props) {
+  const router = useRouter();
   const [sortType, setSortType] = useState<"LOW_PRICE" | "EARLY_START">(
     "LOW_PRICE"
   );
@@ -40,32 +43,57 @@ function TicketList({ results }: Props) {
 
     return differenceInMinutes(start_a, start_b);
   });
+  const hasResults = sortedResults.length > 0;
 
   return (
     <div className={cn("TicketList")}>
-      <div className={cn("sort")}>
-        <button
-          className={cn("button")}
-          type="button"
-          onClick={() => {
-            setSortType(isSortedByLowPrice ? "EARLY_START" : "LOW_PRICE");
-          }}
-        >
-          <span className={cn("label")}>
-            {isSortedByLowPrice ? "낮은 가격순" : "빠른 출발순"}
-          </span>
-          <Sliders size={20} />
-        </button>
-      </div>
+      {hasResults && (
+        <section className={cn("top-info")}>
+          <div className={cn("count")}>
+            <span>결과 {`(${sortedResults.length})`}</span>
+          </div>
+          <div className={cn("sort")}>
+            <button
+              className={cn("button")}
+              type="button"
+              onClick={() => {
+                setSortType(isSortedByLowPrice ? "EARLY_START" : "LOW_PRICE");
+              }}
+            >
+              <span className={cn("label")}>
+                {isSortedByLowPrice ? "낮은 가격순" : "빠른 출발순"}
+              </span>
+              <Sliders size={20} />
+            </button>
+          </div>
+        </section>
+      )}
 
-      <ul>
-        {sortedResults?.map((data) => (
-          <Ticket
-            key={`${data.departure.date}${data.departure.startTime}${data.departure.endTime}${data.departure.airLine}${data.departure.startLocation}`}
-            departureAndBackInfo={data}
-          />
-        ))}
-      </ul>
+      {hasResults ? (
+        <ul>
+          {sortedResults?.map((data) => (
+            <Ticket
+              key={`${data.departure.date}${data.departure.startTime}${data.departure.endTime}${data.departure.airLine}${data.departure.startLocation}`}
+              departureAndBackInfo={data}
+            />
+          ))}
+        </ul>
+      ) : (
+        <section className={cn("no-result")}>
+          <div className={cn("title")}>
+            <File size={40} />
+            <span>텅텅..</span>
+          </div>
+          <Button
+            className={cn("go-back")}
+            onClick={() => {
+              router.replace("/");
+            }}
+          >
+            검색조건 입력하기
+          </Button>
+        </section>
+      )}
     </div>
   );
 }

@@ -1,38 +1,60 @@
 .ResultHeader {
-  padding: 0 45px 0 33px;
+  padding: 0 30px;
+  margin-bottom: 40px;
 
   .title {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
 
     h1 {
-      font-size: 25px;
+      font-size: 28px;
       font-weight: bold;
     }
 
-    span {
+    strong {
       color: $main-1;
     }
 
-    .images {
-      position: relative;
+    .motion-icon {
       display: flex;
-      justify-content: center;
       align-items: center;
+      position: relative;
+      margin-left: 20px;
+      color: $gray-2;
 
-      > img {
-        &:first-of-type {
-          position: absolute;
-          top: -27px;
-          left: 5px;
-          width: 65px;
-          height: 65px;
+      .motion-div {
+        height: 100%;
+      }
+
+      svg {
+        position: absolute;
+
+        &.file {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: move-wave 2.5s ease-in-out infinite;
+
+          &:nth-of-type(1) {
+            left: 0;
+            animation-delay: 1s;
+          }
+          &:nth-of-type(2) {
+            left: 20px;
+            animation-delay: 1.15s;
+          }
+          &:nth-of-type(3) {
+            left: 40px;
+            animation-delay: 1.3s;
+          }
         }
 
-        &:last-of-type {
-          width: 41px;
-          height: 41px;
+        &.check {
+          top: 0;
+          color: rgb(0, 219, 99);
+        }
+
+        &.meh {
+          top: 0;
+          color: $gray-4;
         }
       }
     }
@@ -41,37 +63,76 @@
   .search-info {
     display: flex;
     flex-direction: column;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
     color: $main-1;
     margin-top: 40px;
 
-    > span {
-      &:first-of-type {
-        margin-bottom: 8px;
+    .skeletons {
+      transform: translateY(30px);
+      padding: 15px;
+
+      > * {
+        margin-bottom: 10px;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
       }
     }
 
+    .condition {
+      margin-bottom: 8px;
+    }
+
     .label {
-      color: $dark-1;
+      color: $dark-0;
     }
 
     .code {
       color: $gray-4;
-      font-weight: bold;
-      margin-left: 5px;
+      font-weight: normal;
+      margin-left: 7px;
     }
 
     .go-back {
-      width: 150px;
-      padding: 5px 0;
-      transform: translateX(-5px);
+      width: 180px;
+      padding: 8px 0;
       text-align: center;
       font-weight: bold;
-      font-size: 13px;
-      background-color: $gray-0;
+      font-size: 15px;
+      background-color: rgb(239, 239, 239);
       border-radius: $border-radius-2;
-      color: $dark-1;
+      color: $gray-4;
+      margin-top: 10px;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: rgb(225, 225, 225);
+      }
+    }
+  }
+
+  @keyframes move-wave {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    70% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(20px);
     }
   }
 }

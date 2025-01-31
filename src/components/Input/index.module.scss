@@ -16,6 +16,7 @@ $border-color: rgb(233, 233, 233);
     padding: 10px 15px;
     transition: 0.2s;
     font-weight: bold;
+    color: $dark-1;
 
     &.error {
       border-color: $red-1;
