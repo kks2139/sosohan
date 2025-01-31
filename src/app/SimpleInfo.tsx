@@ -9,7 +9,7 @@ import AirportInput from "@/components/Form/AirportInput";
 import FormButton from "@/components/Form/FormButton";
 import { useAirportQuery } from "@/queries/useAirportQuery";
 import { useScrapingQuery } from "@/queries/useScrapingQuery";
-import { airportStore } from "@/store/airport";
+import { airportStore, InputAirportType } from "@/store/airport";
 
 import styles from "./SimpleInfo.module.scss";
 
@@ -32,8 +32,13 @@ function SimpleInfo() {
     startCode?: string[];
   }>();
 
-  const resetAirportError = (type: "start" | "end") => {
+  const resetAirportError = (type: InputAirportType) => {
     setError({ ...error, [`${type}Code`]: undefined });
+  };
+
+  const clear = (type: InputAirportType) => {
+    setSelectedAirport(type, undefined);
+    resetAirportError(type);
   };
 
   return (
@@ -45,10 +50,8 @@ function SimpleInfo() {
           isLoading={isAirportLoading}
           errorMessages={error?.startCode}
           defaultAirportCode={selectedStartAirport?.["공항코드1(IATA)"]}
-          onChange={() => {
-            setSelectedAirport("start", undefined);
-            resetAirportError("start");
-          }}
+          onClear={() => clear("start")}
+          onChange={() => clear("start")}
           onAirportSelected={(selected) => {
             setSelectedAirport("start", selected);
             resetAirportError("start");
@@ -58,10 +61,8 @@ function SimpleInfo() {
           placeholder="도착 공항"
           isLoading={isAirportLoading}
           defaultAirportCode={selectedEndAirport?.["공항코드1(IATA)"]}
-          onChange={() => {
-            setSelectedAirport("end", undefined);
-            resetAirportError("end");
-          }}
+          onClear={() => clear("end")}
+          onChange={() => clear("end")}
           onAirportSelected={(selected) => {
             setSelectedAirport("end", selected);
             resetAirportError("end");

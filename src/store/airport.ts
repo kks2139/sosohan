@@ -2,11 +2,13 @@ import { create } from "zustand";
 
 import { AirportData } from "@/queries/useAirportQuery";
 
+export type InputAirportType = "start" | "end";
+
 interface AirportStore {
   selectedStartAirport: AirportData | undefined;
   selectedEndAirport: AirportData | undefined;
   setSelectedAirport: (
-    type: "start" | "end",
+    type: InputAirportType,
     airport: AirportData | undefined
   ) => void;
 }

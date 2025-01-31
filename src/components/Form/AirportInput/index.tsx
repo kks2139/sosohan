@@ -30,6 +30,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   errorMessages?: string[];
   defaultAirportCode?: string;
   onChange?: () => void;
+  onClear?: () => void;
   onAirportSelected?: (airport: AirportData) => void;
 }
 
@@ -39,6 +40,7 @@ function AirportInput({
   errorMessages,
   defaultAirportCode,
   onChange,
+  onClear,
   onAirportSelected,
   ...rest
 }: Props) {
@@ -221,6 +223,8 @@ function AirportInput({
           onMouseDown={() => {
             setInputValue("");
             setSelectedCode(undefined);
+
+            onClear?.();
           }}
         >
           <XIcon size={25} />
