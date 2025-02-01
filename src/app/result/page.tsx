@@ -24,7 +24,7 @@ function ResultContent() {
     data?.filter(({ departure: { startLocation, endLocation } }) => {
       return (
         startLocation.includes(startCode || "") &&
-        (endCode === "empty" ? true : endLocation.includes(endCode || ""))
+        (endCode ? endLocation.includes(endCode || "") : true)
       );
     }) || [];
 

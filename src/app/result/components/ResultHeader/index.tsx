@@ -3,7 +3,7 @@
 import classNames from "classnames/bind";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Check, FileText, Meh } from "react-feather";
+import { Check, FileText, Meh, Repeat } from "react-feather";
 
 import Skeleton from "@/components/Skeleton";
 import { useAirportQuery } from "@/queries/useAirportQuery";
@@ -91,22 +91,19 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
           <div className={cn("skeletons")}>
             <Skeleton width={220} />
             <Skeleton width={120} />
-            <Skeleton width={120} />
           </div>
         ) : (
           <>
             <div className={cn("condition")}>
-              <span className={cn("label")}>출국 {"-"} </span>
               <span>{`${startAirportName}`}</span>
               <span className={cn("code")}>{`(${startCode})`}</span>
-            </div>
-            <div className={cn("condition")}>
-              <span className={cn("label")}>귀국 {"-"} </span>
+
+              <Repeat size={20} strokeWidth={1} />
+
               <span>{`${endAirportName || "선택안함"}`}</span>
-              {endCode !== "empty" && (
-                <span className={cn("code")}>{`(${endCode})`}</span>
-              )}
+              {endCode && <span className={cn("code")}>{`(${endCode})`}</span>}
             </div>
+
             {hasResults && (
               <button
                 className={cn("go-back")}

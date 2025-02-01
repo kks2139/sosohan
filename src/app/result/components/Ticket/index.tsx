@@ -20,7 +20,7 @@ interface Prop {
 
 function Ticket({ departureAndBackInfo }: Prop) {
   const now = new Date();
-  const { departure, back, price, scrapTarget } = departureAndBackInfo;
+  const { departure, back, price, scrapTarget, member } = departureAndBackInfo;
 
   const infos = ["departure", "back"].map((type) => {
     const isDeparture = type === "departure";
@@ -29,7 +29,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
     const info = isDeparture ? departure : back;
 
     return {
-      title: isDeparture ? "출국" : "귀국",
+      startPosition: isDeparture ? "출국" : "귀국",
       date: format(isDeparture ? departureDate : backDate, "yyyy-MM-dd (E)", {
         locale: ko,
       }),
@@ -54,7 +54,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
           {infos.map(
             (
               {
-                title,
+                startPosition,
                 airLineLogo,
                 airLineName,
                 date,
@@ -66,10 +66,12 @@ function Ticket({ departureAndBackInfo }: Prop) {
               idx
             ) => (
               <li key={idx} className={cn("detail")}>
-                <div className={cn("start-position")}>{title}</div>
+                <div className={cn("start-position")}>
+                  <span>{startPosition}</span>
+                </div>
 
-                <div>
-                  <div className={cn("title")}>
+                <div className={cn("detail-factors")}>
+                  <div className={cn("air-line")}>
                     <Image
                       className={cn("logo")}
                       src={airLineLogo}
@@ -77,7 +79,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
                       width={28}
                       height={28}
                     />
-                    <div className={cn("air-line")}>{airLineName}</div>
+                    <div className={cn("name")}>{airLineName}</div>
                   </div>
 
                   <div className={cn("date")}>
@@ -108,9 +110,13 @@ function Ticket({ departureAndBackInfo }: Prop) {
           )}
         </ul>
 
-        <div className={cn("price")}>
-          <span>가격 : </span>
-          <p>{price.toLocaleString()}원</p>
+        <div className={cn("bottom")}>
+          <span className={cn("member")}>{member}</span>
+
+          <div className={cn("price")}>
+            <span>가격 : </span>
+            <p>{price.toLocaleString()}원</p>
+          </div>
         </div>
       </button>
     </li>

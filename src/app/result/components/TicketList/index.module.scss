@@ -8,12 +8,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px 10px;
+    margin-bottom: 10px;
     color: $dark-1;
   }
 
   .count {
-    font-size: 19px;
+    font-size: 18px;
     font-weight: bold;
   }
 
@@ -76,6 +76,16 @@
       &:hover {
         background-color: $main-2;
       }
+    }
+  }
+
+  @include view-mode(mobile) {
+    padding: 0;
+    margin-bottom: 6px;
+
+    .count,
+    .sort button {
+      font-size: 15px;
     }
   }
 }

@@ -6,7 +6,8 @@ const nextConfig = {
     serverComponentsExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
   },
   sassOptions: {
-    additionalData: `@import '/src/styles/variable.scss';`,
+    // 모든 scss 파일에 import 자동 주입
+    additionalData: `@import '/src/styles/variable.scss'; @import '/src/styles/mixins.scss';`,
   },
 };
 
