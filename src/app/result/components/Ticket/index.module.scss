@@ -1,3 +1,5 @@
+$boundary: dashed 1px $main-1;
+
 .Ticket {
   margin-bottom: 15px;
 
@@ -7,9 +9,8 @@
 
   > button {
     width: 100%;
-    padding: 20px;
     background-color: white;
-    border-radius: 30px;
+    border-radius: $border-radius-0;
     box-shadow: 0 4px 12px -5px rgb(138, 138, 138);
     transition: 0.2s;
 
@@ -33,18 +34,27 @@
     display: flex;
 
     .detail {
+      position: relative;
       flex-grow: 1;
       display: flex;
       align-items: center;
 
+      &:first-child::after {
+        content: "";
+        position: absolute;
+        right: 1px;
+        height: 100%;
+        border-right: $boundary;
+      }
+
       .start-position {
         position: relative;
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
-        width: 45px;
         height: 100%;
         margin-right: 20px;
+        padding: 0 15px;
         color: $gray-4;
         font-size: 15px;
 
@@ -53,30 +63,24 @@
           position: absolute;
           top: 0;
           right: 0;
-          height: calc(100% + 13px);
+          height: 100%;
           border-right: dashed 2px $gray-1;
         }
       }
     }
 
-    .title {
+    .air-line {
       display: flex;
       align-items: center;
+      padding-top: 15px;
       margin-bottom: 10px;
-
-      > h5 {
-        color: $dark-0;
-        font-weight: bold;
-        font-size: 17px;
-        margin-left: 15px;
-      }
 
       .logo {
         width: 40px;
         height: 40px;
       }
 
-      .air-line {
+      .name {
         font-size: 16px;
         color: $dark-0;
         margin-left: 8px;
@@ -89,12 +93,13 @@
       padding: 3px 0;
       font-weight: bold;
       font-size: 18px;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
     }
 
     .location {
       display: flex;
       align-items: center;
+      padding-bottom: 15px;
 
       .item {
         display: flex;
@@ -108,27 +113,36 @@
 
       .loca,
       .time {
-        font-weight: 600;
+        font-weight: bold;
         font-size: 14px;
         color: $dark-1;
       }
     }
   }
 
-  .price {
+  .bottom {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    font-size: 22px;
-    font-weight: bold;
-    margin-top: 20px;
-    padding: 10px 30px 0 0;
-    border-top: dashed 1px $gray-1;
+    justify-content: space-between;
+    padding: 10px 25px 15px;
+    border-top: $boundary;
 
-    > span {
-      font-size: 15px;
+    .member {
+      font-size: 14px;
       color: $gray-5;
-      margin-right: 25px;
+    }
+
+    .price {
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+      font-weight: bold;
+
+      > span {
+        font-size: 15px;
+        color: $gray-5;
+        margin-right: 25px;
+      }
     }
   }
 
@@ -138,6 +152,81 @@
     }
     100% {
       transform: rotate(360deg);
+    }
+  }
+
+  @include view-mode(mobile) {
+    .info {
+      display: block;
+
+      .detail {
+        &:first-child::after {
+          right: auto;
+          bottom: 0;
+          height: 0;
+          width: 100%;
+          border-right: none;
+          border-bottom: $boundary;
+          border-color: $gray-1;
+        }
+
+        .start-position {
+          margin-right: 0;
+
+          &::after {
+            display: none;
+          }
+        }
+
+        .detail-factors {
+          position: relative;
+          padding-left: 20px;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-left: dashed 2px $gray-1;
+          }
+        }
+      }
+
+      .air-line {
+        padding-top: 12px;
+        margin-bottom: 5px;
+
+        .logo {
+          width: 32px;
+          height: 32px;
+        }
+
+        .name {
+          font-size: 14px;
+          color: $dark-0;
+          margin-left: 6px;
+        }
+      }
+
+      .date {
+        font-size: 17px;
+      }
+    }
+
+    .bottom {
+      .member {
+        font-size: 13px;
+      }
+
+      .price {
+        font-size: 19px;
+
+        > span {
+          font-size: 14px;
+          margin-right: 20px;
+        }
+      }
     }
   }
 }

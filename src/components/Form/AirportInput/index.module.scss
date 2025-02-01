@@ -120,4 +120,15 @@
       transform: translate(0, -50%) rotate(360deg);
     }
   }
+
+  @include view-mode(mobile) {
+    .select-box {
+      .item {
+        button {
+          font-size: larger;
+          padding: 18px 15px;
+        }
+      }
+    }
+  }
 }

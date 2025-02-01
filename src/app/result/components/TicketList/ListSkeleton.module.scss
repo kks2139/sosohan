@@ -39,4 +39,20 @@
       }
     }
   }
+
+  @include view-mode(mobile) {
+    padding: 0;
+
+    .skeleton-container {
+      flex-direction: column;
+
+      .rows {
+        width: 100%;
+
+        &:first-of-type {
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
 }

@@ -71,8 +71,7 @@ function SimpleInfo() {
         <FormButton
           onClick={() => {
             const startAirportCode = selectedStartAirport?.["공항코드1(IATA)"];
-            const endAirportCode =
-              selectedEndAirport?.["공항코드1(IATA)"] || "empty";
+            const endAirportCode = selectedEndAirport?.["공항코드1(IATA)"];
 
             const validation = formInputSchema.safeParse({
               startCode: startAirportCode,
@@ -89,7 +88,9 @@ function SimpleInfo() {
             }
 
             router.push(
-              `/result?start_code=${startAirportCode}&end_code=${endAirportCode}`
+              `/result?start_code=${startAirportCode}${
+                endAirportCode ? `&end_code=${endAirportCode}` : ""
+              } `
             );
           }}
         >

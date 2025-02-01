@@ -99,9 +99,5 @@ export function getAirLineLogo(str: string) {
     key.includes(str)
   )[0];
 
-  if (!filteredKey) {
-    console.log(str);
-  }
-
   return filteredKey ? logoMap[filteredKey] : LogoBasic;
 }

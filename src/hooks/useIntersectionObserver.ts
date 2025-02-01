@@ -3,12 +3,14 @@ import { useEffect } from "react";
 interface Option {
   rootElement: Element | null;
   targetElement: Element | null;
+  threshold?: number;
   onIntersection: () => void;
 }
 
 export function useIntersectionObserver({
   rootElement,
   targetElement,
+  threshold = 0,
   onIntersection,
 }: Option) {
   useEffect(() => {
@@ -24,7 +26,7 @@ export function useIntersectionObserver({
       },
       {
         root: rootElement,
-        threshold: 0,
+        threshold,
       }
     );
 
@@ -33,5 +35,5 @@ export function useIntersectionObserver({
     return () => {
       observer.unobserve(targetElement);
     };
-  }, [onIntersection, rootElement, targetElement]);
+  }, [onIntersection, rootElement, targetElement, threshold]);
 }

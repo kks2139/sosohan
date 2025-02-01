@@ -20,4 +20,14 @@
       margin-bottom: 15px;
     }
   }
+
+  @include view-mode(mobile) {
+    .form {
+      padding: 0 30px;
+
+      .title {
+        font-size: 16px;
+      }
+    }
+  }
 }
