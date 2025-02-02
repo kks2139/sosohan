@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { apiOrigin } from "@/utils/constant";
+import { apiBase } from "@/utils/constant";
 
 import { QUERY_KEY } from "./queryKeys";
 
@@ -28,7 +28,7 @@ export function useAirportQuery() {
   return useQuery<AirportInfo, Error, AirportData[]>({
     queryKey: [QUERY_KEY.AIRPORT],
     queryFn: async () => {
-      const res = await fetch(`${apiOrigin}/api/airport`);
+      const res = await fetch(`${apiBase}/api/airport`);
       const { result } = (await res.json()) as { result: AirportInfo };
 
       return result;

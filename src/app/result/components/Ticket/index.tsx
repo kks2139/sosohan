@@ -6,13 +6,19 @@ import { ko } from "date-fns/locale";
 import Image from "next/image";
 import { ArrowRight } from "react-feather";
 
-import { ScrapingResultData } from "@/queries/useScrapingQuery";
-import { getAirLineLogo, scrapTargetInfo } from "@/utils/constant";
+import { ScrapingResultData } from "@/queries/useScrapingQueries";
+import {
+  getAirLineLogo,
+  ScrapTarget,
+  scrapTargetInfo,
+  targetToKorean,
+} from "@/utils/constant";
 
 import styles from "./index.module.scss";
 
 const cn = classNames.bind(styles);
-const FORMAT_STR = "yyyy.MM.dd";
+const FORMAT_STR_1 = "yyyy.MM.dd";
+const FORMAT_STR_2 = "yyyy-MM-dd";
 
 interface Prop {
   departureAndBackInfo: ScrapingResultData;
@@ -20,12 +26,18 @@ interface Prop {
 
 function Ticket({ departureAndBackInfo }: Prop) {
   const now = new Date();
-  const { departure, back, price, scrapTarget, member } = departureAndBackInfo;
+  const { departure, back, price, scrapTarget, member, landingUrl } =
+    departureAndBackInfo;
+  const isHanaTour = scrapTarget === "HANA_TOUR";
 
   const infos = ["departure", "back"].map((type) => {
     const isDeparture = type === "departure";
-    const departureDate = parse(departure.date, FORMAT_STR, now);
-    const backDate = parse(back.date, FORMAT_STR, now);
+    const departureDate = isHanaTour
+      ? parse(departure.date, FORMAT_STR_1, now)
+      : parse(departure.date, FORMAT_STR_2, now);
+    const backDate = isHanaTour
+      ? parse(back.date, FORMAT_STR_1, now)
+      : parse(back.date, FORMAT_STR_2, now);
     const info = isDeparture ? departure : back;
 
     return {
@@ -47,7 +59,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
       <button
         type="button"
         onClick={() => {
-          window.open(scrapTargetInfo[scrapTarget].url);
+          window.open(landingUrl || scrapTargetInfo[scrapTarget].url);
         }}
       >
         <ul className={cn("info")}>
@@ -111,11 +123,13 @@ function Ticket({ departureAndBackInfo }: Prop) {
         </ul>
 
         <div className={cn("bottom")}>
-          <span className={cn("member")}>{member}</span>
+          <div className={cn("target", { [scrapTarget]: true })}>
+            {targetToKorean[scrapTarget]}
+          </div>
 
           <div className={cn("price")}>
-            <span>가격 : </span>
-            <p>{price.toLocaleString()}원</p>
+            <span className={cn("member")}>{member}</span>
+            <strong>{price.toLocaleString()}원</strong>
           </div>
         </div>
       </button>

@@ -3,7 +3,7 @@ import { Page } from "puppeteer-core";
 import { getApiResponse, getBrowser } from "@/utils/api";
 import { ScrapTarget, scrapTargetInfo } from "@/utils/constant";
 
-async function evalHanaPage(contentRootSelector: string, page: Page) {
+async function evalHanaTour(contentRootSelector: string, page: Page) {
   return await page.$$eval(contentRootSelector, (els) => {
     // 브라우저 컨택스트에서 실행되므로, 코드를 import 해오면 참조하지 못함.
     // --> 콜백 내에서 직접 기능 구현하여 사용
@@ -67,6 +67,21 @@ async function evalHanaPage(contentRootSelector: string, page: Page) {
   });
 }
 
+async function evalModeTour(contentRootSelector: string, page: Page) {
+  // 모두투어 스크래핑 보류
+  return await page.$$eval(contentRootSelector, (els) => {
+    return els.map((el) => {
+      return {
+        departure: {},
+        back: {},
+        price: 0,
+        member: "",
+        scrapTarget: "MODE_TOUR" as ScrapTarget,
+      };
+    });
+  });
+}
+
 async function scrapPageByTarget(target: ScrapTarget, page: Page) {
   const { contentRootSelector } = scrapTargetInfo[target];
 
@@ -75,15 +90,17 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
   switch (target) {
     case "HANA_TOUR":
       // 2개 탭으로 구성돼있음. 2번째 탭 클릭 필요
-      const tab1 = await evalHanaPage(contentRootSelector, page);
+      const tab1 = await evalHanaTour(contentRootSelector, page);
       await page.click(
         "div#container > div > div:nth-of-type(3) > ul > li:nth-of-type(2) > a"
       );
-      const tab2 = await evalHanaPage(contentRootSelector, page);
+      const tab2 = await evalHanaTour(contentRootSelector, page);
 
       return [...tab1, ...tab2];
     case "MODE_TOUR":
-      break;
+      const result = await evalModeTour(contentRootSelector, page);
+
+      return result;
     case "ONLINE_TOUR":
       break;
     case "INTER_PARK":
@@ -104,8 +121,6 @@ export async function GET(req: Request) {
   try {
     const { url } = scrapTargetInfo[target];
     const page = await browser.newPage();
-
-    page.click;
 
     await page.goto(url, { waitUntil: "domcontentloaded" });
 

@@ -1,4 +1,5 @@
 export const QUERY_KEY = {
-  SCRAPING: "scraping",
-  AIRPORT: "airport",
+  SCRAPING: "SCRAPING",
+  AIRPORT: "AIRPORT",
+  MODE_TOUR: "MODE_TOUR",
 };
