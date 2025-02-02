@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEY } from "./queryKeys";
-import { addDays } from "date-fns/addDays";
 import { format } from "date-fns";
+import { addDays } from "date-fns/addDays";
+
 import { apiBase } from "@/utils/constant";
+
+import { QUERY_KEY } from "./queryKeys";
 import { ScrapingResultData } from "./useScrapingQueries";
 
 export type ModeTourContinentCode = "ASIA" | "JPN" | "SOPA" | "EUR" | "CHI";
@@ -93,16 +95,7 @@ export function useModeTourQuery() {
     },
     select: (data) => {
       return data.infos.map(
-        ({
-          id,
-          air,
-          sDate,
-          eDate,
-          departure,
-          arrival,
-          adult,
-          continentCode,
-        }) => {
+        ({ air, sDate, eDate, departure, arrival, adult, continentCode }) => {
           // 가격: 성인1인 기준
           const price = adult.tax + adult.tax2 + adult.value;
           const landingUrl = encodeURIComponent(

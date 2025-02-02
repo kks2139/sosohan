@@ -70,7 +70,7 @@ async function evalHanaTour(contentRootSelector: string, page: Page) {
 async function evalModeTour(contentRootSelector: string, page: Page) {
   // 모두투어 스크래핑 보류
   return await page.$$eval(contentRootSelector, (els) => {
-    return els.map((el) => {
+    return els.map(() => {
       return {
         departure: {},
         back: {},

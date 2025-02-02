@@ -9,7 +9,6 @@ import { ArrowRight } from "react-feather";
 import { ScrapingResultData } from "@/queries/useScrapingQueries";
 import {
   getAirLineLogo,
-  ScrapTarget,
   scrapTargetInfo,
   targetToKorean,
 } from "@/utils/constant";

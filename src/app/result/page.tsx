@@ -5,13 +5,13 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 import DotLoading from "@/components/DotLoading";
+import { useModeTourQuery } from "@/queries/useModeTourQuery";
 import { useScrapingQueries } from "@/queries/useScrapingQueries";
 
 import ResultHeader from "./components/ResultHeader";
 import TicketList from "./components/TicketList";
 import ListSkeleton from "./components/TicketList/ListSkeleton";
 import styles from "./page.module.scss";
-import { useModeTourQuery } from "@/queries/useModeTourQuery";
 
 const cn = classNames.bind(styles);
 

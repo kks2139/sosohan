@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { apiBase, ScrapTarget } from "@/utils/constant";
 
@@ -22,7 +22,7 @@ export interface ScrapingResultData {
   landingUrl?: string;
 }
 
-function scrapinpgQuery(scrapTarget: ScrapTarget) {
+function useScrapinpgQuery(scrapTarget: ScrapTarget) {
   return useQuery<ScrapingResultData[], Error>({
     queryKey: [QUERY_KEY.SCRAPING, scrapTarget],
     queryFn: async () => {
@@ -38,7 +38,7 @@ function scrapinpgQuery(scrapTarget: ScrapTarget) {
 
 export function useScrapingQueries() {
   return {
-    hanaTour: scrapinpgQuery("HANA_TOUR"),
+    hanaTour: useScrapinpgQuery("HANA_TOUR"),
     // modeTour: scrapinpgQuery("MODE_TOUR"),
   };
 }

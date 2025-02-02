@@ -8,11 +8,11 @@ import { z } from "zod";
 import AirportInput from "@/components/Form/AirportInput";
 import FormButton from "@/components/Form/FormButton";
 import { useAirportQuery } from "@/queries/useAirportQuery";
+import { useModeTourQuery } from "@/queries/useModeTourQuery";
 import { useScrapingQueries } from "@/queries/useScrapingQueries";
 import { airportStore, InputAirportType } from "@/store/airport";
 
 import styles from "./SimpleInfo.module.scss";
-import { useModeTourQuery } from "@/queries/useModeTourQuery";
 
 const cn = classNames.bind(styles);
 
