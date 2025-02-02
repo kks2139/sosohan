@@ -5,7 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 import DotLoading from "@/components/DotLoading";
-import { useScrapingQuery } from "@/queries/useScrapingQuery";
+import { useModeTourQuery } from "@/queries/useModeTourQuery";
+import { useScrapingQueries } from "@/queries/useScrapingQueries";
 
 import ResultHeader from "./components/ResultHeader";
 import TicketList from "./components/TicketList";
@@ -18,15 +19,21 @@ function ResultContent() {
   const params = useSearchParams();
   const startCode = params.get("start_code");
   const endCode = params.get("end_code");
-  const { data, isLoading: isScrapingLoading } = useScrapingQuery();
+  const {
+    hanaTour: { data: hanaData = [], isLoading: isHanaLoading },
+  } = useScrapingQueries();
+  const { data: modeData = [], isLoading: isModeLoading } = useModeTourQuery();
 
+  const isScrapingLoading = isHanaLoading || isModeLoading;
   const results =
-    data?.filter(({ departure: { startLocation, endLocation } }) => {
-      return (
-        startLocation.includes(startCode || "") &&
-        (endCode ? endLocation.includes(endCode || "") : true)
-      );
-    }) || [];
+    [...hanaData, ...modeData]?.filter(
+      ({ departure: { startLocation, endLocation } }) => {
+        return (
+          startLocation.includes(startCode || "") &&
+          (endCode ? endLocation.includes(endCode || "") : true)
+        );
+      }
+    ) || [];
 
   return (
     <div className={cn("Page")}>

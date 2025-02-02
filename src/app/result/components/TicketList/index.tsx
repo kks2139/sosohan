@@ -7,7 +7,7 @@ import { useState } from "react";
 import { File, Sliders } from "react-feather";
 
 import Button from "@/components/Button";
-import { ScrapingResultData } from "@/queries/useScrapingQuery";
+import { ScrapingResultData } from "@/queries/useScrapingQueries";
 
 import Ticket from "../Ticket";
 import styles from "./index.module.scss";
@@ -43,14 +43,25 @@ function TicketList({ results }: Props) {
 
     return differenceInMinutes(start_a, start_b);
   });
+
   const hasResults = sortedResults.length > 0;
+  const hanaCount = sortedResults.filter(
+    ({ scrapTarget }) => scrapTarget === "HANA_TOUR"
+  ).length;
+  const modeCount = sortedResults.filter(
+    ({ scrapTarget }) => scrapTarget === "MODE_TOUR"
+  ).length;
 
   return (
     <div className={cn("TicketList")}>
       {hasResults && (
         <section className={cn("top-info")}>
           <div className={cn("count")}>
-            <span>결과 {`(${sortedResults.length})`}</span>
+            <span className={cn("total")}>
+              결과 {`(${sortedResults.length})`}
+            </span>
+            <span className={cn("hana")}>하나투어 {hanaCount}</span>
+            <span className={cn("mode")}>모두투어 {modeCount}</span>
           </div>
           <div className={cn("sort")}>
             <button

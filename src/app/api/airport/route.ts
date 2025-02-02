@@ -13,11 +13,5 @@ export async function GET() {
     return getApiResponse("OK", result);
   }
 
-  return getApiResponse(
-    "ERROR",
-    new Response(null, {
-      status: 500,
-      headers: { "content-type": "application/json" },
-    })
-  );
+  return getApiResponse("ERROR");
 }

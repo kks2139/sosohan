@@ -210,6 +210,7 @@ function AirportInput({
             case keys[3]:
               setIsFocused(false);
               resetFocusedRow();
+
               break;
           }
         }}

@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 
-import { apiOrigin, ScrapTarget } from "@/utils/constant";
+import { apiBase, ScrapTarget } from "@/utils/constant";
 
 import styles from "./index.module.scss";
 
@@ -18,7 +18,7 @@ interface Props {
 }
 
 async function Scraping({ target }: Props) {
-  const res = await fetch(`${apiOrigin}/api/scrap/contents?target=${target}`);
+  const res = await fetch(`${apiBase}/api/scrap/contents?target=${target}`);
 
   if (res.status !== 200) {
     return <p>스크래핑 에러..</p>;

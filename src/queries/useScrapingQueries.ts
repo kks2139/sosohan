@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { apiOrigin, ScrapTarget } from "@/utils/constant";
+import { apiBase, ScrapTarget } from "@/utils/constant";
 
 import { QUERY_KEY } from "./queryKeys";
 
@@ -19,23 +19,26 @@ export interface ScrapingResultData {
   price: number;
   member: string;
   scrapTarget: ScrapTarget;
+  landingUrl?: string;
 }
 
-interface ResponseData {
-  result: ScrapingResultData[];
-}
-
-export function useScrapingQuery() {
+function useScrapinpgQuery(scrapTarget: ScrapTarget) {
   return useQuery<ScrapingResultData[], Error>({
-    queryKey: [QUERY_KEY.SCRAPING],
+    queryKey: [QUERY_KEY.SCRAPING, scrapTarget],
     queryFn: async () => {
       const res = await fetch(
-        `${apiOrigin}/api/scrap/contents?target=HANA_TOUR`
+        `${apiBase}/api/scrap/contents?target=${scrapTarget}`
       );
-
-      const data = (await res.json()) as ResponseData;
+      const data = (await res.json()) as { result: ScrapingResultData[] };
 
       return data.result;
     },
   });
+}
+
+export function useScrapingQueries() {
+  return {
+    hanaTour: useScrapinpgQuery("HANA_TOUR"),
+    // modeTour: scrapinpgQuery("MODE_TOUR"),
+  };
 }

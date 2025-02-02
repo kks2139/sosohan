@@ -7,7 +7,7 @@ import { Check, FileText, Meh, Repeat } from "react-feather";
 
 import Skeleton from "@/components/Skeleton";
 import { useAirportQuery } from "@/queries/useAirportQuery";
-import { useScrapingQuery } from "@/queries/useScrapingQuery";
+import { useScrapingQueries } from "@/queries/useScrapingQueries";
 
 import styles from "./index.module.scss";
 
@@ -22,7 +22,9 @@ interface Props {
 function ResultHeader({ startCode, endCode, hasResults }: Props) {
   const router = useRouter();
   const { data } = useAirportQuery();
-  const { isLoading: isScrapingLoading } = useScrapingQuery();
+  const {
+    hanaTour: { isLoading: isScrapingLoading },
+  } = useScrapingQueries();
 
   const startAirportName = data?.find(
     (a) => a["공항코드1(IATA)"] === startCode
