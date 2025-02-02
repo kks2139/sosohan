@@ -86,8 +86,9 @@ export function useModeTourQuery() {
   return useQuery<ModeTourResponse, Error, ScrapingResultData[]>({
     queryKey: [QUERY_KEY.MODE_TOUR],
     queryFn: async () => {
+      // TODO: count 100개 이상으로 변경 & 최적화처리
       const res = await fetch(
-        `${apiBase}/api/mode?count=5&departure_date=${formattedDeparture}&arrival_date=${formattedArrival}`
+        `${apiBase}/api/mode?count=20&departure_date=${formattedDeparture}&arrival_date=${formattedArrival}`
       );
       const { result } = (await res.json()) as { result: ModeTourResponse };
 
@@ -98,9 +99,9 @@ export function useModeTourQuery() {
         ({ air, sDate, eDate, departure, arrival, adult, continentCode }) => {
           // 가격: 성인1인 기준
           const price = adult.tax + adult.tax2 + adult.value;
-          const landingUrl = encodeURIComponent(
-            `https://www.modetour.com/flights/discount-flight?query={"departureCity":"${departure.code}","arrivalCity":"","continentCode":"${continentCode}","departureDate":"${formattedDeparture}","arrivalDate":"${formattedArrival}"}`
-          );
+          const landingUrl = `https://www.modetour.com/flights/discount-flight?query=${encodeURIComponent(
+            `{"departureCity":"${departure.code}","arrivalCity":"","continentCode":"${continentCode}","departureDate":"${formattedDeparture}","arrivalDate":"${formattedArrival}"}`
+          )}`;
 
           return {
             departure: {

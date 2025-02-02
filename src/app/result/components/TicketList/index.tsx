@@ -60,8 +60,8 @@ function TicketList({ results }: Props) {
             <span className={cn("total")}>
               결과 {`(${sortedResults.length})`}
             </span>
-            <span className={cn("hana")}>모두투어 {hanaCount}</span>
-            <span className={cn("mode")}>하나투어 {modeCount}</span>
+            <span className={cn("hana")}>하나투어 {hanaCount}</span>
+            <span className={cn("mode")}>모두투어 {modeCount}</span>
           </div>
           <div className={cn("sort")}>
             <button
