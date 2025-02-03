@@ -21,12 +21,13 @@ function ResultContent() {
   const endCode = params.get("end_code");
   const {
     hanaTour: { data: hanaData = [], isLoading: isHanaLoading },
+    onlineTour: { data: onlineData = [], isLoading: isOnlineLoading },
   } = useScrapingQueries();
   const { data: modeData = [], isLoading: isModeLoading } = useModeTourQuery();
 
-  const isScrapingLoading = isHanaLoading || isModeLoading;
+  const isScrapingLoading = isHanaLoading || isModeLoading || isOnlineLoading;
   const results =
-    [...hanaData, ...modeData]?.filter(
+    [...hanaData, ...modeData, ...onlineData]?.filter(
       ({ departure: { startLocation, endLocation } }) => {
         return (
           startLocation.includes(startCode || "") &&

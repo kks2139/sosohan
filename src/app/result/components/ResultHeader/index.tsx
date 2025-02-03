@@ -23,8 +23,11 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
   const router = useRouter();
   const { data } = useAirportQuery();
   const {
-    hanaTour: { isLoading: isScrapingLoading },
+    hanaTour: { isLoading: isHanaLoading },
+    onlineTour: { isLoading: isOnlineLoading },
   } = useScrapingQueries();
+
+  const isScrapingLoading = isHanaLoading || isOnlineLoading;
 
   const startAirportName = data?.find(
     (a) => a["공항코드1(IATA)"] === startCode

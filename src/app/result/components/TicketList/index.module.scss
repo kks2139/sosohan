@@ -27,8 +27,14 @@
     }
 
     .mode {
+      margin-right: 10px;
       font-size: 13px;
       color: $mode-tour;
+    }
+
+    .online {
+      font-size: 13px;
+      color: $online-tour;
     }
   }
 

@@ -32,12 +32,12 @@ function TicketList({ results }: Props) {
 
     const start_a = parse(
       `${a.departure.date} ${a.departure.startTime}`,
-      "yyyy.MM.dd HH:mm",
+      "yyyy-MM-dd HH:mm",
       new Date()
     );
     const start_b = parse(
       `${b.departure.date} ${b.departure.startTime}`,
-      "yyyy.MM.dd HH:mm",
+      "yyyy-MM-dd HH:mm",
       new Date()
     );
 
@@ -51,6 +51,9 @@ function TicketList({ results }: Props) {
   const modeCount = sortedResults.filter(
     ({ scrapTarget }) => scrapTarget === "MODE_TOUR"
   ).length;
+  const onLineCount = sortedResults.filter(
+    ({ scrapTarget }) => scrapTarget === "ONLINE_TOUR"
+  ).length;
 
   return (
     <div className={cn("TicketList")}>
@@ -62,6 +65,7 @@ function TicketList({ results }: Props) {
             </span>
             <span className={cn("hana")}>하나투어 {hanaCount}</span>
             <span className={cn("mode")}>모두투어 {modeCount}</span>
+            <span className={cn("online")}>온라인투어 {onLineCount}</span>
           </div>
           <div className={cn("sort")}>
             <button
@@ -83,10 +87,7 @@ function TicketList({ results }: Props) {
       {hasResults ? (
         <ul>
           {sortedResults?.map((data) => (
-            <Ticket
-              key={`${data.departure.date}${data.departure.startTime}${data.departure.endTime}${data.departure.airLine}${data.departure.startLocation}`}
-              departureAndBackInfo={data}
-            />
+            <Ticket key={data.seqId} departureAndBackInfo={data} />
           ))}
         </ul>
       ) : (

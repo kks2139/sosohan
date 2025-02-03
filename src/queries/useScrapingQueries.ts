@@ -14,12 +14,14 @@ export interface Airport {
 }
 
 export interface ScrapingResultData {
+  seqId: string;
   departure: Airport;
   back: Airport;
   price: number;
   member: string;
   scrapTarget: ScrapTarget;
   landingUrl?: string;
+  isDirectFlight?: boolean;
 }
 
 function useScrapinpgQuery(scrapTarget: ScrapTarget) {
@@ -39,6 +41,6 @@ function useScrapinpgQuery(scrapTarget: ScrapTarget) {
 export function useScrapingQueries() {
   return {
     hanaTour: useScrapinpgQuery("HANA_TOUR"),
-    // modeTour: scrapinpgQuery("MODE_TOUR"),
+    onlineTour: useScrapinpgQuery("ONLINE_TOUR"),
   };
 }

@@ -63,7 +63,7 @@
   .search-info {
     display: flex;
     flex-direction: column;
-    margin-top: 40px;
+    margin: 40px 0 50px 0;
 
     .skeletons {
       transform: translateY(30px);
@@ -101,9 +101,8 @@
     .go-back {
       width: 150px;
       font-size: 15px;
-      color: $gray-4;
-      padding: 10px 0;
-      margin-top: 10px;
+      color: $gray-5;
+      padding: 5px 0;
       text-decoration: underline;
     }
   }
