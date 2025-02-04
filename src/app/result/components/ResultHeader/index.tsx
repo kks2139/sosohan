@@ -7,6 +7,7 @@ import { Check, FileText, Meh, Repeat } from "react-feather";
 
 import Skeleton from "@/components/Skeleton";
 import { useAirportQuery } from "@/queries/useAirportQuery";
+import { useModeTourQuery } from "@/queries/useModeTourQuery";
 import { useScrapingQueries } from "@/queries/useScrapingQueries";
 
 import styles from "./index.module.scss";
@@ -23,8 +24,14 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
   const router = useRouter();
   const { data } = useAirportQuery();
   const {
-    hanaTour: { isLoading: isScrapingLoading },
+    hanaTour: { isLoading: isHanaLoading },
+    onlineTour: { isLoading: isOnlineLoading },
   } = useScrapingQueries();
+  const { isLoading: isModeLoading } = useModeTourQuery();
+
+  const isScrapingLoading = isHanaLoading || isModeLoading || isOnlineLoading;
+  const canShowResults =
+    hasResults || (!isHanaLoading && !isModeLoading && !isOnlineLoading);
 
   const startAirportName = data?.find(
     (a) => a["공항코드1(IATA)"] === startCode
@@ -89,12 +96,7 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
       </div>
 
       <div className={cn("search-info")}>
-        {isScrapingLoading ? (
-          <div className={cn("skeletons")}>
-            <Skeleton width={220} />
-            <Skeleton width={120} />
-          </div>
-        ) : (
+        {canShowResults ? (
           <>
             <div className={cn("condition")}>
               <span>{`${startAirportName}`}</span>
@@ -118,6 +120,11 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
               </button>
             )}
           </>
+        ) : (
+          <div className={cn("skeletons")}>
+            <Skeleton width={200} />
+            <Skeleton width={120} />
+          </div>
         )}
       </div>
     </section>

@@ -46,6 +46,7 @@ export const scrapTargetInfo: Record<
   ScrapTarget,
   {
     url: string;
+    originalUrl?: string;
     contentRootSelector: string;
   }
 > = {
@@ -59,7 +60,10 @@ export const scrapTargetInfo: Record<
     contentRootSelector: "#boxList > li",
   },
   ONLINE_TOUR: {
-    url: "https://www.onlinetour.co.kr/flight/w/international/dcair/dcairList",
+    // 파라미터 TabGubun -> AS, CH, JA, EU, HN, US
+    url: "https://www.onlinetour.co.kr/flight/w/international/dcair/dcairList?TabGubun=AS",
+    originalUrl:
+      "https://www.onlinetour.co.kr/flight/w/international/dcair/dcairList",
     contentRootSelector: "#data_list > li",
   },
   MODE_TOUR: {
@@ -96,7 +100,7 @@ export function getAirLineLogo(str: string) {
   };
 
   const filteredKey = Object.keys(logoMap).filter((key) =>
-    key.includes(str)
+    key.includes(str.replace(/\s+/g, ""))
   )[0];
 
   return filteredKey ? logoMap[filteredKey] : LogoBasic;
