@@ -1,5 +1,6 @@
 import { Page } from "puppeteer-core";
 
+import { Airport, ScrapingResultData } from "@/queries/useScrapingQueries";
 import { getApiResponse, getBrowser } from "@/utils/api";
 import { ScrapTarget, scrapTargetInfo } from "@/utils/constant";
 
@@ -10,7 +11,6 @@ async function evalHanaTour(contentRootSelector: string, page: Page) {
     const trimText = (str: string) => str.replace(/\n|\//g, "").trim();
     const removeParentheses = (str: string) =>
       str.replace(/\s*\([^)]*\)\s*/g, "");
-
     const now = Date.now();
 
     return els.map((el, idx) => {
@@ -20,7 +20,7 @@ async function evalHanaTour(contentRootSelector: string, page: Page) {
       const row2 = el.querySelector(
         `div.item_course:nth-of-type(${hasTopAlarm ? 2 : 1})`
       );
-      const departure: Record<string, string> = {
+      const departure: Airport = {
         airLine: row1?.childNodes[1]?.textContent || "",
         date: removeParentheses(
           row1?.lastChild?.firstChild?.textContent || ""
@@ -32,14 +32,16 @@ async function evalHanaTour(contentRootSelector: string, page: Page) {
       };
 
       for (const key in departure) {
-        departure[key] = trimText(departure[key]);
+        const k = key as keyof Airport;
+
+        departure[k] = trimText(departure[k]);
       }
 
       const row3 = el.querySelector("p.air:nth-of-type(2) > span");
       const row4 = el.querySelector(
         `div.item_course:nth-of-type(${hasTopAlarm ? 3 : 2})`
       );
-      const back: Record<string, string> = {
+      const back: Airport = {
         airLine: row3?.childNodes[1]?.textContent || "",
         date: removeParentheses(
           row3?.lastChild?.firstChild?.textContent || ""
@@ -51,7 +53,9 @@ async function evalHanaTour(contentRootSelector: string, page: Page) {
       };
 
       for (const key in back) {
-        back[key] = trimText(back[key]);
+        const k = key as keyof Airport;
+
+        back[k] = trimText(back[k]);
       }
 
       const row5 = el.querySelector("div.flight_price > div > a");
@@ -68,9 +72,12 @@ async function evalHanaTour(contentRootSelector: string, page: Page) {
         back,
         price,
         member,
-        scrapTarget: "HANA_TOUR" as ScrapTarget,
+        scrapTarget: "HANA_TOUR",
         landingUrl: "",
-      };
+        transit:
+          el?.querySelector("div.item_course > span.move_arrow > span")
+            ?.textContent || "",
+      } as ScrapingResultData;
     });
   });
 }
@@ -111,16 +118,7 @@ async function evalOnlineTour(
     })
   ).filter((index) => index !== null);
 
-  let results: {
-    seqId: string;
-    departure: Record<string, string>;
-    back: Record<string, string>;
-    price: number;
-    member: string;
-    scrapTarget: ScrapTarget;
-    isDirectFlight: boolean;
-    landingUrl: string;
-  }[] = [];
+  let results: ScrapingResultData[] = [];
 
   for (let i = 0; i < activeButtonIndexes.length; i++) {
     // 가격은 목록에서 get
@@ -128,11 +126,10 @@ async function evalOnlineTour(
       nthPriceSelector(activeButtonIndexes[i]),
       (el) => el?.textContent || ""
     );
-    const isDirectFlight =
-      (await page.$eval(
-        nthDirectFlight(activeButtonIndexes[i]),
-        (el) => el?.textContent || ""
-      )) === "직항";
+    const transit = await page.$eval(
+      nthDirectFlight(activeButtonIndexes[i]),
+      (el) => el?.textContent || ""
+    );
 
     // 상세버튼 클릭
     await page.click(nthDetailButtonSelector(activeButtonIndexes[i]));
@@ -150,54 +147,53 @@ async function evalOnlineTour(
         el?.querySelector(".flight strong")?.textContent || ""
       ).split(" ")[0];
 
-      const depArea = el.querySelector("#depArea");
-      const arrArea = el.querySelector("#arrArea");
+      const departureSection = el.querySelector("#depArea");
+
+      const backSection = el.querySelector("#arrArea");
 
       // 출국 정보
-      const depStart = removeParentheses(
-        depArea?.querySelector("section ol li time")?.textContent || "",
+      const depStartDate = removeParentheses(
+        departureSection?.querySelector("ol li time")?.textContent || "",
         SPLIT_TOKEN
       ).split(SPLIT_TOKEN);
 
       const depEnd = removeParentheses(
-        depArea?.querySelector("section ol li:last-of-type time")
+        departureSection?.querySelector("ol li:last-of-type time")
           ?.textContent || "",
         SPLIT_TOKEN
       ).split(SPLIT_TOKEN);
 
-      const departure: Record<string, string> = {
+      const departure: Airport = {
         airLine,
-        date: `${year}-${depStart[0]}`,
+        date: `${year}-${depStartDate[0]}`,
         startLocation:
-          depArea?.querySelector("section header p strong")?.textContent || "",
-        startTime: depStart[1] || "",
+          departureSection?.querySelector("header p strong")?.textContent || "",
+        startTime: depStartDate[1] || "",
         endLocation:
-          depArea?.querySelector("section:last-of-type header p strong")
-            ?.textContent || "",
+          departureSection?.querySelector("header p em")?.textContent || "",
         endTime: depEnd[1] || "",
       };
 
       // 귀국 정보
       const backStart = removeParentheses(
-        depArea?.querySelector("section ol li time")?.textContent || "",
+        backSection?.querySelector("ol li time")?.textContent || "",
         SPLIT_TOKEN
       ).split(SPLIT_TOKEN);
 
       const backEnd = removeParentheses(
-        depArea?.querySelector("section ol li:last-of-type time")
-          ?.textContent || "",
+        backSection?.querySelector("ol li:last-of-type time")?.textContent ||
+          "",
         SPLIT_TOKEN
       ).split(SPLIT_TOKEN);
 
-      const back: Record<string, string> = {
+      const back: Airport = {
         airLine,
         date: `${year}-${backStart[0]}`,
         startLocation:
-          arrArea?.querySelector("section header p strong")?.textContent || "",
+          backSection?.querySelector("header p strong")?.textContent || "",
         startTime: backStart[1] || "",
         endLocation:
-          arrArea?.querySelector("section:last-of-type header p strong")
-            ?.textContent || "",
+          backSection?.querySelector("header p em")?.textContent || "",
         endTime: backEnd[1] || "",
       };
 
@@ -207,17 +203,18 @@ async function evalOnlineTour(
         back,
         price: 0,
         member: "성인 1인",
-        scrapTarget: "ONLINE_TOUR" as ScrapTarget,
-        isDirectFlight: false,
+        scrapTarget: "ONLINE_TOUR",
+        transit: "",
         landingUrl: "",
-      };
+      } as ScrapingResultData;
     });
 
     const { originalUrl } = scrapTargetInfo["ONLINE_TOUR"];
+    const departureDate = info.departure.date.split("-");
 
     info.price = Number(price.replace(/,/g, ""));
-    info.isDirectFlight = isDirectFlight;
-    info.landingUrl = `${originalUrl}?TabGubun=${tabName}`;
+    info.transit = transit;
+    info.landingUrl = `${originalUrl}?TabGubun=${tabName}&nowMonth=${departureDate[1]}&nowYear=${departureDate[0]}`;
 
     results.push(info);
 
@@ -244,6 +241,21 @@ async function clickMoreForOnlineTour(page: Page, clickTimes: number = 3) {
   }
 }
 
+// 온라인투어 - 다음달 클릭
+async function clickNextMonthForOnlineTour(page: Page) {
+  try {
+    await page.click("div.calendar_date > button:last-of-type");
+    await new Promise((res) => setTimeout(res, 1_000));
+
+    await page.waitForSelector(
+      scrapTargetInfo["ONLINE_TOUR"].contentRootSelector,
+      { timeout: 500 }
+    );
+  } catch {
+    //
+  }
+}
+
 async function scrapPageByTarget(target: ScrapTarget, page: Page) {
   const { contentRootSelector } = scrapTargetInfo[target];
 
@@ -265,7 +277,10 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
     case "ONLINE_TOUR":
       // AS(아시아) 탭부터 시작
       await clickMoreForOnlineTour(page);
-      const AS_result = await evalOnlineTour(contentRootSelector, page, "AS");
+      const AS_result1 = await evalOnlineTour(contentRootSelector, page, "AS");
+
+      await clickNextMonthForOnlineTour(page);
+      const AS_result2 = await evalOnlineTour(contentRootSelector, page, "AS");
 
       // AS 제외 4개 탭 스크래핑 필요 -> ?TabGubun= AS, CH, JA, EU, HN, US
       const tabs = ["CH", "JA", "EU", "HN", "US"];
@@ -276,27 +291,35 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
         return url.toString();
       });
 
-      let otherTabResult: typeof AS_result = [];
+      let otherTabResult: ScrapingResultData[] = [];
 
       for (let i = 0; i < otherTabUrls.length; i++) {
         await page.goto(otherTabUrls[i], { waitUntil: "domcontentloaded" });
 
         try {
-          await page.waitForSelector(contentRootSelector, { timeout: 2000 });
+          await page.waitForSelector(contentRootSelector, { timeout: 500 });
 
-          const tabResult = await evalOnlineTour(
+          const tabResult1 = await evalOnlineTour(
             contentRootSelector,
             page,
             tabs[i]
           );
 
-          otherTabResult = [...otherTabResult, ...tabResult];
+          await clickNextMonthForOnlineTour(page);
+
+          const tabResult2 = await evalOnlineTour(
+            contentRootSelector,
+            page,
+            tabs[i]
+          );
+
+          otherTabResult = [...otherTabResult, ...tabResult1, ...tabResult2];
         } catch {
           //
         }
       }
 
-      return [...AS_result, ...otherTabResult];
+      return [...AS_result1, ...AS_result2, ...otherTabResult];
     case "INTER_PARK":
       break;
   }

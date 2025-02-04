@@ -25,7 +25,6 @@ function ResultContent() {
   } = useScrapingQueries();
   const { data: modeData = [], isLoading: isModeLoading } = useModeTourQuery();
 
-  const isScrapingLoading = isHanaLoading || isModeLoading || isOnlineLoading;
   const results =
     [...hanaData, ...modeData, ...onlineData]?.filter(
       ({ departure: { startLocation, endLocation } }) => {
@@ -35,21 +34,26 @@ function ResultContent() {
         );
       }
     ) || [];
+  const hasResults = results.length > 0;
+
+  // 결과가 하나 이상 있거나, 모두 로딩상태가 아닌경우 결과목록 노출
+  const canShowResults =
+    hasResults || (!isHanaLoading && !isModeLoading && !isOnlineLoading);
 
   return (
     <div className={cn("Page")}>
       <ResultHeader
         startCode={startCode}
         endCode={endCode}
-        hasResults={results.length > 0}
+        hasResults={hasResults}
       />
 
-      {isScrapingLoading ? (
-        <ListSkeleton />
-      ) : (
+      {canShowResults ? (
         <section className={cn("ticket-list")}>
           <TicketList results={results} />
         </section>
+      ) : (
+        <ListSkeleton />
       )}
     </div>
   );

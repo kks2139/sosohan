@@ -13,28 +13,81 @@
   }
 
   .count {
-    font-size: 18px;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
 
     .total {
-      margin-right: 13px;
+      display: flex;
+      align-items: center;
+      font-size: 19px;
+      font-weight: bold;
+      margin-right: 18px;
+    }
+
+    .hana,
+    .mode,
+    .online {
+      position: relative;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: white;
+      padding: 4px 8px;
+      border-radius: $border-radius-1;
+      transition: 0.2s;
+
+      .num {
+        font-weight: bold;
+        margin-left: 5px;
+      }
+
+      &.loading {
+        padding-right: 30px;
+
+        .num {
+          display: none;
+        }
+
+        &::after {
+          content: "";
+          z-index: 9;
+          position: absolute;
+          top: 50%;
+          right: 8px;
+          width: 13px;
+          height: 13px;
+          border-radius: 10px;
+          border-style: solid;
+          border-width: 2px;
+          animation: loading-rotate 1s linear infinite;
+        }
+      }
     }
 
     .hana {
-      font-size: 13px;
+      background-color: $hana-tour;
       margin-right: 10px;
-      color: $hana-tour;
+
+      &::after {
+        border-color: white white white transparent;
+      }
     }
 
     .mode {
+      background-color: $mode-tour;
       margin-right: 10px;
-      font-size: 13px;
-      color: $mode-tour;
+
+      &::after {
+        border-color: white white white transparent;
+      }
     }
 
     .online {
-      font-size: 13px;
-      color: $online-tour;
+      background-color: $online-tour;
+
+      &::after {
+        border-color: white white white transparent;
+      }
     }
   }
 
@@ -95,9 +148,57 @@
     }
   }
 
+  @keyframes loading-rotate {
+    from {
+      transform: translate(0, -50%) rotate(0);
+    }
+    to {
+      transform: translate(0, -50%) rotate(360deg);
+    }
+  }
+
   @include view-mode(mobile) {
     padding: 0;
     margin-bottom: 6px;
+
+    .top-info {
+      .total {
+        font-size: 16px;
+        margin-right: 10px;
+      }
+
+      .hana,
+      .mode,
+      .online {
+        height: 23px;
+        padding: 0 12px;
+
+        .label {
+          display: none;
+        }
+
+        .num {
+          margin-left: 0;
+        }
+
+        &.loading {
+          width: 35px;
+          padding-right: 0;
+
+          &::after {
+            right: calc(50% - 6px);
+          }
+        }
+      }
+
+      .hana {
+        margin-right: 5px;
+      }
+
+      .mode {
+        margin-right: 5px;
+      }
+    }
 
     .count,
     .sort button {

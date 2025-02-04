@@ -7,7 +7,11 @@ import { useState } from "react";
 import { File, Sliders } from "react-feather";
 
 import Button from "@/components/Button";
-import { ScrapingResultData } from "@/queries/useScrapingQueries";
+import { useModeTourQuery } from "@/queries/useModeTourQuery";
+import {
+  ScrapingResultData,
+  useScrapingQueries,
+} from "@/queries/useScrapingQueries";
 
 import Ticket from "../Ticket";
 import styles from "./index.module.scss";
@@ -20,6 +24,11 @@ interface Props {
 
 function TicketList({ results }: Props) {
   const router = useRouter();
+  const {
+    hanaTour: { isLoading: isHanaLoading },
+    onlineTour: { isLoading: isOnlineLoading },
+  } = useScrapingQueries();
+  const { isLoading: isModeLoading } = useModeTourQuery();
   const [sortType, setSortType] = useState<"LOW_PRICE" | "EARLY_START">(
     "LOW_PRICE"
   );
@@ -44,7 +53,6 @@ function TicketList({ results }: Props) {
     return differenceInMinutes(start_a, start_b);
   });
 
-  const hasResults = sortedResults.length > 0;
   const hanaCount = sortedResults.filter(
     ({ scrapTarget }) => scrapTarget === "HANA_TOUR"
   ).length;
@@ -55,34 +63,44 @@ function TicketList({ results }: Props) {
     ({ scrapTarget }) => scrapTarget === "ONLINE_TOUR"
   ).length;
 
+  const hasResults = sortedResults.length > 0;
+
   return (
     <div className={cn("TicketList")}>
-      {hasResults && (
-        <section className={cn("top-info")}>
-          <div className={cn("count")}>
-            <span className={cn("total")}>
-              결과 {`(${sortedResults.length})`}
+      <section className={cn("top-info")}>
+        <dl className={cn("count")}>
+          <dt className={cn("total")}>
+            <div className={cn("label")}>결과</div>
+            <div>{`(${sortedResults.length})`}</div>
+          </dt>
+          <dt className={cn("hana", { loading: isHanaLoading })}>
+            <div className={cn("label")}>하나</div>
+            <div className={cn("num")}>{hanaCount}</div>
+          </dt>
+          <dt className={cn("mode", { loading: isModeLoading })}>
+            <div className={cn("label")}>모두</div>
+            <div className={cn("num")}>{modeCount}</div>
+          </dt>
+          <dt className={cn("online", { loading: isOnlineLoading })}>
+            <div className={cn("label")}>온라인</div>
+            <div className={cn("num")}>{onLineCount}</div>
+          </dt>
+        </dl>
+        <div className={cn("sort")}>
+          <button
+            className={cn("button")}
+            type="button"
+            onClick={() => {
+              setSortType(isSortedByLowPrice ? "EARLY_START" : "LOW_PRICE");
+            }}
+          >
+            <span className={cn("label")}>
+              {isSortedByLowPrice ? "낮은 가격순" : "빠른 출발순"}
             </span>
-            <span className={cn("hana")}>하나투어 {hanaCount}</span>
-            <span className={cn("mode")}>모두투어 {modeCount}</span>
-            <span className={cn("online")}>온라인투어 {onLineCount}</span>
-          </div>
-          <div className={cn("sort")}>
-            <button
-              className={cn("button")}
-              type="button"
-              onClick={() => {
-                setSortType(isSortedByLowPrice ? "EARLY_START" : "LOW_PRICE");
-              }}
-            >
-              <span className={cn("label")}>
-                {isSortedByLowPrice ? "낮은 가격순" : "빠른 출발순"}
-              </span>
-              <Sliders size={20} />
-            </button>
-          </div>
-        </section>
-      )}
+            <Sliders size={20} />
+          </button>
+        </div>
+      </section>
 
       {hasResults ? (
         <ul>

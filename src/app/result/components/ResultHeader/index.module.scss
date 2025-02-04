@@ -19,7 +19,6 @@
       align-items: center;
       position: relative;
       margin-left: 20px;
-      color: $gray-2;
 
       .motion-div {
         height: 100%;
@@ -29,6 +28,7 @@
         position: absolute;
 
         &.file {
+          color: $gray-2;
           opacity: 0;
           transform: translateY(20px);
           animation: move-wave 3s ease-in-out infinite;
@@ -66,7 +66,6 @@
     margin: 40px 0 50px 0;
 
     .skeletons {
-      transform: translateY(30px);
       padding: 15px;
 
       > * {

@@ -21,7 +21,7 @@ export interface ScrapingResultData {
   member: string;
   scrapTarget: ScrapTarget;
   landingUrl?: string;
-  isDirectFlight?: boolean;
+  transit?: string; // 직항, 경유 문자열
 }
 
 function useScrapinpgQuery(scrapTarget: ScrapTarget) {

@@ -97,7 +97,16 @@ export function useModeTourQuery() {
     select: (data) => {
       return data.infos.map(
         (
-          { air, sDate, eDate, departure, arrival, adult, continentCode },
+          {
+            air,
+            sDate,
+            eDate,
+            departure,
+            arrival,
+            adult,
+            continentCode,
+            start,
+          },
           idx
         ) => {
           // 가격: 성인1인 기준
@@ -128,6 +137,7 @@ export function useModeTourQuery() {
             member: "성인 1인",
             scrapTarget: "MODE_TOUR",
             landingUrl,
+            transit: start.via === "Y" ? "경유" : "직항항",
           };
         }
       );
