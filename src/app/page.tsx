@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import ImgAirPlane from "@/assets/img/air_plane.png";
 import ImgSLoad from "@/assets/img/s_load.png";
+import TitleMotion from "@/components/TitleMotion";
 import ToastMessages from "@/components/ToastMessages";
 
 import styles from "./page.module.scss";
@@ -14,9 +15,7 @@ function Page() {
   return (
     <div className={cn("Page")}>
       <section className={cn("intro")}>
-        <h1 className={cn("title")}>
-          공동구매항공권 <span>한눈에</span>
-        </h1>
+        <TitleMotion />
         <div className={cn("key-visual")}>
           <Image src={ImgSLoad} alt="" width={90} height={90} />
           <Image

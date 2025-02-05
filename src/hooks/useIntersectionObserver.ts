@@ -4,7 +4,8 @@ interface Option {
   rootElement: Element | null;
   targetElement: Element | null;
   threshold?: number;
-  onIntersection: () => void;
+  onIntersection?: () => void;
+  onOutOfView?: () => void;
 }
 
 export function useIntersectionObserver({
@@ -12,6 +13,7 @@ export function useIntersectionObserver({
   targetElement,
   threshold = 0,
   onIntersection,
+  onOutOfView,
 }: Option) {
   useEffect(() => {
     if (!rootElement || !targetElement) {
@@ -21,7 +23,9 @@ export function useIntersectionObserver({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          onIntersection();
+          onIntersection?.();
+        } else {
+          onOutOfView?.();
         }
       },
       {

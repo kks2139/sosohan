@@ -2,8 +2,10 @@
 
 import classNames from "classnames/bind";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useRef, useState } from "react";
+import { ChevronsUp } from "react-feather";
 
+import Button from "@/components/Button";
 import DotLoading from "@/components/DotLoading";
 import { useModeTourQuery } from "@/queries/useModeTourQuery";
 import { useScrapingQueries } from "@/queries/useScrapingQueries";
@@ -12,6 +14,7 @@ import ResultHeader from "./components/ResultHeader";
 import TicketList from "./components/TicketList";
 import ListSkeleton from "./components/TicketList/ListSkeleton";
 import styles from "./page.module.scss";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const cn = classNames.bind(styles);
 
@@ -24,6 +27,11 @@ function ResultContent() {
     onlineTour: { data: onlineData = [], isLoading: isOnlineLoading },
   } = useScrapingQueries();
   const { data: modeData = [], isLoading: isModeLoading } = useModeTourQuery();
+
+  const topRef = useRef<HTMLDivElement>(null);
+  const wayPointRef = useRef<HTMLDivElement>(null);
+
+  const [isShowToTop, setIsShowToTop] = useState(false);
 
   const results =
     [...hanaData, ...modeData, ...onlineData]?.filter(
@@ -40,13 +48,22 @@ function ResultContent() {
   const canShowResults =
     hasResults || (!isHanaLoading && !isModeLoading && !isOnlineLoading);
 
+  useIntersectionObserver({
+    rootElement: topRef.current,
+    targetElement: wayPointRef.current,
+    onIntersection: () => setIsShowToTop(false),
+    onOutOfView: () => setIsShowToTop(true),
+  });
+
   return (
-    <div className={cn("Page")}>
+    <div className={cn("Page")} ref={topRef}>
       <ResultHeader
         startCode={startCode}
         endCode={endCode}
         hasResults={hasResults}
       />
+
+      <div className={cn("way-point")} ref={wayPointRef}></div>
 
       {canShowResults ? (
         <section className={cn("ticket-list")}>
@@ -54,6 +71,17 @@ function ResultContent() {
         </section>
       ) : (
         <ListSkeleton />
+      )}
+
+      {canShowResults && (
+        <Button
+          className={cn("to-top", { show: isShowToTop })}
+          onClick={() => {
+            topRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <ChevronsUp size={22} />
+        </Button>
       )}
     </div>
   );

@@ -16,29 +16,25 @@
     display: flex;
     align-items: center;
 
-    .total {
-      display: flex;
-      align-items: center;
-      font-size: 19px;
-      font-weight: bold;
-      margin-right: 18px;
-    }
-
-    .hana,
-    .mode,
-    .online {
+    > button {
       position: relative;
       display: flex;
       align-items: center;
-      font-size: 13px;
+      font-size: 15px;
       color: white;
-      padding: 4px 8px;
+      padding: 6px 10px;
       border-radius: $border-radius-1;
       transition: 0.2s;
+      opacity: 0.6;
 
       .num {
         font-weight: bold;
         margin-left: 5px;
+      }
+
+      &.active {
+        opacity: 1;
+        padding: 9px 10px;
       }
 
       &.loading {
@@ -64,25 +60,25 @@
       }
     }
 
-    .hana {
+    .HANA_TOUR {
       background-color: $hana-tour;
-      margin-right: 10px;
+      margin-right: 5px;
 
       &::after {
         border-color: white white white transparent;
       }
     }
 
-    .mode {
+    .MODE_TOUR {
       background-color: $mode-tour;
-      margin-right: 10px;
+      margin-right: 5px;
 
       &::after {
         border-color: white white white transparent;
       }
     }
 
-    .online {
+    .ONLINE_TOUR {
       background-color: $online-tour;
 
       &::after {
@@ -127,6 +123,9 @@
     margin-top: 90px;
 
     .title {
+      display: flex;
+      align-items: center;
+
       > svg {
         margin-right: 6px;
       }
@@ -162,45 +161,42 @@
     margin-bottom: 6px;
 
     .top-info {
-      .total {
-        font-size: 16px;
-        margin-right: 10px;
-      }
+      .count {
+        > button {
+          padding: 5px 20px;
 
-      .hana,
-      .mode,
-      .online {
-        height: 23px;
-        padding: 0 12px;
+          .label {
+            display: none;
+          }
 
-        .label {
-          display: none;
-        }
+          .num {
+            margin-left: 0;
+          }
 
-        .num {
-          margin-left: 0;
-        }
+          &.active {
+            padding: 8px 20px;
+          }
 
-        &.loading {
-          width: 35px;
-          padding-right: 0;
+          &.loading {
+            height: 35px;
+            padding: 5px 25px;
 
-          &::after {
-            right: calc(50% - 6px);
+            &::after {
+              right: calc(50% - 6px);
+            }
           }
         }
-      }
 
-      .hana {
-        margin-right: 5px;
-      }
+        .HANA_TOUR {
+          margin-right: 3px;
+        }
 
-      .mode {
-        margin-right: 5px;
+        .MODE_TOUR {
+          margin-right: 3px;
+        }
       }
     }
 
-    .count,
     .sort button {
       font-size: 15px;
     }

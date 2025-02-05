@@ -1,0 +1,44 @@
+.top-menu-bar {
+  z-index: 999;
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: $top-menu-bar-height;
+  background-color: white;
+  padding: 0 20px;
+
+  box-shadow: 0 0 15px -12px $dark-2;
+
+  button {
+    transition: 0.2s;
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      margin-left: 10px;
+      color: $gray-5;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+    color: $gray-5;
+
+    > * {
+      margin-left: 15px;
+    }
+  }
+}

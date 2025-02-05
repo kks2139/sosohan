@@ -64,6 +64,12 @@
     }
   }
 
+  &.small {
+    height: 30px;
+    padding: 0 25px;
+    font-size: 14px;
+  }
+
   &.regular {
     height: 40px;
     padding: 0 30px;

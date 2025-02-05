@@ -1,5 +1,27 @@
+"use client";
+
+import classNames from "classnames/bind";
+import styles from "./not-found.module.scss";
+import { AlertTriangle } from "react-feather";
+import Button from "@/components/Button";
+import { useRouter } from "next/navigation";
+
+const cn = classNames.bind(styles);
+
 function NotFound() {
-  return <h1>효도하세요. (this is bull shit. - by Ham)</h1>;
+  const router = useRouter();
+
+  return (
+    <div className={cn("NotFound")}>
+      <p>
+        <h1>잘못된 주소에요!</h1>
+        <AlertTriangle size={23} />
+      </p>
+      <Button sizeType="regular" onClick={() => router.replace("/")}>
+        홈 가기
+      </Button>
+    </div>
+  );
 }
 
 export default NotFound;
