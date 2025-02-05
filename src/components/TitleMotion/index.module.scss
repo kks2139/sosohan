@@ -1,0 +1,26 @@
+.TitleMotion {
+  display: flex;
+  margin: 12px 0 14px 0;
+  font-size: 28px;
+  font-weight: bold;
+
+  strong {
+    color: $main-1;
+  }
+
+  .motion {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 120px;
+    border-radius: $border-radius-2;
+
+    .keyword {
+      position: absolute;
+    }
+  }
+
+  @include view-mode(mobile) {
+    font-size: 25px;
+  }
+}

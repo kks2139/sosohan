@@ -7,7 +7,7 @@ const cn = classNames.bind(styles);
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
-  sizeType?: "large" | "regular";
+  sizeType?: "large" | "regular" | "small";
   fullWidth?: boolean;
   loading?: boolean;
   disabled?: boolean;

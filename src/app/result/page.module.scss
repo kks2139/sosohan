@@ -1,5 +1,6 @@
 .Page {
-  padding: 60px 20px 80px;
+  position: relative;
+  padding: calc(60px + $top-menu-bar-height) 20px 80px;
   height: 100vh;
   overflow-y: auto;
 
@@ -10,7 +11,39 @@
     align-items: center;
   }
 
+  .way-point {
+    position: absolute;
+  }
+
+  .to-top {
+    position: fixed;
+    right: 30px;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    color: $gray-4;
+    background-color: white;
+    border-radius: $border-radius-0;
+    box-shadow: 0 0 6px -2px $dark-2;
+    transition: 0.3s;
+
+    opacity: 0;
+    transform: translateX(calc(100% + 2px));
+
+    &.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
   @include view-mode(mobile) {
-    padding: 20px 17px 80px;
+    padding: calc(20px + $top-menu-bar-height) 17px 80px;
   }
 }

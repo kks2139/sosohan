@@ -15,8 +15,16 @@ import {
 
 import Ticket from "../Ticket";
 import styles from "./index.module.scss";
+import { ScrapTarget } from "@/utils/constant";
 
 const cn = classNames.bind(styles);
+
+interface Tab {
+  target: ScrapTarget;
+  label: string;
+  count: number;
+  loading?: boolean;
+}
 
 interface Props {
   results: ScrapingResultData[];
@@ -32,60 +40,96 @@ function TicketList({ results }: Props) {
   const [sortType, setSortType] = useState<"LOW_PRICE" | "EARLY_START">(
     "LOW_PRICE"
   );
+  const [selectedTabs, setSelectedTabs] = useState<ScrapTarget[]>([
+    "HANA_TOUR",
+    "MODE_TOUR",
+    "ONLINE_TOUR",
+  ]);
 
   const isSortedByLowPrice = sortType === "LOW_PRICE";
-  const sortedResults = results.toSorted((a, b) => {
-    if (isSortedByLowPrice) {
-      return a.price - b.price;
-    }
 
-    const start_a = parse(
-      `${a.departure.date} ${a.departure.startTime}`,
-      "yyyy-MM-dd HH:mm",
-      new Date()
-    );
-    const start_b = parse(
-      `${b.departure.date} ${b.departure.startTime}`,
-      "yyyy-MM-dd HH:mm",
-      new Date()
-    );
+  const sortedResults = results
+    .filter(({ scrapTarget }) => selectedTabs.includes(scrapTarget))
+    .toSorted((a, b) => {
+      if (isSortedByLowPrice) {
+        return a.price - b.price;
+      }
 
-    return differenceInMinutes(start_a, start_b);
-  });
+      const start_a = parse(
+        `${a.departure.date} ${a.departure.startTime}`,
+        "yyyy-MM-dd HH:mm",
+        new Date()
+      );
+      const start_b = parse(
+        `${b.departure.date} ${b.departure.startTime}`,
+        "yyyy-MM-dd HH:mm",
+        new Date()
+      );
 
-  const hanaCount = sortedResults.filter(
+      return differenceInMinutes(start_a, start_b);
+    });
+
+  const hanaCount = results.filter(
     ({ scrapTarget }) => scrapTarget === "HANA_TOUR"
   ).length;
-  const modeCount = sortedResults.filter(
+  const modeCount = results.filter(
     ({ scrapTarget }) => scrapTarget === "MODE_TOUR"
   ).length;
-  const onLineCount = sortedResults.filter(
+  const onLineCount = results.filter(
     ({ scrapTarget }) => scrapTarget === "ONLINE_TOUR"
   ).length;
 
   const hasResults = sortedResults.length > 0;
+  const tabs: Tab[] = [
+    {
+      target: "HANA_TOUR",
+      label: "하나투어",
+      count: hanaCount,
+      loading: isHanaLoading,
+    },
+    {
+      target: "MODE_TOUR",
+      label: "모두두투어",
+      count: modeCount,
+      loading: isModeLoading,
+    },
+    {
+      target: "ONLINE_TOUR",
+      label: "온라인투어",
+      count: onLineCount,
+      loading: isOnlineLoading,
+    },
+  ];
+
+  const selectTab = (tab: ScrapTarget) => {
+    const hasTab = selectedTabs.includes(tab);
+
+    setSelectedTabs(
+      hasTab ? selectedTabs.filter((t) => t !== tab) : [...selectedTabs, tab]
+    );
+  };
 
   return (
     <div className={cn("TicketList")}>
       <section className={cn("top-info")}>
-        <dl className={cn("count")}>
-          <dt className={cn("total")}>
-            <div className={cn("label")}>결과</div>
-            <div>{`(${sortedResults.length})`}</div>
-          </dt>
-          <dt className={cn("hana", { loading: isHanaLoading })}>
-            <div className={cn("label")}>하나</div>
-            <div className={cn("num")}>{hanaCount}</div>
-          </dt>
-          <dt className={cn("mode", { loading: isModeLoading })}>
-            <div className={cn("label")}>모두</div>
-            <div className={cn("num")}>{modeCount}</div>
-          </dt>
-          <dt className={cn("online", { loading: isOnlineLoading })}>
-            <div className={cn("label")}>온라인</div>
-            <div className={cn("num")}>{onLineCount}</div>
-          </dt>
-        </dl>
+        <div className={cn("count")}>
+          {tabs.map(({ target, label, count, loading }) => (
+            <button
+              key={target}
+              type="button"
+              className={cn(target, {
+                loading,
+                active: selectedTabs.includes(target),
+              })}
+              onClick={() => {
+                selectTab(target);
+              }}
+            >
+              <div className={cn("label")}>{label}</div>
+              <div className={cn("num")}>{count}</div>
+            </button>
+          ))}
+        </div>
         <div className={cn("sort")}>
           <button
             className={cn("button")}
@@ -112,7 +156,7 @@ function TicketList({ results }: Props) {
         <section className={cn("no-result")}>
           <div className={cn("title")}>
             <File size={40} />
-            <span>텅텅..</span>
+            <span>텅텅</span>
           </div>
           <Button
             className={cn("go-back")}
@@ -120,7 +164,7 @@ function TicketList({ results }: Props) {
               router.replace("/");
             }}
           >
-            검색조건 입력하기
+            다른 조건 검색하기
           </Button>
         </section>
       )}
