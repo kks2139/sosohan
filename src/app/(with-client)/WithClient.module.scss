@@ -9,7 +9,6 @@
   height: $top-menu-bar-height;
   background-color: white;
   padding: 0 20px;
-
   box-shadow: 0 0 15px -12px $dark-2;
 
   button {
@@ -26,7 +25,7 @@
 
     h1 {
       margin-left: 10px;
-      color: $gray-5;
+      color: $gray-4;
       font-size: 18px;
       font-weight: bold;
     }
@@ -35,7 +34,7 @@
   .info {
     display: flex;
     align-items: center;
-    color: $gray-5;
+    color: $gray-4;
 
     > * {
       margin-left: 15px;

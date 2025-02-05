@@ -4,16 +4,21 @@
   font-size: 28px;
   font-weight: bold;
 
+  transform: translateX(-10px);
+
   strong {
     color: $main-1;
+    margin-left: 4px;
   }
 
   .motion {
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     width: 120px;
-    border-radius: $border-radius-2;
+    margin-right: 7px;
+
+    // box-shadow: 0 0 0 1px red;
 
     .keyword {
       position: absolute;
