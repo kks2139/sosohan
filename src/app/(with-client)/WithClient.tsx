@@ -1,10 +1,10 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import classNames from "classnames/bind";
+import { HelpCircle, Share2 } from "react-feather";
 
 import styles from "./WithClient.module.scss";
-import classNames from "classnames/bind";
-import { HelpCircle, Home, Share2 } from "react-feather";
 
 const cn = classNames.bind(styles);
 

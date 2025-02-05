@@ -39,5 +39,5 @@ export function useIntersectionObserver({
     return () => {
       observer.unobserve(targetElement);
     };
-  }, [onIntersection, rootElement, targetElement, threshold]);
+  }, [onIntersection, onOutOfView, rootElement, targetElement, threshold]);
 }

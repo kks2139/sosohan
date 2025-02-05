@@ -12,10 +12,10 @@ import {
   ScrapingResultData,
   useScrapingQueries,
 } from "@/queries/useScrapingQueries";
+import { ScrapTarget } from "@/utils/constant";
 
 import Ticket from "../Ticket";
 import styles from "./index.module.scss";
-import { ScrapTarget } from "@/utils/constant";
 
 const cn = classNames.bind(styles);
 

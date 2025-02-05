@@ -1,10 +1,12 @@
 "use client";
 
 import classNames from "classnames/bind";
-import styles from "./not-found.module.scss";
-import { AlertTriangle } from "react-feather";
-import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
+import { AlertTriangle } from "react-feather";
+
+import Button from "@/components/Button";
+
+import styles from "./not-found.module.scss";
 
 const cn = classNames.bind(styles);
 

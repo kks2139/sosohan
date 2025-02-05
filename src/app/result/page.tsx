@@ -7,6 +7,7 @@ import { ChevronsUp } from "react-feather";
 
 import Button from "@/components/Button";
 import DotLoading from "@/components/DotLoading";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useModeTourQuery } from "@/queries/useModeTourQuery";
 import { useScrapingQueries } from "@/queries/useScrapingQueries";
 
@@ -14,7 +15,6 @@ import ResultHeader from "./components/ResultHeader";
 import TicketList from "./components/TicketList";
 import ListSkeleton from "./components/TicketList/ListSkeleton";
 import styles from "./page.module.scss";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const cn = classNames.bind(styles);
 
