@@ -224,8 +224,8 @@ async function evalOnlineTour(
   return results;
 }
 
-// 온라인투어 - 하단 더보기가 있으면 클릭해서 더 노출(적당히 3번 정도)
-async function clickMoreForOnlineTour(page: Page, clickTimes: number = 3) {
+// 온라인투어 - 하단 더보기가 있으면 클릭해서 더 노출(적당히 2번 정도)
+async function clickMoreForOnlineTour(page: Page, clickTimes: number = 2) {
   const buttonId = "#btn_more";
 
   for (let i = 0; i < clickTimes; i++) {
@@ -294,10 +294,10 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
       let otherTabResult: ScrapingResultData[] = [];
 
       for (let i = 0; i < otherTabUrls.length; i++) {
-        await page.goto(otherTabUrls[i], { waitUntil: "domcontentloaded" });
+        await page.goto(otherTabUrls[i], { waitUntil: "networkidle0" });
 
         try {
-          await page.waitForSelector(contentRootSelector, { timeout: 800 });
+          await page.waitForSelector(contentRootSelector, { timeout: 500 });
 
           const tabResult1 = await evalOnlineTour(
             contentRootSelector,
@@ -321,7 +321,7 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
 
       const returnValue = [...AS_result1, ...AS_result2, ...otherTabResult];
 
-      console.log("ONLINE_TOUR return :", returnValue);
+      // console.log("ONLINE_TOUR return :", returnValue);
 
       return returnValue;
     case "INTER_PARK":
