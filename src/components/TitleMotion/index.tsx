@@ -17,7 +17,7 @@ function TitleMotion() {
       const next = showCount + 1;
 
       setShowCount(next >= KEY_WORDS.length ? 0 : next);
-    }, 4_000);
+    }, 3_000);
 
     return () => {
       clearInterval(timer);
@@ -31,10 +31,10 @@ function TitleMotion() {
           {KEY_WORDS.filter((_, idx) => idx === showCount).map((word) => (
             <motion.div
               key={word}
-              className={cn("keyword")}
-              initial={{ opacity: 0, scale: 0.3 }}
+              className={cn("keyword", { "right-padding": word === "땡처리" })}
+              initial={{ opacity: 0, scale: 0.2 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.3 }}
+              exit={{ opacity: 0, scale: 0.2 }}
               transition={{ duration: 0.4, ease: [0.385, 0.01, 0.505, 1.65] }}
             >
               {word}
