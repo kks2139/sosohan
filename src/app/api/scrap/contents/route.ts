@@ -82,21 +82,6 @@ async function evalHanaTour(contentRootSelector: string, page: Page) {
   });
 }
 
-async function evalModeTour(contentRootSelector: string, page: Page) {
-  // 모두투어 스크래핑 보류
-  return await page.$$eval(contentRootSelector, (els) => {
-    return els.map(() => {
-      return {
-        departure: {},
-        back: {},
-        price: 0,
-        member: "",
-        scrapTarget: "MODE_TOUR" as ScrapTarget,
-      };
-    });
-  });
-}
-
 async function evalOnlineTour(
   contentRootSelector: string,
   page: Page,
@@ -133,7 +118,7 @@ async function evalOnlineTour(
 
     // 상세버튼 클릭
     await page.click(nthDetailButtonSelector(activeButtonIndexes[i]));
-    await page.waitForSelector(popupSelector);
+    await page.waitForSelector(popupSelector, { timeout: 500 });
 
     const info = await page.$eval(popupSelector, (el) => {
       const year = new Date().getFullYear();
@@ -209,12 +194,12 @@ async function evalOnlineTour(
       } as ScrapingResultData;
     });
 
-    const { originalUrl } = scrapTargetInfo["ONLINE_TOUR"];
+    const { url } = scrapTargetInfo["ONLINE_TOUR"];
     const departureDate = info.departure.date.split("-");
 
     info.price = Number(price.replace(/,/g, ""));
     info.transit = transit;
-    info.landingUrl = `${originalUrl}?TabGubun=${tabName}&nowMonth=${departureDate[1]}&nowYear=${departureDate[0]}`;
+    info.landingUrl = `${url}?TabGubun=${tabName}&nowMonth=${departureDate[1]}&nowYear=${departureDate[0]}`;
 
     results.push(info);
 
@@ -228,16 +213,16 @@ async function evalOnlineTour(
 async function clickMoreForOnlineTour(page: Page, clickTimes: number = 2) {
   const buttonId = "#btn_more";
 
-  for (let i = 0; i < clickTimes; i++) {
-    const hasMoreButton = await page.$eval(buttonId, (el) => !!el);
+  try {
+    for (let i = 0; i < clickTimes; i++) {
+      await page.waitForSelector(buttonId, { timeout: 500 });
+      await await page.click(buttonId);
 
-    if (!hasMoreButton) {
-      break;
+      // 더보기 클릭 시 로딩시간 대략 1초 이하라서 기다려줌
+      await new Promise((res) => setTimeout(res, 1000));
     }
-
-    await page.click(buttonId);
-    // 더보기 클릭 시 로딩시간 대략 1초 이하라서 기다려줌
-    await new Promise((res) => setTimeout(res, 1000));
+  } catch {
+    //
   }
 }
 
@@ -246,7 +231,6 @@ async function clickNextMonthForOnlineTour(page: Page) {
   try {
     await page.click("div.calendar_date > button:last-of-type");
     await new Promise((res) => setTimeout(res, 1_000));
-
     await page.waitForSelector(
       scrapTargetInfo["ONLINE_TOUR"].contentRootSelector,
       { timeout: 500 }
@@ -256,10 +240,23 @@ async function clickNextMonthForOnlineTour(page: Page) {
   }
 }
 
-async function scrapPageByTarget(target: ScrapTarget, page: Page) {
+async function scrapPageByTarget(
+  target: ScrapTarget,
+  page: Page,
+  onlineTourTab = ""
+): Promise<ScrapingResultData[]> {
   const { contentRootSelector } = scrapTargetInfo[target];
 
-  await page.waitForSelector(contentRootSelector);
+  try {
+    await page.waitForSelector(contentRootSelector, { timeout: 500 });
+  } catch (e) {
+    console.log(
+      `scrapPageByTarget - ${onlineTourTab} waitForSelector error:\n`,
+      e
+    );
+
+    return [];
+  }
 
   switch (target) {
     case "HANA_TOUR":
@@ -272,66 +269,42 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
 
       return [...tab1, ...tab2];
     case "MODE_TOUR":
-      return await evalModeTour(contentRootSelector, page);
-
+      return [];
     case "ONLINE_TOUR":
-      // AS(아시아) 탭부터 시작
       await clickMoreForOnlineTour(page);
-      const AS_result1 = await evalOnlineTour(contentRootSelector, page, "AS");
 
-      await clickNextMonthForOnlineTour(page);
-      const AS_result2 = await evalOnlineTour(contentRootSelector, page, "AS");
+      let result: ScrapingResultData[] = await evalOnlineTour(
+        contentRootSelector,
+        page,
+        onlineTourTab
+      );
 
-      // AS 제외 4개 탭 스크래핑 필요 -> ?TabGubun= AS, CH, JA, EU, HN, US
-      const tabs = ["CH", "JA", "EU", "HN", "US"];
-      const url = new URL(scrapTargetInfo["ONLINE_TOUR"].url);
-      const otherTabUrls = tabs.map((tab) => {
-        url.searchParams.set("TabGubun", tab);
+      try {
+        await clickNextMonthForOnlineTour(page);
 
-        return url.toString();
-      });
+        const data = await evalOnlineTour(
+          contentRootSelector,
+          page,
+          onlineTourTab
+        );
 
-      let otherTabResult: ScrapingResultData[] = [];
-
-      for (let i = 0; i < otherTabUrls.length; i++) {
-        await page.goto(otherTabUrls[i], { waitUntil: "networkidle0" });
-
-        try {
-          await page.waitForSelector(contentRootSelector, { timeout: 500 });
-
-          const tabResult1 = await evalOnlineTour(
-            contentRootSelector,
-            page,
-            tabs[i]
-          );
-
-          await clickNextMonthForOnlineTour(page);
-
-          const tabResult2 = await evalOnlineTour(
-            contentRootSelector,
-            page,
-            tabs[i]
-          );
-
-          otherTabResult = [...otherTabResult, ...tabResult1, ...tabResult2];
-        } catch (e) {
-          console.log(`ONLINE_TOUR for loop error ${tabs[i]} :`, e);
-        }
+        result = [...result, ...data];
+      } catch (e) {
+        console.log(`ONLINE_TOUR for loop error ${onlineTourTab} :`, e);
       }
 
-      const returnValue = [...AS_result1, ...AS_result2, ...otherTabResult];
-
-      // console.log("ONLINE_TOUR return :", returnValue);
-
-      return returnValue;
+      return [...result];
     case "INTER_PARK":
-      break;
+      return [];
+    default:
+      return [];
   }
 }
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const target = url.searchParams.get("target") as ScrapTarget;
+  const onlineTourGroup = url.searchParams.get("online_tour_group") || "";
   const errorRes = getApiResponse("ERROR", null);
   const browser = await getBrowser();
 
@@ -342,13 +315,32 @@ export async function GET(req: Request) {
   try {
     const { url } = scrapTargetInfo[target];
     const page = await browser.newPage();
+    let result: ScrapingResultData[] = [];
 
-    await page.goto(url, { waitUntil: "domcontentloaded" });
+    if (target === "ONLINE_TOUR" && onlineTourGroup) {
+      const tabs = onlineTourGroup.split(",");
 
-    const result = await scrapPageByTarget(target, page);
+      for (let i = 0; i < tabs.length; i++) {
+        const tab = tabs[i];
+
+        await page.goto(`${url}?TabGubun=${tab}`, {
+          waitUntil: ["domcontentloaded", "networkidle0"],
+        });
+
+        const data = await scrapPageByTarget(target, page, tab);
+        result = [...result, ...data];
+      }
+    } else {
+      await page.goto(url, {
+        waitUntil: ["domcontentloaded", "networkidle0"],
+      });
+
+      result = await scrapPageByTarget(target, page);
+    }
 
     return getApiResponse("OK", result);
-  } catch {
+  } catch (e) {
+    console.log("scraping GET error:\n", e);
     return errorRes;
   } finally {
     await browser.close();

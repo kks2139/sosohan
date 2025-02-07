@@ -46,7 +46,6 @@ export const scrapTargetInfo: Record<
   ScrapTarget,
   {
     url: string;
-    originalUrl?: string;
     contentRootSelector: string;
   }
 > = {
@@ -60,10 +59,7 @@ export const scrapTargetInfo: Record<
     contentRootSelector: "#boxList > li",
   },
   ONLINE_TOUR: {
-    // 파라미터 TabGubun -> AS, CH, JA, EU, HN, US
-    url: "https://www.onlinetour.co.kr/flight/w/international/dcair/dcairList?TabGubun=AS",
-    originalUrl:
-      "https://www.onlinetour.co.kr/flight/w/international/dcair/dcairList",
+    url: "https://www.onlinetour.co.kr/flight/w/international/dcair/dcairList",
     contentRootSelector: "#data_list > li",
   },
   MODE_TOUR: {
