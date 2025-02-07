@@ -297,7 +297,7 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
         await page.goto(otherTabUrls[i], { waitUntil: "domcontentloaded" });
 
         try {
-          await page.waitForSelector(contentRootSelector, { timeout: 500 });
+          await page.waitForSelector(contentRootSelector, { timeout: 800 });
 
           const tabResult1 = await evalOnlineTour(
             contentRootSelector,
@@ -315,11 +315,15 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
 
           otherTabResult = [...otherTabResult, ...tabResult1, ...tabResult2];
         } catch {
-          //
+          console.log(`ONLINE_TOUR for loop error ${tabs[i]} :`);
         }
       }
 
-      return [...AS_result1, ...AS_result2, ...otherTabResult];
+      const returnValue = [...AS_result1, ...AS_result2, ...otherTabResult];
+
+      console.log("ONLINE_TOUR return :", returnValue);
+
+      return returnValue;
     case "INTER_PARK":
       break;
   }
