@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
 import Image from "next/image";
 
-import ImgAirPlane from "@/assets/img/air_plane.png";
-import ImgSLoad from "@/assets/img/s_load.png";
+import ImgPlane from "@/assets/img/home/airplane-1.png";
+import ImgCloud from "@/assets/img/home/cloud-1.png";
 import TitleMotion from "@/components/TitleMotion";
 import ToastMessages from "@/components/ToastMessages";
 
@@ -17,13 +17,24 @@ function Page() {
       <section className={cn("intro")}>
         <TitleMotion />
         <div className={cn("key-visual")}>
-          <Image src={ImgSLoad} alt="" width={90} height={90} />
+          {Array(4)
+            .fill(0)
+            .map((_, idx) => (
+              <Image
+                key={idx}
+                className={cn("cloud", { [`size-${idx}`]: true })}
+                src={ImgCloud}
+                alt=""
+                width={100}
+                height={100}
+              />
+            ))}
           <Image
             className={cn("plane")}
-            src={ImgAirPlane}
+            src={ImgPlane}
             alt=""
-            width={30}
-            height={30}
+            width={100}
+            height={100}
           />
         </div>
       </section>

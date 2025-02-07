@@ -16,7 +16,7 @@ function WithClient({ children }: { children: React.ReactNode }) {
       <nav className={cn("top-menu-bar")}>
         <div className={cn("title")}>
           <button type="button">
-            <h1>타이틀임둥</h1>
+            <h1>타이틀</h1>
           </button>
         </div>
 

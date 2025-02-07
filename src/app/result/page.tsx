@@ -57,13 +57,13 @@ function ResultContent() {
 
   return (
     <div className={cn("Page")} ref={topRef}>
+      <div className={cn("way-point")} ref={wayPointRef}></div>
+
       <ResultHeader
         startCode={startCode}
         endCode={endCode}
         hasResults={hasResults}
       />
-
-      <div className={cn("way-point")} ref={wayPointRef}></div>
 
       {canShowResults ? (
         <section className={cn("ticket-list")}>

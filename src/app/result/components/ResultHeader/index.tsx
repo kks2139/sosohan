@@ -72,7 +72,7 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
                   <FileText
                     key={idx}
                     className={cn("file")}
-                    size={50}
+                    size={45}
                     fill="white"
                     strokeWidth={2}
                   />
@@ -85,9 +85,9 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
                 transition={{ duration: 0.5 }}
               >
                 {hasResults ? (
-                  <Check className={cn("check")} size={50} strokeWidth={3} />
+                  <Check className={cn("check")} size={50} strokeWidth={2} />
                 ) : (
-                  <Meh className={cn("meh")} size={50} strokeWidth={3} />
+                  <Meh className={cn("meh")} size={50} strokeWidth={2} />
                 )}
               </motion.div>
             )}
