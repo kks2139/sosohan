@@ -314,8 +314,8 @@ async function scrapPageByTarget(target: ScrapTarget, page: Page) {
           );
 
           otherTabResult = [...otherTabResult, ...tabResult1, ...tabResult2];
-        } catch {
-          console.log(`ONLINE_TOUR for loop error ${tabs[i]} :`);
+        } catch (e) {
+          console.log(`ONLINE_TOUR for loop error ${tabs[i]} :`, e);
         }
       }
 
