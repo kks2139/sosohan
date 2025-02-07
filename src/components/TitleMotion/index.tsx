@@ -31,7 +31,7 @@ function TitleMotion() {
           {KEY_WORDS.filter((_, idx) => idx === showCount).map((word) => (
             <motion.div
               key={word}
-              className={cn("keyword", { "right-padding": word === "땡처리" })}
+              className={cn("keyword", { "more-padding": word === "땡처리" })}
               initial={{ opacity: 0, scale: 0.2 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.2 }}
