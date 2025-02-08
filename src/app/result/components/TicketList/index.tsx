@@ -130,6 +130,7 @@ function TicketList({ results }: Props) {
             </button>
           ))}
         </div>
+
         <div className={cn("sort")}>
           <button
             className={cn("button")}

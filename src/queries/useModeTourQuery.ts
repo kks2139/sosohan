@@ -142,5 +142,6 @@ export function useModeTourQuery() {
         }
       );
     },
+    staleTime: 60_000,
   });
 }

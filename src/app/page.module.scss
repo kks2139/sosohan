@@ -10,25 +10,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
 
     $sky: rgb(188, 212, 255);
 
     .key-visual {
       position: relative;
-      width: 100%;
+      width: 500px;
       height: 180px;
       border-radius: 50px;
-      margin-top: 35px;
+      margin-top: 30px;
 
       background-color: $sky;
-      box-shadow: -50px 0px 20px 15px $sky, 50px 0px 20px 15px $sky,
-        0 0 20px 15px $sky;
 
       .plane {
         z-index: 10;
         position: absolute;
-        left: 27%;
+        left: 39%;
         top: 18%;
         width: 120px;
         height: 120px;
@@ -109,13 +107,13 @@
   @include view-mode(mobile) {
     .intro {
       .key-visual {
-        width: 70%;
+        width: 280px;
 
         .plane {
           width: 90px;
           height: 90px;
-          left: 30%;
-          top: 22%;
+          left: 34%;
+          top: 26%;
         }
 
         .cloud {

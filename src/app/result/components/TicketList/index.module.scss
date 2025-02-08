@@ -20,21 +20,26 @@
       position: relative;
       display: flex;
       align-items: center;
-      font-size: 15px;
+      height: 35px;
+      font-size: 12px;
       color: white;
-      padding: 6px 10px;
+      background-color: white;
+      padding: 6px 13px;
+      margin-right: 5px;
       border-radius: $border-radius-1;
+      box-shadow: 0 0 5px -1px $gray-1;
       transition: 0.2s;
-      opacity: 0.6;
+
+      margin-top: 5px;
 
       .num {
+        font-size: 16px;
         font-weight: bold;
         margin-left: 5px;
       }
 
       &.active {
-        opacity: 1;
-        padding: 9px 10px;
+        box-shadow: 0 0 0 1px $main-1;
       }
 
       &.loading {
@@ -61,28 +66,26 @@
     }
 
     .HANA_TOUR {
-      background-color: $hana-tour;
-      margin-right: 5px;
+      color: $hana-tour;
 
       &::after {
-        border-color: white white white transparent;
+        border-color: $gray-3 $gray-3 $gray-3 transparent;
       }
     }
 
     .MODE_TOUR {
-      background-color: $mode-tour;
-      margin-right: 5px;
+      color: $mode-tour;
 
       &::after {
-        border-color: white white white transparent;
+        border-color: $gray-3 $gray-3 $gray-3 transparent;
       }
     }
 
     .ONLINE_TOUR {
-      background-color: $online-tour;
+      color: $online-tour;
 
       &::after {
-        border-color: white white white transparent;
+        border-color: $gray-3 $gray-3 $gray-3 transparent;
       }
     }
   }
@@ -90,6 +93,8 @@
   .sort {
     display: flex;
     justify-content: flex-end;
+    width: 138px;
+    min-width: 138px;
 
     > button {
       display: flex;
@@ -161,44 +166,38 @@
     margin-bottom: 6px;
 
     .top-info {
+      // display: flex;
+      // flex-direction: column-reverse;
+      // align-items: flex-start;
+
       .count {
+        flex-wrap: wrap-reverse;
+
         > button {
-          padding: 5px 20px;
+          padding: 3px 13px;
+          margin-right: 5px;
 
           .label {
-            display: none;
+            font-size: 11px;
           }
 
           .num {
-            margin-left: 0;
-          }
-
-          &.active {
-            padding: 8px 20px;
+            font-size: 15px;
           }
 
           &.loading {
-            height: 35px;
-            padding: 5px 25px;
-
-            &::after {
-              right: calc(50% - 6px);
-            }
+            padding-right: 30px;
           }
-        }
-
-        .HANA_TOUR {
-          margin-right: 3px;
-        }
-
-        .MODE_TOUR {
-          margin-right: 3px;
         }
       }
     }
 
-    .sort button {
-      font-size: 15px;
+    .sort {
+      > button {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+      }
     }
   }
 }

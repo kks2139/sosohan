@@ -25,11 +25,16 @@ export interface ScrapingResultData {
 }
 
 type OnlineTourTab = "AS" | "CH" | "JA" | "EU" | "HN" | "US";
-export const ONLINE_TOUR_TAB_1: OnlineTourTab[] = ["AS", "CH", "JA"];
-export const ONLINE_TOUR_TAB_2: OnlineTourTab[] = ["EU", "HN", "US"];
-const ONLINE_TOUR_TAB_GROUPS = [ONLINE_TOUR_TAB_1, ONLINE_TOUR_TAB_2];
 
 const SCRAP_URL = `${apiBase}/api/scrap/contents`;
+const ONLINE_TOUR_GROUP_1: OnlineTourTab[] = ["AS", "CH"];
+const ONLINE_TOUR_GROUP_2: OnlineTourTab[] = ["JA", "EU"];
+const ONLINE_TOUR_GROUP_3: OnlineTourTab[] = ["HN", "US"];
+const ONLINE_TOUR_GROUPS = [
+  ONLINE_TOUR_GROUP_1,
+  ONLINE_TOUR_GROUP_2,
+  ONLINE_TOUR_GROUP_3,
+];
 
 async function fetchScrapingData(scrapTarget: ScrapTarget) {
   const res = await fetch(`${SCRAP_URL}?target=${scrapTarget}`);
@@ -52,7 +57,7 @@ function useScrapinpgQuery(scrapTarget: ScrapTarget) {
       let result: ScrapingResultData[] = [];
 
       if (scrapTarget === "ONLINE_TOUR") {
-        const promises = ONLINE_TOUR_TAB_GROUPS.map((group) =>
+        const promises = ONLINE_TOUR_GROUPS.map((group) =>
           fetchOnlineTour(group)
         );
         const tabResults = await Promise.all(promises);
@@ -67,6 +72,7 @@ function useScrapinpgQuery(scrapTarget: ScrapTarget) {
 
       return result;
     },
+    staleTime: 60_000,
   });
 }
 

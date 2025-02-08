@@ -36,5 +36,6 @@ export function useAirportQuery() {
     select: (originalData) => {
       return originalData.data;
     },
+    staleTime: Infinity,
   });
 }
