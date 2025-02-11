@@ -7,6 +7,7 @@ import Image from "next/image";
 import { ArrowRight } from "react-feather";
 
 import { ScrapingResultData } from "@/queries/useScrapingQueries";
+import { viewStore } from "@/store/view";
 import {
   getAirLineLogo,
   scrapTargetInfo,
@@ -23,6 +24,8 @@ interface Prop {
 }
 
 function Ticket({ departureAndBackInfo }: Prop) {
+  const { getIsDarkMode } = viewStore();
+
   const now = new Date();
   const { departure, back, price, scrapTarget, member, landingUrl } =
     departureAndBackInfo;
@@ -48,7 +51,7 @@ function Ticket({ departureAndBackInfo }: Prop) {
   });
 
   return (
-    <li className={cn("Ticket")}>
+    <li className={cn("Ticket", { "is-dark-mode": getIsDarkMode() })}>
       <a href={landingUrl || scrapTargetInfo[scrapTarget].url} target="_blank">
         <ul className={cn("info")}>
           {infos.map(

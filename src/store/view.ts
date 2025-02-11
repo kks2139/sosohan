@@ -1,24 +1,33 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
+export type Theme = "light" | "dark";
+
 interface ToastInfo {
   message: string;
   duration: number;
   id: number;
 }
 
-interface ToastMessages {
+interface ViewStore {
   toasts: ToastInfo[];
-}
-
-interface ToastMessageAction {
   addToastMessage: (message: string, duration?: number) => void;
   removeToastMessage: (id: number) => void;
   reduceToastDuration: (id: number) => void;
+  theme?: Theme;
+  setTheme: (theme: Theme) => void;
+  getIsDarkMode: () => boolean;
 }
 
-export const toastStore = create<ToastMessages & ToastMessageAction>()(
+export const viewStore = create<ViewStore>()(
   immer((set, get) => ({
+    theme: "light",
+    setTheme(theme) {
+      set({ theme });
+    },
+    getIsDarkMode() {
+      return get().theme === "dark";
+    },
     toasts: [],
     addToastMessage: (message, duration = 3000) => {
       const { toasts } = get();
@@ -52,5 +61,5 @@ export const toastStore = create<ToastMessages & ToastMessageAction>()(
         toasts,
       });
     },
-  })),
+  }))
 );

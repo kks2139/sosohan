@@ -11,7 +11,7 @@
     }
 
     strong {
-      color: $main-1;
+      color: var(--main-1);
     }
 
     .motion-icon {
@@ -28,7 +28,8 @@
         position: absolute;
 
         &.file {
-          color: $gray-2;
+          color: var(--gray-2);
+          fill: white;
           opacity: 0;
           transform: translateY(20px);
           animation: move-wave 3s ease-in-out infinite;
@@ -38,11 +39,11 @@
             animation-delay: 0.5s;
           }
           &:nth-of-type(2) {
-            left: 20px;
+            left: 15px;
             animation-delay: 0.75s;
           }
           &:nth-of-type(3) {
-            left: 40px;
+            left: 30px;
             animation-delay: 0.9s;
           }
         }
@@ -54,7 +55,7 @@
 
         &.meh {
           top: 0;
-          color: $gray-4;
+          color: var(--gray-4);
         }
       }
     }
@@ -82,15 +83,15 @@
       align-items: center;
       font-size: 18px;
       font-weight: bold;
-      color: $main-1;
+      color: var(--main-1);
 
       > svg {
-        color: $gray-5;
+        color: var(--gray-5);
         margin: 0 15px;
       }
 
       .code {
-        color: $gray-4;
+        color: var(--gray-4);
         font-weight: normal;
         font-size: 15px;
         margin-left: 5px;
@@ -100,9 +101,19 @@
     .go-back {
       width: 150px;
       font-size: 15px;
-      color: $gray-5;
+      color: var(--gray-5);
       padding: 5px 0;
       text-decoration: underline;
+    }
+  }
+
+  &.is-dark-mode {
+    .motion-icon {
+      svg {
+        &.file {
+          fill: var(--background-1);
+        }
+      }
     }
   }
 

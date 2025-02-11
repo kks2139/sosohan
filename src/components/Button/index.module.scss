@@ -29,7 +29,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: $gray-0;
+      background-color: var(--gray-0);
       margin: 0 2px;
 
       &:nth-child(1) {
@@ -49,15 +49,15 @@
   }
 
   &:hover {
-    background-color: $main-2;
+    background-color: var(--main-2);
   }
 
-  background-color: $main-1;
+  background-color: var(--main-1);
   color: white;
-  border-radius: $border-radius-1;
+  border-radius: var(--border-radius-1);
 
   &:disabled {
-    background-color: $main-2;
+    background-color: var(--main-2);
 
     &:active {
       transform: none;
@@ -95,7 +95,7 @@
     }
     40% {
       transform: translateY(30%);
-      background-color: $gray-2;
+      background-color: var(--gray-2);
     }
     100% {
       transform: translateY(0);

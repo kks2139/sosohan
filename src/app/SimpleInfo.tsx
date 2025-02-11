@@ -11,6 +11,7 @@ import { useAirportQuery } from "@/queries/useAirportQuery";
 import { useModeTourQuery } from "@/queries/useModeTourQuery";
 import { useScrapingQueries } from "@/queries/useScrapingQueries";
 import { airportStore, InputAirportType } from "@/store/airport";
+import { viewStore } from "@/store/view";
 
 import styles from "./SimpleInfo.module.scss";
 
@@ -30,6 +31,8 @@ function SimpleInfo() {
   const { selectedStartAirport, selectedEndAirport, setSelectedAirport } =
     airportStore();
 
+  const { getIsDarkMode } = viewStore();
+
   const [error, setError] = useState<{
     startCode?: string[];
   }>();
@@ -44,7 +47,7 @@ function SimpleInfo() {
   };
 
   return (
-    <section className={cn("SimpleInfo")}>
+    <section className={cn("SimpleInfo", { "is-dark-mode": getIsDarkMode() })}>
       <form className={cn("form")}>
         <h4 className={cn("title")}>출국 정보를 입력해주세요</h4>
         <AirportInput

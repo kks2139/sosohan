@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className={cn("content")}>
+        <main id="main" className={cn("content")}>
           <WithClient>{children}</WithClient>
         </main>
       </body>

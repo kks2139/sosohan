@@ -1,6 +1,6 @@
 .Page {
   height: 100vh;
-  padding: calc(70px + $top-menu-bar-height) 0 40px;
+  padding: calc(70px + var(--top-menu-bar-height)) 0 40px;
 
   display: flex;
   flex-direction: column;
@@ -12,16 +12,14 @@
     align-items: center;
     margin-bottom: 60px;
 
-    $sky: rgb(188, 212, 255);
-
     .key-visual {
       position: relative;
       width: 500px;
       height: 180px;
       border-radius: 50px;
       margin-top: 30px;
-
-      background-color: $sky;
+      background-color: rgb(188, 212, 255);
+      transition: 0.2s;
 
       .plane {
         z-index: 10;
@@ -30,7 +28,6 @@
         top: 18%;
         width: 120px;
         height: 120px;
-
         animation: plane-fly 3s ease-in-out infinite;
       }
 
@@ -63,6 +60,14 @@
           filter: brightness(1.2);
           transform: translateY(90%) scale(1);
           animation: cloud-move 3s 1s linear infinite;
+        }
+      }
+
+      &.is-dark-mode {
+        background-color: rgb(10, 33, 73);
+
+        .cloud {
+          filter: brightness(0.4);
         }
       }
     }

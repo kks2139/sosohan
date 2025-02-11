@@ -1,5 +1,9 @@
+"use client";
+
 import classNames from "classnames/bind";
 import { InputHTMLAttributes } from "react";
+
+import { viewStore } from "@/store/view";
 
 import styles from "./index.module.scss";
 
@@ -11,9 +15,11 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 function Input({ label, errorMessages, ...rest }: Props) {
+  const { getIsDarkMode } = viewStore();
+
   return (
-    <div className={cn("Input")}>
-      {label && <span className={cn("label")}>label</span>}
+    <div className={cn("Input", { "is-dark-mode": getIsDarkMode() })}>
+      {label ? <span className={cn("label")}>{label}</span> : null}
       <input className={cn({ error: !!errorMessages })} {...rest} />
       {!!errorMessages && (
         <div className={cn("error-tooltip")}>

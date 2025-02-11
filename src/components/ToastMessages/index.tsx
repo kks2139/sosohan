@@ -3,7 +3,7 @@
 import classNames from "classnames/bind";
 import { useEffect } from "react";
 
-import { toastStore } from "@/store/ui";
+import { viewStore } from "@/store/view";
 
 import styles from "./index.module.scss";
 
@@ -36,7 +36,7 @@ function Toast({ message, duration, index, onDurationEnd }: ToastProps) {
 }
 
 function ToastMessages() {
-  const { toasts, removeToastMessage } = toastStore();
+  const { toasts, removeToastMessage } = viewStore();
   const hasToast = toasts.length > 0;
 
   if (!hasToast) {

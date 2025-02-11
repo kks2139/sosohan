@@ -9,6 +9,7 @@ import Skeleton from "@/components/Skeleton";
 import { useAirportQuery } from "@/queries/useAirportQuery";
 import { useModeTourQuery } from "@/queries/useModeTourQuery";
 import { useScrapingQueries } from "@/queries/useScrapingQueries";
+import { viewStore } from "@/store/view";
 
 import styles from "./index.module.scss";
 
@@ -28,6 +29,7 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
     onlineTour: { isLoading: isOnlineLoading },
   } = useScrapingQueries();
   const { isLoading: isModeLoading } = useModeTourQuery();
+  const { getIsDarkMode } = viewStore();
 
   const isScrapingLoading = isHanaLoading || isModeLoading || isOnlineLoading;
   const canShowResults =
@@ -41,7 +43,9 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
   )?.한글공항;
 
   return (
-    <section className={cn("ResultHeader")}>
+    <section
+      className={cn("ResultHeader", { "is-dark-mode": getIsDarkMode() })}
+    >
       <div className={cn("title")}>
         <h1>
           {isScrapingLoading ? (
@@ -73,7 +77,6 @@ function ResultHeader({ startCode, endCode, hasResults }: Props) {
                     key={idx}
                     className={cn("file")}
                     size={45}
-                    fill="white"
                     strokeWidth={2}
                   />
                 ))
