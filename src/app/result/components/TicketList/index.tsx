@@ -12,6 +12,7 @@ import {
   ScrapingResultData,
   useScrapingQueries,
 } from "@/queries/useScrapingQueries";
+import { viewStore } from "@/store/view";
 import { ScrapTarget } from "@/utils/constant";
 
 import Ticket from "../Ticket";
@@ -37,6 +38,9 @@ function TicketList({ results }: Props) {
     onlineTour: { isLoading: isOnlineLoading },
   } = useScrapingQueries();
   const { isLoading: isModeLoading } = useModeTourQuery();
+
+  const { getIsDarkMode } = viewStore();
+
   const [sortType, setSortType] = useState<"LOW_PRICE" | "EARLY_START">(
     "LOW_PRICE"
   );
@@ -110,7 +114,7 @@ function TicketList({ results }: Props) {
   };
 
   return (
-    <div className={cn("TicketList")}>
+    <div className={cn("TicketList", { "is-dark-mode": getIsDarkMode() })}>
       <section className={cn("top-info")}>
         <div className={cn("count")}>
           {tabs.map(({ target, label, count, loading }) => (

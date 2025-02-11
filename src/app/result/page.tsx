@@ -10,6 +10,7 @@ import DotLoading from "@/components/DotLoading";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useModeTourQuery } from "@/queries/useModeTourQuery";
 import { useScrapingQueries } from "@/queries/useScrapingQueries";
+import { viewStore } from "@/store/view";
 
 import ResultHeader from "./components/ResultHeader";
 import TicketList from "./components/TicketList";
@@ -27,6 +28,7 @@ function ResultContent() {
     onlineTour: { data: onlineData = [], isLoading: isOnlineLoading },
   } = useScrapingQueries();
   const { data: modeData = [], isLoading: isModeLoading } = useModeTourQuery();
+  const { getIsDarkMode } = viewStore();
 
   const topRef = useRef<HTMLDivElement>(null);
   const wayPointRef = useRef<HTMLDivElement>(null);
@@ -56,7 +58,10 @@ function ResultContent() {
   });
 
   return (
-    <div className={cn("Page")} ref={topRef}>
+    <div
+      className={cn("Page", { "is-dark-mode": getIsDarkMode() })}
+      ref={topRef}
+    >
       <div className={cn("way-point")} ref={wayPointRef}></div>
 
       <ResultHeader

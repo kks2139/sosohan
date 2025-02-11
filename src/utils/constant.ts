@@ -101,3 +101,9 @@ export function getAirLineLogo(str: string) {
 
   return filteredKey ? logoMap[filteredKey] : LogoBasic;
 }
+
+export const storageKey = {
+  IS_DARK_MODE: "IS_DARK_MODE",
+};
+
+export const DARK_MODE_CLASS = "dark-mode";

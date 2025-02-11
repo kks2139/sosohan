@@ -2,37 +2,37 @@
   position: relative;
 
   .label {
-    color: $gray-4;
+    color: var(--gray-4);
     font-size: 14px;
     margin: 0 0 3px 6px;
   }
 
   > input {
     width: 100%;
-    border-radius: $border-radius-1;
-    border: 1px solid $gray-1;
+    border-radius: var(--border-radius-1);
+    border: 1px solid var(--gray-1);
     padding: 10px 15px;
     transition: 0.2s;
     font-weight: bold;
-    color: $dark-1;
+    color: var(--dark-1);
 
     &.error {
-      border-color: $red-1;
-      box-shadow: 0 0 0 3px $red-3;
+      border-color: var(--red-1);
+      box-shadow: 0 0 0 3px var(--red-3);
     }
 
     &:disabled {
-      background-color: $gray-0;
+      background-color: var(--gray-0);
       border-color: transparent;
     }
 
     &:focus:not(.error) {
-      border-color: $main-1;
-      box-shadow: 0 0 0 4px $main-3;
+      border-color: var(--main-1);
+      box-shadow: 0 0 0 4px var(--main-3);
     }
 
     &::placeholder {
-      color: $gray-3;
+      color: var(--gray-3);
       font-weight: 300;
     }
   }
@@ -42,11 +42,11 @@
     position: absolute;
     top: -35px;
     right: 0;
-    background-color: $red-2;
+    background-color: var(--red-2);
     color: white;
     padding: 3px 10px;
     font-size: 13px;
-    border-radius: $border-radius-3;
+    border-radius: var(--border-radius-3);
 
     &::after {
       content: "";
@@ -57,19 +57,34 @@
       transform: translate(-50%, 50%) rotate(45deg);
       width: 8px;
       height: 8px;
-      background-color: $red-2;
+      background-color: var(--red-2);
+    }
+  }
+
+  &.is-dark-mode {
+    .label {
+      color: white;
+    }
+
+    > input {
+      color: white;
     }
   }
 
   @include view-mode(mobile) {
     > input {
       padding: 20px 15px;
+
+      &:focus:not(.error) {
+        border-color: var(--main-1);
+        box-shadow: 0 0 0 4px var(--main-4);
+      }
     }
 
     .error-tooltip {
       top: -50px;
       padding: 8px 10px;
-      border-radius: $border-radius-2;
+      border-radius: var(--border-radius-2);
       font-size: 16px;
     }
   }

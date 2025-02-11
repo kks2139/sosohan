@@ -267,7 +267,9 @@ async function scrapPageByTarget(
       );
       const tab2 = await evalHanaTour(contentRootSelector, page);
 
-      return [...tab1, ...tab2];
+      return [...tab1, ...tab2].filter(
+        ({ departure, back }) => !!departure.date && !!back.date
+      );
     case "MODE_TOUR":
       return [];
     case "ONLINE_TOUR":

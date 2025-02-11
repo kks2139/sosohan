@@ -1,6 +1,8 @@
 .Skeleton {
   $back: #e0e0e0;
   $center: #bebebee3;
+  $dark-back: #707070;
+  $dark-center: #4b4b4be3;
 
   border-radius: 6px;
   background-size: 400% 400% !important;
@@ -17,6 +19,21 @@
     $back
   );
   animation: animate 1.2s linear infinite;
+
+  &.is-dark-mode {
+    background: linear-gradient(
+      -60deg,
+      $dark-back,
+      $dark-back,
+      $dark-back,
+      $dark-back,
+      $dark-center,
+      $dark-back,
+      $dark-back,
+      $dark-back,
+      $dark-back
+    );
+  }
 }
 
 @keyframes animate {

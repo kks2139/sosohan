@@ -6,10 +6,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: $top-menu-bar-height;
-  background-color: white;
+  height: var(--top-menu-bar-height);
+  background-color: var(--background-2);
   padding: 0 30px;
-  box-shadow: 0 0 15px -12px $dark-2;
+  box-shadow: 0 0 15px -12px var(--dark-2);
 
   button {
     transition: 0.2s;
@@ -24,7 +24,7 @@
     align-items: center;
 
     h1 {
-      color: $gray-4;
+      color: var(--gray-4);
       font-size: 18px;
       font-weight: bold;
     }
@@ -33,7 +33,7 @@
   .info {
     display: flex;
     align-items: center;
-    color: $gray-4;
+    color: var(--gray-4);
 
     > * {
       margin-left: 18px;

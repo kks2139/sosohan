@@ -1,0 +1,70 @@
+$sun-color: rgb(255, 187, 0);
+$moon-color: rgb(255, 243, 172);
+$light-back: rgb(128, 186, 252);
+$dark-back: rgb(0, 54, 172);
+
+.ThemeToggle {
+  position: relative;
+  border-radius: var(--border-radius-0);
+  overflow: hidden;
+  // box-shadow: 0 0 4px 1px $light-back;
+
+  // &.dark {
+  //   box-shadow: 0 0 4px 1px $dark-back;
+  // }
+
+  .wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 200%;
+    height: 100%;
+    transition: 0.2s;
+
+    background-color: $light-back;
+
+    &.dark {
+      left: -100%;
+      background-color: $dark-back;
+    }
+
+    .sun {
+      color: rgb(255, 238, 0);
+      fill: $sun-color;
+      animation: sun-move 8s linear infinite;
+    }
+
+    .moon {
+      color: white;
+      fill: $moon-color;
+      animation: moon-move 5s ease infinite;
+    }
+  }
+
+  @keyframes sun-move {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes moon-move {
+    0% {
+      transform: translateY(0px);
+    }
+    25% {
+      transform: translateY(1px);
+    }
+    50% {
+      transform: translateY(-1px);
+    }
+    0% {
+      transform: translateY(0px);
+    }
+  }
+}

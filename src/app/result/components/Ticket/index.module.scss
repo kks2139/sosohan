@@ -1,4 +1,4 @@
-$boundary: dashed 1px $main-1;
+$boundary: dashed 1px var(--main-1);
 
 .Ticket {
   margin-bottom: 15px;
@@ -11,7 +11,7 @@ $boundary: dashed 1px $main-1;
     display: block;
     width: 100%;
     background-color: white;
-    border-radius: $border-radius-0;
+    border-radius: var(--border-radius-0);
     box-shadow: 0 5px 18px -10px rgb(138, 138, 138);
     transition: 0.2s;
 
@@ -26,7 +26,7 @@ $boundary: dashed 1px $main-1;
   }
 
   .icon {
-    color: $dark-1;
+    color: var(--dark-1);
   }
 
   .info {
@@ -58,7 +58,7 @@ $boundary: dashed 1px $main-1;
         min-width: 55px;
         margin-right: 20px;
         // padding: 0 15px;
-        color: $gray-4;
+        color: var(--gray-4);
         font-size: 14px;
 
         &::after {
@@ -67,7 +67,7 @@ $boundary: dashed 1px $main-1;
           top: 0;
           right: 0;
           height: 100%;
-          border-right: dashed 2px $gray-1;
+          border-right: dashed 2px var(--gray-1);
         }
       }
     }
@@ -85,7 +85,7 @@ $boundary: dashed 1px $main-1;
 
       .name {
         font-size: 16px;
-        color: $dark-0;
+        color: var(--dark-0);
         margin-left: 8px;
       }
     }
@@ -118,7 +118,7 @@ $boundary: dashed 1px $main-1;
       .time {
         font-weight: bold;
         font-size: 14px;
-        color: $dark-1;
+        color: var(--dark-1);
       }
     }
   }
@@ -135,18 +135,18 @@ $boundary: dashed 1px $main-1;
       font-size: 12px;
       padding: 5px 10px;
       color: white;
-      border-radius: $border-radius-0;
+      border-radius: var(--border-radius-0);
 
       &.HANA_TOUR {
-        background-color: $hana-tour;
+        background-color: var(--hana-tour);
       }
 
       &.MODE_TOUR {
-        background-color: $mode-tour;
+        background-color: var(--mode-tour);
       }
 
       &.ONLINE_TOUR {
-        background-color: $online-tour;
+        background-color: var(--online-tour);
       }
     }
 
@@ -157,7 +157,7 @@ $boundary: dashed 1px $main-1;
       font-weight: bold;
 
       .member {
-        color: $gray-5;
+        color: var(--gray-5);
         font-size: 14px;
         margin-right: 20px;
       }
@@ -173,6 +173,37 @@ $boundary: dashed 1px $main-1;
     }
   }
 
+  &.is-dark-mode {
+    > a {
+      background-color: var(--background-2);
+    }
+
+    .info {
+      .start-position {
+        color: var(--gray-3);
+      }
+
+      .air-line {
+        .name {
+          color: var(--gray-3);
+        }
+      }
+
+      .location {
+        .loca,
+        .time {
+          color: var(--gray-3);
+        }
+      }
+    }
+
+    .bottom {
+      .member {
+        color: var(--gray-3);
+      }
+    }
+  }
+
   @include view-mode(mobile) {
     .info {
       display: block;
@@ -185,7 +216,7 @@ $boundary: dashed 1px $main-1;
           width: 100%;
           border-right: none;
           border-bottom: $boundary;
-          border-color: $gray-1;
+          border-color: var(--gray-1);
         }
 
         .start-position {
@@ -206,7 +237,7 @@ $boundary: dashed 1px $main-1;
             top: 0;
             left: 0;
             height: 100%;
-            border-left: dashed 2px $gray-1;
+            border-left: dashed 2px var(--gray-1);
           }
         }
       }
@@ -222,7 +253,7 @@ $boundary: dashed 1px $main-1;
 
         .name {
           font-size: 14px;
-          color: $dark-0;
+          color: var(--dark-0);
           margin-left: 6px;
         }
       }

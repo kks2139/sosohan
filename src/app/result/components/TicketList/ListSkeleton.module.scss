@@ -17,7 +17,7 @@
 
     padding: 15px;
     background-color: rgb(240, 240, 240);
-    border-radius: $border-radius-1;
+    border-radius: var(--border-radius-1);
     margin-bottom: 20px;
 
     &:last-of-type {
@@ -28,7 +28,7 @@
       width: 48%;
       padding: 15px;
       background-color: rgb(230, 230, 230);
-      border-radius: $border-radius-1;
+      border-radius: var(--border-radius-1);
 
       > * {
         margin-bottom: 10px;
@@ -36,6 +36,16 @@
         &:last-of-type {
           margin-bottom: 0;
         }
+      }
+    }
+  }
+
+  &.is-dark-mode {
+    .skeleton-container {
+      background-color: var(--dark-2);
+
+      .rows {
+        background-color: var(--dark-3);
       }
     }
   }

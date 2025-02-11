@@ -16,6 +16,7 @@ import Input from "@/components/Input";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { QUERY_KEY } from "@/queries/queryKeys";
 import { AirportData, AirportInfo } from "@/queries/useAirportQuery";
+import { viewStore } from "@/store/view";
 
 import styles from "./index.module.scss";
 
@@ -44,6 +45,7 @@ function AirportInput({
   onAirportSelected,
   ...rest
 }: Props) {
+  const { getIsDarkMode } = viewStore();
   const queryClient = useQueryClient();
   const airports = queryClient.getQueryData<AirportInfo>([
     QUERY_KEY.AIRPORT,
@@ -159,7 +161,10 @@ function AirportInput({
   }, [focusedRow, focusedRowTop, selectBoxElement]);
 
   return (
-    <div ref={rootRef} className={cn("AirportInput")}>
+    <div
+      ref={rootRef}
+      className={cn("AirportInput", { "is-dark-mode": getIsDarkMode() })}
+    >
       <Input
         {...rest}
         label={label}
@@ -224,6 +229,8 @@ function AirportInput({
           onMouseDown={() => {
             setInputValue("");
             setSelectedCode(undefined);
+
+            setTimeout(() => rootRef.current?.querySelector("input")?.focus());
 
             onClear?.();
           }}

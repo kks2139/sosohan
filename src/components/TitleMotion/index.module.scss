@@ -24,7 +24,7 @@ $bounce-animation: bounce 5s cubic-bezier(0, 0, 0.7, 1.6) infinite;
   }
 
   strong {
-    color: $main-1;
+    color: var(--main-1);
   }
 
   @keyframes bounce {
